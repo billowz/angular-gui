@@ -1,7 +1,7 @@
-var markdown = require('node-markdown').Markdown;
+
 
 module.exports = function(grunt) {
-
+  var markdown = require('node-markdown').Markdown;
   
   require('load-grunt-tasks')(grunt);
 
@@ -10,8 +10,8 @@ module.exports = function(grunt) {
 
 
   grunt.initConfig({
-    ngversion: '1.2.10',
-    bsversion: '3.0.3',
+    ngversion: '1.3.13',
+    bsversion: '3.3.2',
     modules: [],//to be filled in by build task
     pkg: grunt.file.readJSON('package.json'),
     dist: 'dist',
@@ -121,7 +121,7 @@ module.exports = function(grunt) {
       }
     },
     jshint: {
-      files: ['Gruntfile.js','src/**/*.js'],
+      files: ['src/**/*.js'],
       options: {
         jshintrc: '.jshintrc'
       }
@@ -198,33 +198,25 @@ module.exports = function(grunt) {
       }
     },
     connect: {
-        options: {
-            port: 9300,
-            hostname: '0.0.0.0'
-        },
-        livereload: {
-            options: {
-                middleware: function(connect) {
-                    return [
-                        require('connect-livereload')({
-                            port: 9301
-                        }),
-                        connect.static(require('path').resolve('src')),
-                        connect.static(require('path').resolve('bower-components')),
-                        connect.static(require('path').resolve('dist'))
-                    ];
-                }
-            }
-        }
-    },
-    open: {
         server: {
-            path: 'http://localhost:<%= connect.options.port %>'
+          options: {
+            port: 9300,
+            hostname: '0.0.0.0',
+            livereload: 9301,
+            middleware: function(connect) {
+              return [
+                  require('connect-livereload')({
+                      port: 9301
+                  }),
+                  connect.static(require('path').resolve('bower_components')),
+                  connect.static(require('path').resolve('dist'))
+              ];
+            }
+          }
         }
     }
   });
   
-
   //register before and after test tasks so we've don't have to change cli
   //options on the goole's CI server
   grunt.registerTask('before-test', ['enforce', 'jshint', 'html2js']);
@@ -232,10 +224,11 @@ module.exports = function(grunt) {
 
   //Rename our watch task to 'delta', then make actual 'watch'
   //task build things, then start test server
+
   grunt.renameTask('watch', 'delta');
+  grunt.registerTask('server', ['connect:server','delta']);
   grunt.registerTask('watch', ['before-test', 'after-test', 'karma:watch', 'delta']);
 
-  grunt.registerTask('server', ['connect','delta']);
 
   // Default task.
   grunt.registerTask('default', ['before-test', 'test', 'after-test']);

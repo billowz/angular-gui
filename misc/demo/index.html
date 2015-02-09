@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="bootstrapDemoApp" id="top">
+<html lang="en" ng-app="ngui.demo" id="top">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -9,11 +9,14 @@
     <meta name="google-site-verification" content="7lc5HyceLDqpV_6oNHteYFfxDJH7-S3DwnJKtNUKcRg" />
 
     <script src="http://cdnjs.cloudflare.com/ajax/libs/fastclick/0.6.7/fastclick.min.js"></script>
-    <script src="angular/angular.min.js"></script>
-    <script src="ngui-tpls-<%= pkg.version%>.min.js"></script>
+    <script src="jquery/dist/jquery.js"></script>
+    <script src="angular/angular.js"></script>
+    <script src="bootstrap/dist/js/bootstrap.js"></script>
+    <script src="angular-bootstrap/ui-bootstrap-tpls.js"></script>
+    <script src="ngui-tpls-<%= pkg.version%>.js"></script>
     <script src="assets/app.js"></script>
 
-    <link href="bootstrap/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="bootstrap/dist/css/bootstrap.css" rel="stylesheet"/>
     <link rel="stylesheet" href="assets/rainbow.css"/>
     <link rel="stylesheet" href="assets/demo.css"/>
     <link rel="author" href="https://github.com/angular-ui/bootstrap/graphs/contributors">
@@ -36,11 +39,11 @@
                     <a href="#top" role="button" class="navbar-brand">
                         <%= _.humanize(pkg.name) %>
                     </a>
-                    <li class="dropdown">
-                        <a role="button" class="dropdown-toggle">
+                    <li role="presentation" class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">
                             Directives <b class="caret"></b>
                         </a>
-                        <ul class="dropdown-menu">
+                        <ul class="dropdown-menu" role="menu">
                             <% demoModules.forEach(function(module) {  %><li><a href="#<%= module.name %>"><%= module.displayName %></a></li><% }); %>
                         </ul>
                     </li>

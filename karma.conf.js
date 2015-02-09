@@ -6,9 +6,11 @@ basePath = '.';
 files = [
   JASMINE,
   JASMINE_ADAPTER,
-  'misc/test-lib/jquery-1.8.2.min.js',
-  'misc/test-lib/angular.js',
-  'misc/test-lib/angular-mocks.js',
+  'bower_components/jquery/dist/jquery.min.js',
+  'bower_components/angular/angular.min.js',
+  'bower_components/angular-mocks/angular-mocks.js',
+  'bower_components/bootstrap/dist/js/bootstrap.min.js',
+  'bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js',
   'misc/test-lib/helpers.js',
   'src/**/*.js',
   'template/**/*.js'

@@ -1,0 +1,20 @@
+{
+  "name": "angular-layout",
+  "version": "0.1.1",
+  "main": [
+    "dist/angular-layout.css",
+    "dist/angular-layout.js"
+  ],
+  "devDependencies": {},
+  "dependencies": {},
+  "homepage": "https://github.com/demerzel3/angular-layout",
+  "_release": "0.1.1",
+  "_resolution": {
+    "type": "version",
+    "tag": "0.1.1",
+    "commit": "db95afe815eb9e1ae2d3b57b5fd2a1a47698e249"
+  },
+  "_source": "git://github.com/demerzel3/angular-layout.git",
+  "_target": "*",
+  "_originalSource": "angular-layout"
+}

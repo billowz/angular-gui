@@ -1,0 +1,129 @@
+
+@directionValues: row, row-reverse, column, column-reverse;
+@alignItemsValues: baseline, center, flex-end, flex-start, stretch;
+@JustifyContentValues: center, flex-end, flex-start, space-around, space-between;
+@alignContentValues: center, flex-end, flex-start;
+@wrapValues: nowrap, wrap, wrap-reverse;
+@screenFormat: lg, md, sm, xs;
+@media-xs: ~"only screen and (max-width : 480px)";
+@media-sm: ~"only screen and (min-width : 481px) and (max-width : 768px)";
+@media-md: ~"only screen and (min-width: 769px) and (max-width : 992px)";
+@media-lg: ~"only screen and (min-width: 993px) and(max-width : 1200px)";
+@medias : @media-lg, @media-md, @media-sm,  @media-xs;
+@glueGrowShrink: 99;
+
+.glue {
+  flex-grow: @glueGrowShrink;
+  flex-shrink: @glueGrowShrink;
+}
+
+.hbox {
+  .mixin_gap(20,margin-right);
+}
+.vbox {
+  .mixin_gap(20,margin-bottom);
+}
+
+.flexbox {
+  display: flex;
+  //add justify attr style
+  .mixin_attrValueAsStyle(@JustifyContentValues,justify,justify-content);
+  //add align attr style
+  .mixin_attrValueAsStyle(@alignItemsValues,align,align-items);
+  //add xJustify attr style
+  .mixin_attrValueAsStyle(@alignContentValues,x-justify,align-content);
+  //add wrap attr style
+  .mixin_attrValueAsStyle(@wrapValues,wrap,flex-wrap);
+  //add orientation attr style
+  .mixin_attrValueAsStyle(@directionValues,direction,flex-direction);
+  //add grow attr style
+  //.mixin_attrValueAsIntStyle(20,grow,flex-grow,'');
+  //add shrink attr style
+  //.mixin_attrValueAsIntStyle(20,shrink,flex-shrink,'');
+  //add order attr style
+  //.mixin_attrValueAsIntStyle(20,order,order,'');
+  //add grow attr style
+  .mixin_childAttrValueAsIntStyle(20,grow,flex-grow,'');
+  //add shrink attr style
+  .mixin_childAttrValueAsIntStyle(20,shrink,flex-shrink,'');
+  //add order attr style
+  .mixin_childAttrValueAsIntStyle(20,order,order,'');
+  .responsive_flexbox();
+}
+
+.mixin_attrValueAsStyle(@arrayValues,@attributeName,@styleName) {
+  .loop(@i: length(@arrayValues)) when (@i > 0) {
+    @name: e(extract(@arrayValues, @i));
+    &[@{attributeName}="@{name}"] {@{styleName}: @name}
+    .loop((@i - 1));
+  } .loop;
+}
+
+.mixin_attrValueAsIntStyle(@nb,@attributeName,@styleName,@unit) {
+  .loop(@i: @nb) when (@i >= 0) {
+    &[@{attributeName}="@{i}@{unit}"] {@{styleName}: @i e(@unit)}
+    .loop((@i - 1));
+  } .loop;
+}
+
+.mixin_childAttrValueAsIntStyle(@nb,@attributeName,@styleName,@unit) {
+  .loop(@i: @nb) when (@i >= 0) {
+    & > *[@{attributeName}="@{i}@{unit}"] {@{styleName}: @i e(@unit)}
+    .loop((@i - 1));
+  } .loop;
+}
+
+
+.mixin_gap(@nb,@margin) {
+  .loop(@i: @nb) when (@i >= 0) {
+    &[gap="@{i}"] > * {@{margin}: e(%("%apx",@i))}
+    &[gap="@{i}"] :last-child {@{margin}: 0; }
+    .loop((@i - 1));
+  } .loop;
+}
+
+.mixin_gap_h_debug(@nb) {
+  .loop(@i: @nb) when (@i >= 0) {
+    &[gap="@{i}"] > * {
+      border-right-width: e(%("%apx",@i));
+      border-right-color: red;
+      border-right-style: inset;
+    }
+    &[gap="@{i}"] :last-child {@{margin}: 0; }
+    .loop((@i - 1));
+  } .loop;
+}
+
+.responsive_flexbox() {
+  .loop(@i: length(@screenFormat)) when (@i > 0) {
+    @aScreen: e(extract(@screenFormat, @i));
+    @aMedia: e(extract(@medias, @i));
+    @media @aMedia { .responsive_flexbox(@aScreen) }
+    .loop((@i - 1));
+  } .loop;
+}
+
+.responsive_flexbox(@suffix) {
+  //add justify attr style
+  .mixin_attrValueAsStyle(@JustifyContentValues,e(%("justify-%a",@suffix)),justify-content);
+  //add align attr style
+  .mixin_attrValueAsStyle(@alignItemsValues,e(%("align-%a",@suffix)),align-items);
+  //add xJustify attr style
+  .mixin_attrValueAsStyle(@alignContentValues,e(%("x-justify-%a",@suffix)),align-content);
+  //add wrap attr style
+  .mixin_attrValueAsStyle(@wrapValues,e(%("wrap-%a",@suffix)),flex-wrap);
+  //add orientation attr style
+  .mixin_attrValueAsStyle(@directionValues,e(%("direction-%a",@suffix)),flex-direction);
+  //add grow attr style
+  //.mixin_attrValueAsIntStyle(20,e(%("grow-%a",@suffix)),flex-grow,'');
+  //add shrink attr style
+  //.mixin_attrValueAsIntStyle(20,e(%("shrink-%a",@suffix)),flex-shrink,'');
+  //add order attr style
+  //.mixin_attrValueAsIntStyle(20,e(%("order-%a",@suffix)),order,'');
+  //add grow attr style
+  .mixin_childAttrValueAsIntStyle(20,e(%("grow-%a",@suffix)),flex-grow,'');
+  //add shrink attr style
+  .mixin_childAttrValueAsIntStyle(20,e(%("shrink-%a",@suffix)),flex-shrink,'');
+  //add order attr style
+  .mixin_childAttrValueAsIntStyle(20,e(%("order-%a",@suffix)),order,'');
+}
