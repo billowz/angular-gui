@@ -108,6 +108,9 @@ border-bottom: 1px solid #ccc;
 }
 
 .code pre, .code code {
+    border-top: none;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
 }
 
 .code .nav-tabs>li.active>a, .code .nav-tabs>li.active>a:hover, .code .nav-tabs>li.active>a:focus {

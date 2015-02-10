@@ -7,20 +7,19 @@ module.exports = function(grunt) {
 
   // Project configuration.
   grunt.util.linefeed = '\n';
-
-
+  var pkg = grunt.file.readJSON('package.json');
   grunt.initConfig({
     ngversion: '1.3.13',
     bsversion: '3.3.2',
     modules: [],//to be filled in by build task
-    pkg: grunt.file.readJSON('package.json'),
+    pkg: pkg,
     dist: 'dist',
-    filename: 'ngui',
+    filename: '<%=pkg.name%>',
     filenamecustom: '<%= filename %>-custom',
     meta: {
-      modules: 'angular.module("ngui", [<%= srcModules %>]);',
-      tplmodules: 'angular.module("ngui.tpls", [<%= tplModules %>]);',
-      all: 'angular.module("ngui", ["ngui.tpls", <%= srcModules %>]);',
+      modules: 'angular.module("<%=pkg.namespace%>", [<%= srcModules %>]);',
+      tplmodules: 'angular.module("<%=pkg.namespace%>.tpls", [<%= tplModules %>]);',
+      all: 'angular.module("<%=pkg.namespace%>", ["<%=pkg.namespace%>.tpls", <%= srcModules %>]);',
       banner: ['/*',
                ' * <%= pkg.name %>',
                ' * <%= pkg.homepage %>\n',
@@ -39,14 +38,14 @@ module.exports = function(grunt) {
           banner: '<%= meta.banner %><%= meta.modules %>\n'
         },
         src: [], //src filled in by build task
-        dest: '<%= dist %>/<%= filename %>-<%= pkg.version %>.js'
+        dest: '<%= dist %>/<%= filename %>.js'
       },
       dist_tpls: {
         options: {
           banner: '<%= meta.banner %><%= meta.all %>\n<%= meta.tplmodules %>\n'
         },
         src: [], //src filled in by build task
-        dest: '<%= dist %>/<%= filename %>-tpls-<%= pkg.version %>.js'
+        dest: '<%= dist %>/<%= filename %>-tpls.js'
       }
     },
     copy: {
@@ -83,11 +82,11 @@ module.exports = function(grunt) {
       },
       dist:{
         src:['<%= concat.dist.dest %>'],
-        dest:'<%= dist %>/<%= filename %>-<%= pkg.version %>.min.js'
+        dest:'<%= dist %>/<%= filename %>.min.js'
       },
       dist_tpls:{
         src:['<%= concat.dist_tpls.dest %>'],
-        dest:'<%= dist %>/<%= filename %>-tpls-<%= pkg.version %>.min.js'
+        dest:'<%= dist %>/<%= filename %>-tpls.min.js'
       }
     },
     ngmin: {
@@ -100,24 +99,28 @@ module.exports = function(grunt) {
         dest:'<%= concat.dist_tpls.dest %>'
       }
     },
-	css_import: {
-		files: {
-		  '<%= dist %>/<%= filename %>-<%= pkg.version %>.css': ['css/main.css'],
-		},
-	},
+  	css_import: {
+      main:{
+         files: {
+             '<%= dist %>/<%= filename %>.css': [
+                 'css/main.css'
+             ]
+         }
+      }
+  	},
     cssmin: {
-       options: {
-			compatibility : 'ie8', //设置兼容模式 
-			noAdvanced : true, //取消高级特性 
-			keepSpecialComments: 0
-       },
-       compress: {
+      options: {
+  			compatibility : 'ie8', //设置兼容模式 
+  			noAdvanced : true, //取消高级特性 
+  			keepSpecialComments: 0
+      },
+      compress: {
            files: {
-               '<%= dist %>/<%= filename %>-<%= pkg.version %>.min.css': [
-                   '<%= dist %>/<%= filename %>-<%= pkg.version %>.css'
+               '<%= dist %>/<%= filename %>.min.css': [
+                   '<%= dist %>/<%= filename %>.css'
                ]
            }
-       }
+      }
     },
     html2js: {
       dist: {
@@ -243,11 +246,11 @@ module.exports = function(grunt) {
         }
       }
     },
-    connectDelta: {
+    watchs: {
       // ABC : used in the watch task
       docs: {
-        files: ['misc/demo/**/*'],
-        tasks: ['copy']
+        files: ['misc/demo/**/*', 'src/**/docs/*'],
+        tasks: ['build','copy']
       },
       html: {
         files: ['template/**/*.html'],
@@ -258,33 +261,34 @@ module.exports = function(grunt) {
         //we don't need to jshint here, it slows down everything else
         tasks: ['build','copy']
       },
-	  css: {
-		files: ['src/**/*.css'],
-		tasks: ['css']
-	  },
-	  fonts: {
-		files: ['fonts/*'],
-		tasks: ['copy:fonts']
-	  }
+  	  css: {
+    		files: ['src/**/*.css'],
+    		tasks: ['css']
+  	  },
+  	  fonts: {
+    		files: ['fonts/*'],
+    		tasks: ['copy:fonts']
+  	  }
     },
   });
   grunt.registerTask('css', ['css_import', 'cssmin']);
-  grunt.renameTask('watch', 'connectDelta');
-  grunt.registerTask('server', ['connect:server','connectDelta']);
   //register before and after test tasks so we've don't have to change cli
   //options on the goole's CI server
   grunt.registerTask('before-test', ['enforce', 'jshint', 'html2js']);
-  grunt.registerTask('after-test', ['build', 'copy']);
+  grunt.registerTask('after-test', ['html2js','build', 'copy']);
 
+
+  grunt.renameTask('watch', 'watchs');
+  grunt.registerTask('server', ['clean', 'build','copy','connect:server','watchs']);
+  grunt.registerTask('watch', []);
   //Rename our watch task to 'delta', then make actual 'watch'
   //task build things, then start test server
-
   grunt.renameTask('watch', 'delta');
   grunt.registerTask('watch', ['before-test', 'after-test', 'karma:watch', 'delta']);
 
 
   // Default task.
-  grunt.registerTask('default', ['before-test', 'test', 'after-test']);
+  grunt.registerTask('default', ['clean',' before-test', 'test', 'after-test']);
 
   grunt.registerTask('enforce', 'Install commit message enforce script if it doesn\'t exist', function() {
     if (!grunt.file.exists('.git/hooks/commit-msg')) {
@@ -316,8 +320,8 @@ module.exports = function(grunt) {
 
     var module = {
       name: name,
-      libraryPrefix: 'ngui',
-      moduleName: enquote('ngui.' + name),
+      libraryPrefix: pkg.namespace,
+      moduleName: enquote(pkg.namespace+'.' + name),
       displayName: ucwords(breakup(name, ' ')),
       srcFiles: grunt.file.expand('src/'+name+'/*.js'),
       tplFiles: grunt.file.expand('template/'+name+'/*.html'),
@@ -350,8 +354,8 @@ module.exports = function(grunt) {
       var depArrayEnd = contents.indexOf(']', depArrayStart);
       var dependencies = contents.substring(depArrayStart + 1, depArrayEnd);
       dependencies.split(',').forEach(function(dep) {
-        if (dep.indexOf('ngui.') > -1) {
-          var depName = dep.trim().replace('ngui.','').replace(/['"]/g,'');
+        if (dep.indexOf(pkg.namespace+'.') > -1) {
+          var depName = dep.trim().replace(pkg.namespace+'.','').replace(/['"]/g,'');
           if (deps.indexOf(depName) < 0) {
             deps.push(depName);
             //Get dependencies for this new dependency

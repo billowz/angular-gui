@@ -1,12 +1,13 @@
 <div ng-controller="CollapseDemoCtrl">
-	<button class="btn btn-default" ng-click="isCollapsed = !isCollapsed">Toggle collapse</button>
-	<button class="btn btn-default" ng-click="isCollapsed2 = !isCollapsed2">Toggle collapse2</button>
-	<hr>
+	<button class="btn btn-default" ng-click="isCollapsed = !isCollapsed">{{isCollapsed?'Expand':'Collapse'}}</button>
 	<div ngui-collapse="isCollapsed" ngui-collapsed="true">
-		<div class="well well-lg" style="height:200px">isCollapsed {{isCollapsed}}</div> 
+		<div class="well well-lg" style="height:200px">collapse:{{!!isCollapsed}}</div> 
 	</div>
-
-	<div ngui-collapse="isCollapsed2" style="height:200px;position: relative;">
-		<div class="well well-lg" style="position: absolute; top:0;bottom:0;left:0;right:0;background:#eee;">isCollapsed {{isCollapsed}}</div> 
+</div>
+<hr>
+<div ng-controller="CollapseDemoCtrl">
+	<button class="btn btn-default" ng-click="isCollapsed = !isCollapsed">{{isCollapsed?'Expand':'Collapse'}}</button>
+	<div ngui-collapse="isCollapsed" style="height:200px;position: relative;top:10px">
+		<div class="well well-lg" style="">collapse:{{!!isCollapsed}}</div> 
 	</div>
 </div>

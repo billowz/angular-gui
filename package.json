@@ -1,6 +1,9 @@
 {
   "name": "angular-gui",
+  "fullname": "Angular GUI",
+  "namespace": "ngui",
   "homepage": "https://github.com/tao-zeng/angular-gui",
+  "github": "https://github.com/tao-zeng/angular-gui",
   "author": "tao.zeng <tao.zeng.zt@gmail.com>",
   "version": "0.0.0",
   "dependencies": {},
