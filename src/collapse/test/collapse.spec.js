@@ -12,7 +12,7 @@ describe('collapse directive', function () {
   }));
 
   beforeEach(function() {
-    element = $compile('<div collapse="isCollapsed">Some Content</div>')(scope);
+    element = $compile('<div ngui-collapse="isCollapsed">Some Content</div>')(scope);
     angular.element(document.body).append(element);
   });
 
@@ -76,7 +76,7 @@ describe('collapse directive', function () {
     var element;
 
     beforeEach(function() {
-      element = angular.element('<div collapse="isCollapsed"><p>Initial content</p><div ng-show="exp">Additional content</div></div>');
+      element = angular.element('<div ngui=collapse="isCollapsed"><p>Initial content</p><div ng-show="exp">Additional content</div></div>');
       $compile(element)(scope);
       angular.element(document.body).append(element);
     });

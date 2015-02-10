@@ -1,6 +1,4 @@
 dist
 node_modules
-/bower-components/
-/.editorconfig
-/.jshintrc
 /.project
+*.sublime-project

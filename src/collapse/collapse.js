@@ -1,6 +1,6 @@
-angular.module('ngui.collapse', ['ui.bootstrap.transition'])
+angular.module('ngui.collapse', ['ui.bootstrap.transition', 'ngui.utils'])
 
-  .directive('collapse', ['$transition', function ($transition) {
+  .directive('nguiCollapse', ['$transition', 'utils', function ($transition, utils) {
 
     return {
       link: function (scope, element, attrs) {
@@ -62,8 +62,8 @@ angular.module('ngui.collapse', ['ui.bootstrap.transition'])
           element.removeClass('collapsing');
           element.addClass('collapse');
         }
-
-        scope.$watch(attrs.collapse, function (shouldCollapse) {
+        utils.defaultVal(scope, attrs.nguiCollapse, attrs.nguiCollapsed);
+        scope.$watch(attrs.nguiCollapse, function (shouldCollapse) {
           if (shouldCollapse) {
             collapse();
           } else {

@@ -28,21 +28,10 @@ module.exports = function(grunt) {
                ' * License: <%= pkg.license %>',
                ' */\n'].join('\n')
     },
-    delta: {
-      // ABC : used in the watch task
-      docs: {
-        files: ['misc/demo/index.html'],
-        tasks: ['after-test']
-      },
-      html: {
-        files: ['template/**/*.html'],
-        tasks: ['html2js', 'karma:watch:run']
-      },
-      js: {
-        files: ['src/**/*.js'],
-        //we don't need to jshint here, it slows down everything else
-        tasks: ['karma:watch:run']
-      }
+    clean: {
+        dist: [
+            '<%= dist %>/*', '!<%= dist %>/.git*'
+        ]
     },
     concat: {
       dist: {
@@ -82,7 +71,11 @@ module.exports = function(grunt) {
           cwd: 'misc/demo',
           dest: 'dist/'
         }]
-      }
+      },
+	  fonts: {
+        src: 'fonts/*',
+        dest: 'dist/'
+	  }
     },
     uglify: {
       options: {
@@ -106,6 +99,25 @@ module.exports = function(grunt) {
         src:['<%= concat.dist_tpls.dest %>'],
         dest:'<%= concat.dist_tpls.dest %>'
       }
+    },
+	css_import: {
+		files: {
+		  '<%= dist %>/<%= filename %>-<%= pkg.version %>.css': ['css/main.css'],
+		},
+	},
+    cssmin: {
+       options: {
+			compatibility : 'ie8', //设置兼容模式 
+			noAdvanced : true, //取消高级特性 
+			keepSpecialComments: 0
+       },
+       compress: {
+           files: {
+               '<%= dist %>/<%= filename %>-<%= pkg.version %>.min.css': [
+                   '<%= dist %>/<%= filename %>-<%= pkg.version %>.css'
+               ]
+           }
+       }
     },
     html2js: {
       dist: {
@@ -197,26 +209,68 @@ module.exports = function(grunt) {
         title: 'API Documentation'
       }
     },
+    delta: {
+      // ABC : used in the watch task
+      docs: {
+        files: ['misc/demo/index.html'],
+        tasks: ['after-test']
+      },
+      html: {
+        files: ['template/**/*.html'],
+        tasks: ['html2js', 'karma:watch:run']
+      },
+      js: {
+        files: ['src/**/*.js'],
+        //we don't need to jshint here, it slows down everything else
+        tasks: ['karma:watch:run']
+      }
+    },
     connect: {
-        server: {
-          options: {
-            port: 9300,
-            hostname: '0.0.0.0',
-            livereload: 9301,
-            middleware: function(connect) {
-              return [
-                  require('connect-livereload')({
-                      port: 9301
-                  }),
-                  connect.static(require('path').resolve('bower_components')),
-                  connect.static(require('path').resolve('dist'))
-              ];
-            }
+      server: {
+        options: {
+          port: 9300,
+          hostname: '0.0.0.0',
+          livereload: 9301,
+          middleware: function(connect) {
+            return [
+                require('connect-livereload')({
+                    port: 9301
+                }),
+                connect.static(require('path').resolve('bower_components')),
+                connect.static(require('path').resolve('dist'))
+            ];
           }
         }
-    }
+      }
+    },
+    connectDelta: {
+      // ABC : used in the watch task
+      docs: {
+        files: ['misc/demo/**/*'],
+        tasks: ['copy']
+      },
+      html: {
+        files: ['template/**/*.html'],
+        tasks: ['html2js', 'build']
+      },
+      js: {
+        files: ['src/**/*.js'],
+        //we don't need to jshint here, it slows down everything else
+        tasks: ['build','copy']
+      },
+	  css: {
+		files: ['src/**/*.css'],
+		tasks: ['css']
+	  },
+	  fonts: {
+		files: ['fonts/*'],
+		tasks: ['copy:fonts']
+	  }
+    },
   });
-  
+  grunt.registerTask('css', ['css_import', 'cssmin']);
+  grunt.renameTask('watch', 'connectDelta');
+  grunt.registerTask('server', ['connect:server','connectDelta']);
   //register before and after test tasks so we've don't have to change cli
   //options on the goole's CI server
   grunt.registerTask('before-test', ['enforce', 'jshint', 'html2js']);
@@ -226,7 +280,6 @@ module.exports = function(grunt) {
   //task build things, then start test server
 
   grunt.renameTask('watch', 'delta');
-  grunt.registerTask('server', ['connect:server','delta']);
   grunt.registerTask('watch', ['before-test', 'after-test', 'karma:watch', 'delta']);
 
 
@@ -355,7 +408,7 @@ module.exports = function(grunt) {
     grunt.config('concat.dist_tpls.src', grunt.config('concat.dist_tpls.src')
                  .concat(srcFiles).concat(tpljsFiles));
 
-    grunt.task.run(['concat', 'ngmin', 'uglify']);
+    grunt.task.run(['concat', 'ngmin', 'uglify', 'css']);
   });
 
   grunt.registerTask('test', 'Run tests on singleRun karma server', function () {

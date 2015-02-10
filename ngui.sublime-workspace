@@ -1,0 +1,499 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"getEx",
+				"getExtension"
+			],
+			[
+				"dis",
+				"display"
+			],
+			[
+				"getChi",
+				"getChildrenEl"
+			],
+			[
+				"serv",
+				"serverExamples"
+			],
+			[
+				"back",
+				"background"
+			],
+			[
+				"outline",
+				"outline-width"
+			],
+			[
+				"ba",
+				"background-color"
+			],
+			[
+				"bundle",
+				"bundleName	(?)"
+			],
+			[
+				"getBu",
+				"getBundle"
+			],
+			[
+				"getCurr",
+				"getCurrentPathIdx"
+			],
+			[
+				"bac",
+				"background-repeat"
+			],
+			[
+				"pro",
+				"prototype	{}"
+			],
+			[
+				"onDel",
+				"onDelFail"
+			],
+			[
+				"co",
+				"copy"
+			],
+			[
+				"ian",
+				"ian-sched"
+			],
+			[
+				"ian-n",
+				"ian-net-bayeux"
+			],
+			[
+				"defi",
+				"defineProperties"
+			]
+		]
+	},
+	"buffers":
+	[
+	],
+	"build_system": "",
+	"command_palette":
+	{
+		"height": 58.0,
+		"selected_items":
+		[
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"Package Control: ",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 416.0
+	},
+	"console":
+	{
+		"height": 126.0,
+		"history":
+		[
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/C/work/BSV/nohup.20141103.out/nohup.out",
+		"/C/Workspace/applicationContext-web.xml",
+		"/C/Users/cmp/git/ian-data-core/ian-data-core/target/nohup/nohup.out",
+		"/C/work/BSV/nohup.20141102.out/nohup.out",
+		"/C/work/BSV/nohup.20141029-2.out/nohup.out",
+		"/C/work/BSV/nohup.20141028.out/nohup.out",
+		"/C/Wrokspace2/ian/ian-services-core/src/main/java/com/digicompass/ian/ui/grid/fsi-person-flexview.xml",
+		"/C/work/BSV/nohup.20141011.out/nohup.out",
+		"/C/work/BSV/nohup.20141022/nohup.out",
+		"/C/Wrokspace2/ian/ian-services-core/src/main/java/com/digicompass/ian/ui/grid/GridParser.java",
+		"/C/Users/cmp/git/cmp-bsv/dat/amqdata/amq-web/persistence/db-1.log",
+		"/C/Users/cmp/git/jucp/web/browser/app/scripts/app.js",
+		"/C/Users/cmp/git/jucp/web/browser/app/styles/main.css",
+		"/C/Users/cmp/git/jucp/web/browser/app/scripts/main.js",
+		"/C/Users/cmp/Desktop/a.json",
+		"/C/Users/cmp/Desktop/b.json",
+		"/C/Users/cmp/Desktop/aa",
+		"/C/Users/cmp/Desktop/idw-test-data.json",
+		"/C/Users/cmp/Desktop/bsv-snmp.log",
+		"/C/Users/cmp/Desktop/bsv-snmp - Copy.log",
+		"/C/Workspace/bsv-20140826/applicationContext-cometd.xml",
+		"/C/Workspace/bsv-20140901/applicationContext-cometd.xml",
+		"/C/Workspace/bsv-20140902/applicationContext-cometd.xml",
+		"/C/Users/cmp/git/cmp-bsv/dat/geoserver/data/bsv/cable/geninfo_shapefile.xml",
+		"/C/Users/cmp/git/jucp/web/browser/app/data/grid.json",
+		"/C/Users/cmp/git/jucp/web/browser/app/index.html",
+		"/C/Users/cmp/git/jucp/web/browser/app/example.html",
+		"/C/Users/cmp/git/jucp/web/browser/package.json",
+		"/C/Users/cmp/git/jucp/web/browser/Gruntfile.js",
+		"/C/Users/cmp/git/jucp/web/browser/copyright/copyright.js",
+		"/C/Users/cmp/git/jucp/web/browser/bower.json",
+		"/C/Users/cmp/git/jucp/web/browser/app/scripts/settings",
+		"/C/Users/cmp/git/jucp/web/browser/app/scripts/animations/frame.js",
+		"/C/Users/cmp/git/jucp/web/browser/app/scripts/utils.js",
+		"/C/Users/cmp/Desktop/Pivot Interface Desc.txt",
+		"/C/Users/cmp/Desktop/model.xml",
+		"/C/Users/cmp/Desktop/bsv.log",
+		"/C/Workspace/Cmp/ian-service-core/js/src/scripts/ian-web.js",
+		"/C/Users/cmp/Desktop/a.txt",
+		"/C/Workspace/Cmp/ian-service-core/js/src/scripts/ian-modelfactory.js",
+		"/C/Users/cmp/Desktop/AbstractWorkbenchView.js",
+		"/C/Workspace/Cmp/ian-service-core/js/src/scripts/ian-model.js",
+		"/C/Workspace/Cmp/ian-service-core/js/src/scripts/main.js",
+		"/C/Workspace/Cmp/ian-service-core/js/examples/src/example/main.js",
+		"/C/Workspace/Cmp/ian-service-core/js/examples/src/example/dev.js",
+		"/C/Workspace/Cmp/ian-service-core/js/examples/src/example.html",
+		"/C/Workspace/Cmp/ian-service-core/js/src/scripts/ian-net-bayeux.js",
+		"/C/Workspace/Cmp/ian-service-core/js/Gruntfile.js",
+		"/C/Workspace/Cmp/ian-service-core/js/src/scripts/web/CollectionLayout.js",
+		"/C/Workspace/Cmp/ian-service-core/js/src/styles/ian.css",
+		"/C/Users/cmp/Desktop/Locality/CN.txt",
+		"/C/Users/cmp/Desktop/Locality/log.log",
+		"/C/Users/cmp/Desktop/Locality/hierarchy.txt",
+		"/C/Users/cmp/Desktop/Locality/countryInfo.txt",
+		"/C/Users/cmp/Desktop/Locality/null.txt",
+		"/C/Users/cmp/Desktop/AS.txt",
+		"/C/Users/cmp/Desktop/cities1000.txt",
+		"/C/Users/cmp/Desktop/CN.txt",
+		"/C/Users/cmp/Desktop/allCountries.txt",
+		"/C/Workspace/Cmp/ian-service-core/js/grunt.status",
+		"/C/Workspace/Cmp/ian-service-core/js/examples/src/scripts/dev.js",
+		"/C/Workspace/Cmp/ian-service-core/js/examples/src/scripts/person.js",
+		"/C/Workspace/Cmp/ian-service-core/js/src/index.html",
+		"/C/Workspace/Cmp/ian-service-core/js/dist/18f368bf.ian.css",
+		"/C/Workspace/Cmp/ian-service-core/js/examples/.tmp/scripts/templates.js",
+		"/C/Workspace/Cmp/ian-service-core/js/examples/src/scripts/main.js",
+		"/C/Workspace/Cmp/ian-service-core/js/dist/examples/example/29486154.main.js",
+		"/C/Workspace/Cmp/ian-service-core/js/dist/scripts/57eb8aaf.ian.js",
+		"/C/Workspace/Cmp/ian-service-core/js/src/scripts/web/LevelLayout.js",
+		"/C/Workspace/Cmp/ian-service-core/js/examples/src/dev",
+		"/C/Workspace/Cmp/ian-service-core/js/src/styles/css/ian.css",
+		"/C/Workspace/Cmp/ian-service-core/js/src/styles/css/icon.css",
+		"/C/Workspace/Cmp/ian-service-core/js/src/scripts/dev.js",
+		"/C/Workspace/Cmp/ian-service-core/js/src/scripts/person.js",
+		"/C/Workspace/Cmp/ian-service-core/js/src/scripts/te.js",
+		"/C/Workspace/Cmp/ian-service-core/js/src/scripts/ian-web_old.js",
+		"/C/Workspace/Cmp/ian-service-core/js/src/scripts/personView.js",
+		"/C/Workspace/Cmp/ian-service-core/src/main/webapp/scripts/App/Edu/Identity/Identities/Teacher.js",
+		"/C/Workspace/Cmp/ian-service-core/src/main/webapp/scripts/IAN/Services/Identity/Identifications/DriverLicence.js",
+		"/C/Workspace/Cmp/ian-service-core/src/main/webapp/scripts/IAN/Services/Identity/Identifications/BirthCertificate.js",
+		"/C/Workspace/Cmp/ian-service-core/src/main/webapp/scripts/IAN/Services/Identity/Identifications/Passport.js",
+		"/C/Workspace/Cmp/ian-service-core/src/main/webapp/scripts/IAN/Services/Identity/Person.js",
+		"/C/Workspace/Cmp/ian-service-core/src/main/webapp/scripts/IAN/Services/Identity/Identification.js",
+		"/C/Workspace/Cmp/ian-service-core/src/main/webapp/scripts/IAN/Services/Identity/Identity.js",
+		"/C/Workspace/Cmp/ian-service-core/src/main/webapp/scripts/App/Edu/Identity/Identities/Applicant.js",
+		"/C/Workspace/Cmp/ian-service-core/src/main/webapp/scripts/App/Edu/Identity/Identities/Student.js",
+		"/C/Users/cmp/AppData/Roaming/Sublime Text 3/Packages/JSHint Gutter/JSHint.sublime-settings",
+		"/C/Workspace/Cmp/ian-service-core/js/package.json",
+		"/C/Workspace/Cmp/ian-service-core/js/dist/scripts/7489b339.ian.js",
+		"/C/Workspace/Cmp/ian-service-core/js/src/scripts/ian-core.js",
+		"/C/Workspace/Cmp/ian-service-core/js/src/scripts/ian-net.js",
+		"/C/Users/cmp/Desktop/ian-js2/src/scripts/ian-model_yq.js",
+		"/C/Users/cmp/Desktop/ian-js2/libs/jquery-cookie/.bower.json",
+		"/C/Users/cmp/Desktop/ian-js/src/styles/ian.css",
+		"/C/Users/cmp/Desktop/ian-js/src/scripts/ian-eventdriver.js",
+		"/C/Users/cmp/Desktop/ian-js/src/scripts/ian-core.js",
+		"/C/Users/cmp/Desktop/ian-js/src/scripts/main.js",
+		"/C/Users/cmp/Desktop/ian-js/src/scripts/ian-proc.js",
+		"/C/Users/cmp/Desktop/ian-js/src/scripts/ian-net.js",
+		"/C/Users/cmp/Desktop/ian-js/src/scripts/ian-net-module.js",
+		"/C/Users/cmp/Desktop/ian-js/src/scripts/ian-model.js",
+		"/C/Users/cmp/Desktop/ian-js/src/scripts/ian-web.js",
+		"/C/Users/cmp/Desktop/ian-js/src/scripts/ian-sched.js",
+		"/C/Users/cmp/Desktop/ian-js/src/index.html",
+		"/C/Users/cmp/AppData/Roaming/Sublime Text 3/Packages/Grunt/SublimeGrunt.sublime-settings",
+		"/C/Users/cmp/Desktop/ian-js/src/scripts/ian-net-bayeux.js",
+		"/C/Users/cmp/AppData/Roaming/Sublime Text 3/Packages/HTML-CSS-JS Prettify/Default (Windows).sublime-keymap",
+		"/C/Users/cmp/AppData/Roaming/Sublime Text 3/Packages/HTML-CSS-JS Prettify/.jsbeautifyrc",
+		"/C/Users/cmp/AppData/Roaming/Sublime Text 3/Packages/Default/Preferences.sublime-settings",
+		"/C/Users/cmp/AppData/Roaming/Sublime Text 3/Packages/DocBlockr/Base File.sublime-settings",
+		"/C/Users/cmp/AppData/Roaming/Sublime Text 3/Packages/TernJS/TernJS.sublime-settings"
+	],
+	"find":
+	{
+		"height": 31.0
+	},
+	"find_in_files":
+	{
+		"height": 90.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"size_t",
+			"__get_free_page",
+			"page",
+			"hlist_head",
+			"rcu",
+			"for_each",
+			"for_",
+			"for",
+			"foreach",
+			"fore",
+			"_rcu",
+			"_ruc",
+			"ruc",
+			"#def",
+			"scullp_follow",
+			"__get_free_pages",
+			"free_page",
+			"2014-12-08",
+			"scull_open",
+			"kmem_cache_free",
+			"_trim",
+			"scullc_trim",
+			"scullc_open",
+			"SCULL_QUANTUM",
+			"scull_trim",
+			"scull_p_cleanup",
+			"scull_fops",
+			"Model Performance",
+			"Model P",
+			"Rebuild Pivot Group[pivot-pmdata",
+			"MutiIdx",
+			"Rebuild Pivot Group[pivot-pmdata",
+			"Register Pivot Group[pivot-pmdata",
+			"dim-hour-date, dim-cell-site",
+			"pmdata-cell-ne-site-time",
+			"Exception",
+			"INFO in ch.qos.logback.classic.LoggerContext[default]",
+			"INFO in ch.qos.logback.classic.LoggerContext[default] - Could NOT find resource [logback.groovy]",
+			"dim-hour-date, dim-cell-technology, dim-cell-area",
+			"Exception",
+			"dim-hour-date, dim-cell-technology, dim-cell-area",
+			"pivot-saprent",
+			"ERROR",
+			"Execute Import Tasks Use",
+			"Error",
+			"ne-site",
+			"can't match matchs",
+			"Rebuild Pivot",
+			"CAN't",
+			"Count",
+			"Selection",
+			"\\n+",
+			"\\n*",
+			"\\]",
+			"\\] and NeID of \\[",
+			"ERROR:############There is no NetworkElement found by ControllerName of \\[",
+			"ERROR:The managed object of this alarm data is invalid , the data is .*",
+			"ERROR:The managed object of this alarm data is invalid , the data is *",
+			"\\] . The received managed object data is \\[",
+			"ERROR:############There is no controller found by ControllerName of \\[",
+			"\\] and NeID of \\[",
+			"ERROR:############There is no NetworkElement found by ControllerName of \\[",
+			"ERROR:The managed object of this alarm data is invalid.*",
+			"\\] \\. The received managed object data is .*",
+			"\\] \\. The received managed object data is [OPTUS_NETACT .NE.RC16 MRBTS 156374 LNBTS 156374 LNCEL 18]",
+			"\\] . The received managed object data is [OPTUS_NETACT .NE.RC16 MRBTS 156374 LNBTS 156374 LNCEL 18]",
+			"] . The received managed object data is [OPTUS_NETACT .NE.RC16 MRBTS 156374 LNBTS 156374 LNCEL 18]",
+			"ERROR:############There is no controller found by ControllerName of \\[",
+			"ERROR:############There is no controller found by ControllerName of [",
+			".*ThreadPoolTaskExecutor.*",
+			".*ThreadPoolTaskExecutor",
+			"INFO:.*",
+			"\\rINFO:.*",
+			"\\r\\nINFO:.*",
+			"INFO:.*",
+			"INFO:.*\\r\\n",
+			"\\nINFO:==================Clear=========Clear========== : Begin to clear alarm model.====================.The severity is [1.3.6.1.4.1.11.2.17.15.2.2.1.8=5]",
+			"\\r\\nINFO:==================Clear=========Clear========== : Begin to clear alarm model.====================.The severity is [1.3.6.1.4.1.11.2.17.15.2.2.1.8=5]",
+			"INFO:==================Clear=========Clear========== : Begin to clear alarm model.====================.The severity is [1.3.6.1.4.1.11.2.17.15.2.2.1.8=5]\\r\\n",
+			"INFO:.*",
+			"Begin to create alarm model",
+			"success",
+			"<br>",
+			"instantclient",
+			"b360ec69-00b5-4f78-8714-fdcddcfde745",
+			",",
+			"&",
+			"navigation",
+			"../components",
+			"components",
+			"lib",
+			"components",
+			";\n",
+			"});*/\n",
+			"2014-08-14 08:46:39 [Timer-0] com.digicompass.cmp.bsv.objects.NetworkObjectsImportor:980\nINFO:Synchronization Dimension Models Use:1586ms",
+			"Eden",
+			" Angourie",
+			"Bago",
+			" Bago",
+			"CALWELL",
+			"KALEEN",
+			"MELBOURNE",
+			"ns2",
+			"Synchronization ",
+			"Error:",
+			"Error",
+			"Warning",
+			"War",
+			"Wan",
+			"Site Map",
+			"Synchronization Site Map",
+			"Synchronization ",
+			"Synchronizer",
+			"Sync",
+			"request",
+			"elTemplate",
+			"View",
+			"Navg",
+			"Nav",
+			"rel",
+			"change",
+			"rel",
+			"rela",
+			"relch",
+			"rel",
+			"ModelVi",
+			"ModelV",
+			"sonstom"
+		],
+		"highlight": false,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"\\r\\n",
+			"",
+			"\\t",
+			"",
+			"\\t\\t",
+			"",
+			"\\t",
+			"",
+			"\\r\\n",
+			",\\r\\n",
+			"\\r\\n",
+			"",
+			"object",
+			"",
+			"example",
+			"",
+			"url(../",
+			"",
+			"'",
+			"control",
+			"",
+			"../",
+			"",
+			"}",
+			"{",
+			"this._log"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": false
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 31.0
+	},
+	"input":
+	{
+		"height": 35.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"output.unsaved_changes":
+	{
+		"height": 100.0
+	},
+	"project": "ngui.sublime-project",
+	"replace":
+	{
+		"height": 58.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 35.0,
+		"selected_items":
+		[
+		],
+		"width": 656.0
+	},
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 246.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
