@@ -172,7 +172,7 @@ module.exports = function(grunt) {
       options: {
         dest: 'CHANGELOG.md',
         templateFile: 'misc/changelog.tpl.md',
-        github: 'angular-ui/bootstrap'
+        github: 'tao-zeng/angular-gui'
       }
     },
     shell: {
@@ -249,7 +249,7 @@ module.exports = function(grunt) {
     watchs: {
       // ABC : used in the watch task
       docs: {
-        files: ['misc/demo/**/*', 'src/**/docs/*'],
+        files: ['misc/demo/**/*'],
         tasks: ['build','copy']
       },
       html: {
@@ -257,7 +257,7 @@ module.exports = function(grunt) {
         tasks: ['html2js', 'build']
       },
       js: {
-        files: ['src/**/*.js'],
+        files: ['src/**/*.js', 'src/**/docs/*.js', 'src/**/docs/*.html', 'src/**/docs/*.md'],
         //we don't need to jshint here, it slows down everything else
         tasks: ['build','copy']
       },
@@ -288,7 +288,7 @@ module.exports = function(grunt) {
 
 
   // Default task.
-  grunt.registerTask('default', ['clean',' before-test', 'test', 'after-test']);
+  grunt.registerTask('default', ['clean','before-test', 'test', 'after-test']);
 
   grunt.registerTask('enforce', 'Install commit message enforce script if it doesn\'t exist', function() {
     if (!grunt.file.exists('.git/hooks/commit-msg')) {
@@ -394,7 +394,7 @@ module.exports = function(grunt) {
     grunt.config('tplModules', _.pluck(modules, 'tplModules').filter(function(tpls) { return tpls.length > 0;} ));
     grunt.config('demoModules', modules
       .filter(function(module) {
-        return module.docs.md && module.docs.js && module.docs.html;
+        return module.docs.md || module.docs.js || module.docs.html;
       })
       .sort(function(a, b) {
         if (a.name < b.name) { return -1; }
