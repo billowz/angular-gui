@@ -1,5 +1,5 @@
-describe('panel directive', function () {
+describe('panel directive', function() {
 
-  
+
   beforeEach(module('ngui.panel'));
 });

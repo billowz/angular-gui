@@ -1,8 +1,6 @@
-
-
 module.exports = function(grunt) {
   var markdown = require('node-markdown').Markdown;
-  
+
   require('load-grunt-tasks')(grunt);
 
   // Project configuration.
@@ -11,7 +9,7 @@ module.exports = function(grunt) {
   grunt.initConfig({
     ngversion: '1.3.13',
     bsversion: '3.3.2',
-    modules: [],//to be filled in by build task
+    modules: [], //to be filled in by build task
     pkg: pkg,
     dist: 'dist',
     filename: '<%=pkg.name%>',
@@ -21,16 +19,17 @@ module.exports = function(grunt) {
       tplmodules: 'angular.module("<%=pkg.namespace%>.tpls", [<%= tplModules %>]);',
       all: 'angular.module("<%=pkg.namespace%>", ["<%=pkg.namespace%>.tpls", <%= srcModules %>]);',
       banner: ['/*',
-               ' * <%= pkg.name %>',
-               ' * <%= pkg.homepage %>\n',
-               ' * Version: <%= pkg.version %> - <%= grunt.template.today("yyyy-mm-dd") %>',
-               ' * License: <%= pkg.license %>',
-               ' */\n'].join('\n')
+        ' * <%= pkg.name %>',
+        ' * <%= pkg.homepage %>\n',
+        ' * Version: <%= pkg.version %> - <%= grunt.template.today("yyyy-mm-dd") %>',
+        ' * License: <%= pkg.license %>',
+        ' */\n'
+      ].join('\n')
     },
     clean: {
-        dist: [
-            '<%= dist %>/*', '!<%= dist %>/.git*'
-        ]
+      dist: [
+        '<%= dist %>/*', '!<%= dist %>/.git*'
+      ]
     },
     concat: {
       dist: {
@@ -71,55 +70,55 @@ module.exports = function(grunt) {
           dest: 'dist/'
         }]
       },
-	  fonts: {
+      fonts: {
         src: 'fonts/*',
         dest: 'dist/'
-	  }
+      }
     },
     uglify: {
       options: {
         banner: '<%= meta.banner %>'
       },
-      dist:{
-        src:['<%= concat.dist.dest %>'],
-        dest:'<%= dist %>/<%= filename %>.min.js'
+      dist: {
+        src: ['<%= concat.dist.dest %>'],
+        dest: '<%= dist %>/<%= filename %>.min.js'
       },
-      dist_tpls:{
-        src:['<%= concat.dist_tpls.dest %>'],
-        dest:'<%= dist %>/<%= filename %>-tpls.min.js'
+      dist_tpls: {
+        src: ['<%= concat.dist_tpls.dest %>'],
+        dest: '<%= dist %>/<%= filename %>-tpls.min.js'
       }
     },
     ngmin: {
-      dist:{
-        src:['<%= concat.dist.dest %>'],
-        dest:'<%= concat.dist.dest %>'
+      dist: {
+        src: ['<%= concat.dist.dest %>'],
+        dest: '<%= concat.dist.dest %>'
       },
-      dist_tpls:{
-        src:['<%= concat.dist_tpls.dest %>'],
-        dest:'<%= concat.dist_tpls.dest %>'
+      dist_tpls: {
+        src: ['<%= concat.dist_tpls.dest %>'],
+        dest: '<%= concat.dist_tpls.dest %>'
       }
     },
-  	css_import: {
-      main:{
-         files: {
-             '<%= dist %>/<%= filename %>.css': [
-                 'css/main.css'
-             ]
-         }
+    css_import: {
+      main: {
+        files: {
+          '<%= dist %>/<%= filename %>.css': [
+            'css/main.css'
+          ]
+        }
       }
-  	},
+    },
     cssmin: {
       options: {
-  			compatibility : 'ie8', //设置兼容模式 
-  			noAdvanced : true, //取消高级特性 
-  			keepSpecialComments: 0
+        compatibility: 'ie8', //设置兼容模式
+        noAdvanced: true, //取消高级特性
+        keepSpecialComments: 0
       },
       compress: {
-           files: {
-               '<%= dist %>/<%= filename %>.min.css': [
-                   '<%= dist %>/<%= filename %>.css'
-               ]
-           }
+        files: {
+          '<%= dist %>/<%= filename %>.min.css': [
+            '<%= dist %>/<%= filename %>.css'
+          ]
+        }
       }
     },
     html2js: {
@@ -236,11 +235,11 @@ module.exports = function(grunt) {
           livereload: 9301,
           middleware: function(connect) {
             return [
-                require('connect-livereload')({
-                    port: 9301
-                }),
-                connect.static(require('path').resolve('bower_components')),
-                connect.static(require('path').resolve('dist'))
+              require('connect-livereload')({
+                port: 9301
+              }),
+              connect.static(require('path').resolve('bower_components')),
+              connect.static(require('path').resolve('dist'))
             ];
           }
         }
@@ -250,7 +249,7 @@ module.exports = function(grunt) {
       // ABC : used in the watch task
       docs: {
         files: ['misc/demo/**/*'],
-        tasks: ['build','copy']
+        tasks: ['build', 'copy']
       },
       html: {
         files: ['template/**/*.html'],
@@ -259,27 +258,27 @@ module.exports = function(grunt) {
       js: {
         files: ['src/**/*.js', 'src/**/docs/*.js', 'src/**/docs/*.html', 'src/**/docs/*.md'],
         //we don't need to jshint here, it slows down everything else
-        tasks: ['build','copy']
+        tasks: ['build', 'copy']
       },
-  	  css: {
-    		files: ['css/**/*.css'],
-    		tasks: ['css']
-  	  },
-  	  fonts: {
-    		files: ['fonts/*'],
-    		tasks: ['copy:fonts']
-  	  }
+      css: {
+        files: ['css/**/*.css'],
+        tasks: ['css']
+      },
+      fonts: {
+        files: ['fonts/*'],
+        tasks: ['copy:fonts']
+      }
     },
   });
   grunt.registerTask('css', ['css_import', 'cssmin']);
   //register before and after test tasks so we've don't have to change cli
   //options on the goole's CI server
   grunt.registerTask('before-test', ['enforce', 'jshint', 'html2js']);
-  grunt.registerTask('after-test', ['html2js','build', 'copy']);
+  grunt.registerTask('after-test', ['html2js', 'build', 'copy']);
 
 
   grunt.renameTask('watch', 'watchs');
-  grunt.registerTask('server', ['clean', 'build','copy','connect:server','watchs']);
+  grunt.registerTask('server', ['clean', 'build', 'copy', 'connect:server', 'watchs']);
   grunt.registerTask('watch', []);
   //Rename our watch task to 'delta', then make actual 'watch'
   //task build things, then start test server
@@ -288,7 +287,7 @@ module.exports = function(grunt) {
 
 
   // Default task.
-  grunt.registerTask('default', ['clean','before-test', 'test', 'after-test']);
+  grunt.registerTask('default', ['clean', 'before-test', 'test', 'after-test']);
 
   grunt.registerTask('enforce', 'Install commit message enforce script if it doesn\'t exist', function() {
     if (!grunt.file.exists('.git/hooks/commit-msg')) {
@@ -300,20 +299,25 @@ module.exports = function(grunt) {
   //Common ngui module containing all modules for src and templates
   //findModule: Adds a given module to config
   var foundModules = {};
+
   function findModule(name) {
-    if (foundModules[name]) { return; }
+    if (foundModules[name]) {
+      return;
+    }
     foundModules[name] = true;
 
     function breakup(text, separator) {
-      return text.replace(/[A-Z]/g, function (match) {
+      return text.replace(/[A-Z]/g, function(match) {
         return separator + match;
       });
     }
+
     function ucwords(text) {
-      return text.replace(/^([a-z])|\s+([a-z])/g, function ($1) {
+      return text.replace(/^([a-z])|\s+([a-z])/g, function($1) {
         return $1.toUpperCase();
       });
     }
+
     function enquote(str) {
       return '"' + str + '"';
     }
@@ -321,19 +325,19 @@ module.exports = function(grunt) {
     var module = {
       name: name,
       libraryPrefix: pkg.namespace,
-      moduleName: enquote(pkg.namespace+'.' + name),
+      moduleName: enquote(pkg.namespace + '.' + name),
       displayName: ucwords(breakup(name, ' ')),
-      srcFiles: grunt.file.expand('src/'+name+'/*.js'),
-      tplFiles: grunt.file.expand('template/'+name+'/*.html'),
-      tpljsFiles: grunt.file.expand('template/'+name+'/*.html.js'),
-      tplModules: grunt.file.expand('template/'+name+'/*.html').map(enquote),
+      srcFiles: grunt.file.expand('src/' + name + '/*.js'),
+      tplFiles: grunt.file.expand('template/' + name + '/*.html'),
+      tpljsFiles: grunt.file.expand('template/' + name + '/*.html.js'),
+      tplModules: grunt.file.expand('template/' + name + '/*.html').map(enquote),
       dependencies: dependenciesForModule(name),
       docs: {
-        md: grunt.file.expand('src/'+name+'/docs/*.md')
+        md: grunt.file.expand('src/' + name + '/docs/*.md')
           .map(grunt.file.read).map(markdown).join('\n'),
-        js: grunt.file.expand('src/'+name+'/docs/*.js')
+        js: grunt.file.expand('src/' + name + '/docs/*.js')
           .map(grunt.file.read).join('\n'),
-        html: grunt.file.expand('src/'+name+'/docs/*.html')
+        html: grunt.file.expand('src/' + name + '/docs/*.html')
           .map(grunt.file.read).join('\n')
       }
     };
@@ -345,31 +349,33 @@ module.exports = function(grunt) {
   function dependenciesForModule(name) {
     var deps = [];
     grunt.file.expand('src/' + name + '/*.js')
-    .map(grunt.file.read)
-    .forEach(function(contents) {
-      //Strategy: find where module is declared,
-      //and from there get everything inside the [] and split them by comma
-      var moduleDeclIndex = contents.indexOf('angular.module(');
-      var depArrayStart = contents.indexOf('[', moduleDeclIndex);
-      var depArrayEnd = contents.indexOf(']', depArrayStart);
-      var dependencies = contents.substring(depArrayStart + 1, depArrayEnd);
-      dependencies.split(',').forEach(function(dep) {
-        if (dep.indexOf(pkg.namespace+'.') > -1) {
-          var depName = dep.trim().replace(pkg.namespace+'.','').replace(/['"]/g,'');
-          if (deps.indexOf(depName) < 0) {
-            deps.push(depName);
-            //Get dependencies for this new dependency
-            deps = deps.concat(dependenciesForModule(depName));
+      .map(grunt.file.read)
+      .forEach(function(contents) {
+        //Strategy: find where module is declared,
+        //and from there get everything inside the [] and split them by comma
+        var moduleDeclIndex = contents.indexOf('angular.module(');
+        var depArrayStart = contents.indexOf('[', moduleDeclIndex);
+        var depArrayEnd = contents.indexOf(']', depArrayStart);
+        var dependencies = contents.substring(depArrayStart + 1, depArrayEnd);
+        dependencies.split(',').forEach(function(dep) {
+          if (dep.indexOf(pkg.namespace + '.') > -1) {
+            var depName = dep.trim().replace(pkg.namespace + '.', '').replace(/['"]/g, '');
+            if (deps.indexOf(depName) < 0) {
+              deps.push(depName);
+              //Get dependencies for this new dependency
+              deps = deps.concat(dependenciesForModule(depName));
+            }
           }
-        }
+        });
       });
-    });
     return deps;
   }
 
   grunt.registerTask('dist', 'Override dist directory', function() {
     var dir = this.args[0];
-    if (dir) { grunt.config('dist', dir); }
+    if (dir) {
+      grunt.config('dist', dir);
+    }
   });
 
   grunt.registerTask('build', 'Create bootstrap build files', function() {
@@ -383,7 +389,8 @@ module.exports = function(grunt) {
     } else {
       // ABC : If no arguments build all modules which names are src subfolders.
       grunt.file.expand({
-        filter: 'isDirectory', cwd: '.'
+        filter: 'isDirectory',
+        cwd: '.'
       }, 'src/*').forEach(function(dir) {
         findModule(dir.split('/')[1]);
       });
@@ -391,14 +398,20 @@ module.exports = function(grunt) {
 
     var modules = grunt.config('modules');
     grunt.config('srcModules', _.pluck(modules, 'moduleName'));
-    grunt.config('tplModules', _.pluck(modules, 'tplModules').filter(function(tpls) { return tpls.length > 0;} ));
+    grunt.config('tplModules', _.pluck(modules, 'tplModules').filter(function(tpls) {
+      return tpls.length > 0;
+    }));
     grunt.config('demoModules', modules
       .filter(function(module) {
         return module.docs.md || module.docs.js || module.docs.html;
       })
       .sort(function(a, b) {
-        if (a.name < b.name) { return -1; }
-        if (a.name > b.name) { return 1; }
+        if (a.name < b.name) {
+          return -1;
+        }
+        if (a.name > b.name) {
+          return 1;
+        }
         return 0;
       })
     );
@@ -407,22 +420,22 @@ module.exports = function(grunt) {
     var tpljsFiles = _.pluck(modules, 'tpljsFiles');
     //Set the concat task to concatenate the given src modules
     grunt.config('concat.dist.src', grunt.config('concat.dist.src')
-                 .concat(srcFiles));
+      .concat(srcFiles));
     //Set the concat-with-templates task to concat the given src & tpl modules
     grunt.config('concat.dist_tpls.src', grunt.config('concat.dist_tpls.src')
-                 .concat(srcFiles).concat(tpljsFiles));
+      .concat(srcFiles).concat(tpljsFiles));
 
     grunt.task.run(['concat', 'ngmin', 'uglify', 'css']);
   });
 
-  grunt.registerTask('test', 'Run tests on singleRun karma server', function () {
+  grunt.registerTask('test', 'Run tests on singleRun karma server', function() {
     //this task can be executed in 3 different environments: local, Travis-CI and Jenkins-CI
     //we need to take settings for each one into account
     if (process.env.TRAVIS) {
       grunt.task.run('karma:travis');
     } else {
       var isToRunJenkinsTask = !!this.args.length;
-      if(grunt.option('coverage')) {
+      if (grunt.option('coverage')) {
         var karmaOptions = grunt.config.get('karma.options'),
           coverageOpts = grunt.config.get('karma.coverage');
         grunt.util._.extend(karmaOptions, coverageOpts);
@@ -463,7 +476,9 @@ module.exports = function(grunt) {
     self.data.forEach(function(cmd) {
       cmd = cmd.replace('%version%', grunt.file.readJSON('package.json').version);
       grunt.log.ok(cmd);
-      var result = sh.exec(cmd,{silent:true});
+      var result = sh.exec(cmd, {
+        silent: true
+      });
       if (result.code !== 0) {
         grunt.fatal(result.output);
       }

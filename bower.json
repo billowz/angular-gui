@@ -12,13 +12,13 @@
     "angular-ui-bootstrap": "~0.12.0",
     "angular-bootstrap": "~0.12.0",
 
-    "angular-layout":"",
+    "angular-layout": "",
     "angular-local-storage": "latest",
     "angular-base64": "~2.0.2",
 
     "angular-translate": "~2.5.2",
-    "angular-translate-storage-cookie":"~2.5.2",
-    "angular-translate-loader-partial":"~2.5.2",
+    "angular-translate-storage-cookie": "~2.5.2",
+    "angular-translate-loader-partial": "~2.5.2",
 
     "jquery": "~1.11.1",
     "jquery-cookie": "~1.4.1",
@@ -26,4 +26,3 @@
     "fastclick": "~0.6.7"
   }
 }
-

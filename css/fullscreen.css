@@ -13,14 +13,21 @@
   z-index: 1030;
   background-color: #fff;
 }
-.fullscreen-container .fullscreen{
+.fullscreen{
   position: absolute;
   left: 0;
   top: 0;
-  bottom: 0;
-  right: 0;
-  margin: 0;
-  width:auto;
-  height: auto;
-  overflow:hidden;
+  width: 100%;
+  z-index: 99999999;
+}
+.fullscreening {
+  -webkit-transition-timing-function: ease;
+  -o-transition-timing-function: ease;
+  transition-timing-function: ease;
+  -webkit-transition-duration: .35s;
+  -o-transition-duration: .35s;
+  transition-duration: .35s;
+  -webkit-transition-property: all;
+  -o-transition-property: all;
+  transition-property: all;
 }

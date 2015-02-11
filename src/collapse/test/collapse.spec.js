@@ -1,4 +1,4 @@
-describe('collapse directive', function () {
+describe('collapse directive', function() {
 
   var scope, $compile, $timeout, $transition;
   var element;

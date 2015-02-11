@@ -1,4 +1,3 @@
-
 // base path, that will be used to resolve files and exclude
 basePath = '.';
 
@@ -55,4 +54,3 @@ autoWatch = false;
 // Continuous Integration mode
 // if true, it capture browsers, run tests and exit
 singleRun = false;
-
