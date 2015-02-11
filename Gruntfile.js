@@ -262,7 +262,7 @@ module.exports = function(grunt) {
         tasks: ['build','copy']
       },
   	  css: {
-    		files: ['src/**/*.css'],
+    		files: ['css/**/*.css'],
     		tasks: ['css']
   	  },
   	  fonts: {

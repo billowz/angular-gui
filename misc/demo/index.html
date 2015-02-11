@@ -6,10 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title><%=pkg.fullname%> directives</title>
     <meta name="description" content="AngularJS (Angular) native directives for <%=pkg.fullname%>. Small footprint (5kB gzipped!), no 3rd party JS dependencies (jQuery, bootstrap JS) required! Widgets: <% demoModules.forEach(function(module) { %><%= module.displayName %>, <% }); %>">
-    <meta name="google-site-verification" content="7lc5HyceLDqpV_6oNHteYFfxDJH7-S3DwnJKtNUKcRg" />
 
-    <script src="fastclick/lib/fastclick.js"></script>
     <script src="jquery/dist/jquery.js"></script>
+    <script src="fastclick/lib/fastclick.js"></script>
     <script src="angular/angular.js"></script>
     <script src="bootstrap/dist/js/bootstrap.js"></script>
     <script src="angular-bootstrap/ui-bootstrap-tpls.js"></script>
@@ -27,6 +26,7 @@
     
 </head>
 <body class="ng-cloak">
+<div class="body-container">
 <header class="navbar navbar-default navbar-fixed-top">
     <div class="navbar-inner">
         <div class="container">
@@ -215,19 +215,7 @@
     var header = document.getElementById("overview");
     header.style.background = "url(" + canvas.toDataURL() + ")";
 </script>
-<script type="text/javascript">
-
-    var _gaq = _gaq || [];
-    _gaq.push(['_setAccount', 'UA-XXXXXXXX-C']);
-    _gaq.push(['_trackPageview']);
-
-    (function() {
-        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-    })();
-
-</script>
 <script src="assets/smoothscroll-angular-custom.js"></script>
+</div>
 </body>
 </html>

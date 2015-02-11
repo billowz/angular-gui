@@ -1,0 +1,51 @@
+.actions{
+}
+.actions .action-group{
+	float:left;
+}
+.actions .action{
+	top:0;
+	float: left;
+	padding: 0;
+	margin:0;
+	width:40px;
+	height:40px;
+	font-size: 21px;
+	line-height: 40px;
+	color:#5F5D5E;
+	background:none;
+	text-align:center;
+	vertical-align:center;
+	text-transform: uppercase;
+	text-decoration:none;
+	text-rendering: auto;
+	display: inline-block;
+
+	border-left: 1px solid #E0DFDF;
+	-webkit-border-radius:0;
+	border-radius: 0;
+	-webkit-box-shadow:none;
+	box-shadow:none;
+
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+
+	-webkit-transition:all .2s;
+	-moz-transition:all .2s;
+	-o-transition:all .2s;
+	-ms-transition:all .2s;
+	transition:all .2s;
+
+	-webkit-transition-timing-function:cubic-bezier(.694,.0482,.335,1);
+	-moz-transition-timing-function:cubic-bezier(.694,.0482,.335,1);
+	-o-transition-timing-function:cubic-bezier(.694,.0482,.335,1);
+	-ms-transition-timing-function:cubic-bezier(.694,.0482,.335,1);
+	transition-timing-function:cubic-bezier(.694,.0482,.335,1);
+
+}
+.actions .action:hover{
+  background:#40454f;
+  cursor:pointer;
+  color:#fff;
+  text-decoration:none;
+}

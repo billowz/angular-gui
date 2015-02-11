@@ -1,12 +1,10 @@
 angular.module('ngui.collapse', ['ui.bootstrap.transition', 'ngui.utils'])
 .directive('nguiCollapse', ['$transition', 'utils', function ($transition, utils) {
-
   return {
     link: function (scope, element, attrs) {
 
       var initialAnimSkip = true;
       var currentTransition;
-
       function doTransition(change) {
         var newTransition = $transition(element, change);
         if (currentTransition) {
@@ -44,7 +42,7 @@ angular.module('ngui.collapse', ['ui.bootstrap.transition', 'ngui.utils'])
         if (initialAnimSkip) {
           initialAnimSkip = false;
           collapseDone();
-          element.css({height: 0});
+          element.css({height: attrs.nguiCollapseHeight || 0});
         } else {
           // CSS transitions don't work with height: auto, so we have to manually change the height to a specific value
           element.css({ height: element[0].scrollHeight + 'px' });
@@ -53,15 +51,15 @@ angular.module('ngui.collapse', ['ui.bootstrap.transition', 'ngui.utils'])
 
           element.removeClass('collapse in').addClass('collapsing');
 
-          doTransition({ height: 0 }).then(collapseDone);
+          doTransition({ height: attrs.nguiCollapseHeight || 0 }).then(collapseDone);
         }
       }
 
       function collapseDone() {
         element.removeClass('collapsing');
-        element.addClass('collapse');
+        element.addClass(attrs.nguiCollapseHeight>0 ? 'ngui-collapse':'collapse');
       }
-      utils.defaultVal(scope, attrs.nguiCollapse, attrs.nguiCollapsed);
+      utils.defaultVal(scope, attrs.nguiCollapse, attrs[attrs.nguiCollapse] === 'true');
       scope.$watch(attrs.nguiCollapse, function (shouldCollapse) {
         if (shouldCollapse) {
           collapse();
@@ -69,6 +67,12 @@ angular.module('ngui.collapse', ['ui.bootstrap.transition', 'ngui.utils'])
           expand();
         }
       });
+      scope['is_' + attrs.nguiCollapse] = function(){
+      	return scope[attrs.nguiCollapse];
+      }
+      scope['toggle_' + attrs.nguiCollapse] = function(){
+      	scope[attrs.nguiCollapse] = !scope[attrs.nguiCollapse];
+      }
     }
   };
 }]);

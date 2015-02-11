@@ -1,2 +1,9 @@
-<div ngui-panel>
+
+<div ng-controller="PanelCollapseDemoCtrl">
+<div ngui-panel="Demo">
+	<button class="btn btn-default" ng-click="isCollapsed = !isCollapsed">{{isCollapsed?'Expand':'Collapse'}}</button>
+	<div ngui-collapse="isCollapsed" isCollapsed="true">
+		<div class="well well-lg" style="height:200px">collapse:{{!!isCollapsed}}</div> 
+	</div>
+</div>
 </div>

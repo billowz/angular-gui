@@ -1,8 +1,21 @@
-<div class="panel panel-default">
+<div class="panel panel-default ngui-panel" ngui-fullscreen="fullscreened">
   <div class="panel-heading">
-  	
+  	<span class="panel-title" ng-bind="title"></span>
+		{{!!collapsed}} | {{!!fullscreened}}
+	<div class="actions">
+		<button ngui-if="collapseable!==false" 
+			ng-disabled="$parent.fullscreened" 
+			ng-click="$parent.collapsed=!$parent.collapsed" 
+			ng-class="{'glyphicon-chevron-down':$parent.collapsed, 'glyphicon-minus':!$parent.collapsed}" 
+			class="action btn glyphicon" >
+		</button>
+		<button ngui-if="fullscreenable!==false" 
+			ng-disabled="$parent.collapsed" 
+			ng-click="$parent.fullscreened=!$parent.fullscreened" 
+			ng-class="{'icon-shrink':$parent.fullscreened, 'icon-enlarge':!$parent.fullscreened}" 
+			class="action btn" >
+		</button>
+	</div>
   </div>
-  <div class="panel-body">
-    
-  </div>
+  <div class="panel-body" ngui-collapse="collapsed" ng-transclude></div>
 </div>
