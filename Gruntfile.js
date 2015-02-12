@@ -232,12 +232,8 @@ module.exports = function(grunt) {
         options: {
           port: 9300,
           hostname: '0.0.0.0',
-          livereload: 9301,
           middleware: function(connect) {
             return [
-              require('connect-livereload')({
-                port: 9301
-              }),
               connect.static(require('path').resolve('bower_components')),
               connect.static(require('path').resolve('dist'))
             ];
