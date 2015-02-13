@@ -1,3 +1,4 @@
+"use strict"
 angular.module('ngui.utils', ['ui.bootstrap.transition'])
   .factory('utils', ['$q', '$transition', function($q, $transition) {
     function Transition() {

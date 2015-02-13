@@ -1,26 +1,5 @@
-angular.module('ngui.panel', ['ngui.utils', 'ngui.collapse', 'ngui.fullscreen', 'ngui.if'])
-  .directive('nguiPanelHeader', ['utils', function(utils) {
-    return {
-      templateUrl: 'template/panel/header.html',
-      scope: false,
-      replace: true,
-      transclude: true,
-      controller: function($scope) {
-        $scope.defaultHeaderActions = {
-          fullscreen: {
-
-          },
-          collapse: {
-            collapsed: false,
-            template: ''
-          }
-        }
-      },
-      link: function($scope, $element, $attrs) {
-
-      }
-    };
-  }])
+"use strict"
+angular.module('ngui.panel', ['ngui.utils', 'ngui.transclude','ngui.collapse', 'ngui.fullscreen', 'ngui.if'])
   .directive('nguiPanel', ['utils', function(utils) {
     return {
       restrict: 'EA',
@@ -30,6 +9,9 @@ angular.module('ngui.panel', ['ngui.utils', 'ngui.collapse', 'ngui.fullscreen', 
       },
       replace: true,
       transclude: true,
+      controller: function() {
+        //Empty controller so other directives can require being 'under' a tab
+      },
       link: function($scope, $element, $attrs) {
 
       }

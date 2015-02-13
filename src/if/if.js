@@ -1,3 +1,4 @@
+"use strict"
 angular.module('ngui.if', [])
   .directive('nguiIf', ['$animate', function($animate) {
     return {

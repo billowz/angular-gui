@@ -1,3 +1,4 @@
+"use strict"
 angular.module('ngui.collapse', ['ui.bootstrap.transition', 'ngui.utils'])
   .directive('nguiCollapse', ['$transition', 'utils', function($transition, utils) {
     return {
