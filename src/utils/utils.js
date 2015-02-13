@@ -31,6 +31,9 @@ angular.module('ngui.utils', ['ui.bootstrap.transition'])
       isBoolean: function(val) {
         return typeof val === 'boolean';
       },
+      trim: function(str) {
+        return angular.isString(str) ? str.replace(/(^\s*)|(\s*$)/g, "") : '';
+      },
       defaultVal: function(obj, attr, defVal) {
         if (!obj.hasOwnProperty(attr)) {
           obj[attr] = defVal;

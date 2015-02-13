@@ -5,15 +5,20 @@ angular.module('ngui.panel', ['ngui.utils', 'ngui.transclude','ngui.collapse', '
       restrict: 'EA',
       templateUrl: 'template/panel/panel.html',
       scope: {
-        title: '@nguiPanel'
+        title: '@nguiPanel',
+        collapseable: '@',
+        fullscreenable: '@'
       },
       replace: true,
-      transclude: true,
-      controller: function() {
-        //Empty controller so other directives can require being 'under' a tab
-      },
-      link: function($scope, $element, $attrs) {
-
-      }
+      transclude: true
+    };
+  }])
+  .directive('nguiPanelAction', ['utils', function(utils) {
+    return {
+      restrict: 'A',
+      templateUrl: 'template/panel/action.html',
+      scope: false,
+      replace: true,
+      transclude: false
     };
   }]);
