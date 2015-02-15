@@ -1,11 +1,18 @@
-angular.module('ngui.demo', ['ngui', 'ui.bootstrap'], function($httpProvider) {
-  FastClick.attach(document.body);
-  delete $httpProvider.defaults.headers.common['X-Requested-With'];
-}).run(['$location', function($location) {
-  //Allows us to navigate to the correct element on initialization
+angular.module('ngui.demo', ['app', 'ngui', 'ui.bootstrap'])
+.controller('DemoCtrl', ['$scope', '$window','appService', function ($scope, $window, appService) {
+
+
+  $scope.menu = null;
+  $scope.cfg = {};
+
+
+  appService.getCfg().then(function(cfg){
+    angular.extend($scope.cfg, cfg);
+  });
+
+  appService.getMenu().then(function(cfg){
+    $scope.menu = cfg;
+  });
 }]);
 
 
-function MainCtrl($scope, $http, $document) {
-
-}

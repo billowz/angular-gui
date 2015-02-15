@@ -11,6 +11,7 @@ module.exports = function(grunt) {
     bsversion: '3.3.2',
     modules: [], //to be filled in by build task
     pkg: pkg,
+    bower:grunt.file.readJSON('bower.json'),
     dist: 'dist',
     filename: '<%=pkg.name%>',
     filenamecustom: '<%= filename %>-custom',
