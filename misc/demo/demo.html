@@ -25,7 +25,7 @@
     <script>
       (function(){
         "use strict"
-        angular.module('app', ['ngui'])
+        angular.module('app', ['ngui','ui.router'])
         .factory('appService', ['utils', 'TreeNode',function(utils, TreeNode){
           var cfg = {
             name: '<%=pkg.fullname%>',
@@ -33,10 +33,10 @@
             author: '<%=pkg.author%>',
             github: '<%=pkg.github%>',
             homepage: '<%=pkg.homepage%>',
-            dependencies: {}
+            dependencies: []
           }
           <% for(var key in bower.dependencies){%>
-            cfg.dependencies['<%=key%>'] = '<%=bower.dependencies[key]%>';
+            cfg.dependencies.push({lib:'<%=key%>' , version:'<%=bower.dependencies[key]%>'});
           <%}%>
 
 
@@ -63,6 +63,10 @@
             key: 'start',
             text: 'Getting started'
           },{
+            key: 'dependencies',
+            text: 'Dependencies',
+            router: 'dependencies'
+          },{
             key: 'tree',
             text: 'Tree',
             children:[
@@ -87,13 +91,13 @@
                 key: 'node2',
                 text: 'Node2',
                 children:[
-                  
+
                 ]
               },{
                 key: 'node3',
                 text: 'Node3',
                 children:[
-                  
+
                 ]
               }
             ]
@@ -101,7 +105,7 @@
           <% demoModules.forEach(function(module) {  %>
             menuCfg[0].children.push({
               key: '<%= module.name %>',
-              router: '<%= module.name %>',
+              router: '/directives/<%= module.name %>',
               text: '<%= module.displayName %>'
             });
           <% }); %>
@@ -124,7 +128,23 @@
               });
             }
           }
-        }]);
+        }]).config(function($stateProvider, $urlRouterProvider) {
+  //
+          // For any unmatched url, redirect to /state1
+          //$urlRouterProvider.otherwise("/state1");
+          //
+          // Now set up the states
+          $stateProvider.state('dependencies', {
+            url:'dependencies',
+            templateUrl: 'dependencies.tpl'
+          });
+          <% demoModules.forEach(function(module) {  %>
+            $stateProvider.state('/directives/<%= module.name %>', {
+              url:'/directives/<%= module.name %>',
+              templateUrl: "<%= module.name %>.tpl"
+            });
+          <% }); %>
+        });
       })();
     </script>
     <script src="assets/app.js"></script>
@@ -156,49 +176,59 @@
       </div>
     </div>
 
+    <script type="text/ng-template" id="dependencies.tpl">
+    <ul>
+      <li ng-repeat="lib in cfg.dependencies">
+        <span ng-bind="lib.lib"></span>: <span ng-bind="lib.version"></span>
+      </li>
+    </ul>
+    </script>
+    <% demoModules.forEach(function(module) { %>
+    <script type="text/ng-template" id="<%= module.name %>.tpl">
+          <section >
+              <div class="page-header">
+                <h1><%= module.displayName %><small>
+                    (<%= module.libraryPrefix %>.<%= module.name %>)
+                </small></h1>
+                </div>
+                <div class="row">
+                  <div class="col-md-6 show-grid">
+                      <%= module.docs.html %>
+                  </div>
+                  <div class="col-md-6">
+                      <%= module.docs.md %>
+                  </div>
+              </div>
+              <hr>
+              <div class="row code">
+                  <div class="col-md-12">
+                      <tabset>
+                          <tab heading="Markup">
+                              <div plunker-content="markup">
+                                  <pre ng-non-bindable><code data-language="html"><%- module.docs.html %></code></pre>
+                              </div>
+                          </tab>
+                          <tab heading="JavaScript">
+                              <div plunker-content="javascript">
+                                  <pre ng-non-bindable><code data-language="javascript"><%- module.docs.js %></code></pre>
+                              </div>
+                          </tab>
+                      </tabset>
+                  </div>
+              </div>
+          </section>
+    </script>
+    <script><%= module.docs.js %></script>
+    <%})%>
     <div class="workspace">
-      <div class="container">
+      <div class="container-fluid">
           <div class="row">
-              <div class="col-md-12">
-                  <% demoModules.forEach(function(module) { %>
-                      <section id="<%= module.name %>">
-                          <div class="page-header">
-                            <h1><%= module.displayName %><small>
-                                (<%= module.libraryPrefix %>.<%= module.name %>)
-                            </small></h1>
-                            </div>
-                            <div class="row">
-                              <div class="col-md-6 show-grid">
-                                  <%= module.docs.html %>
-                              </div>
-                              <div class="col-md-6">
-                                  <%= module.docs.md %>
-                              </div>
-                          </div>
-                          <hr>
-                          <div class="row code">
-                              <div class="col-md-12">
-                                  <tabset>
-                                      <tab heading="Markup">
-                                          <div plunker-content="markup">
-                                              <pre ng-non-bindable><code data-language="html"><%- module.docs.html %></code></pre>
-                                          </div>
-                                      </tab>
-                                      <tab heading="JavaScript">
-                                          <div plunker-content="javascript">
-                                              <pre ng-non-bindable><code data-language="javascript"><%- module.docs.js %></code></pre>
-                                          </div>
-                                      </tab>
-                                  </tabset>
-                              </div>
-                          </div>
-                      </section>
-                      <script><%= module.docs.js %></script>
-                  <% }); %>
+              <div class="col-md-12" ui-view>
                 </div>
             </div>
         </div><!-- /.container -->
     </div>
+
   </div>
 </body>
 

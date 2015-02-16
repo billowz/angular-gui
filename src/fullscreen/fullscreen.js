@@ -68,13 +68,12 @@ angular.module('ngui.fullscreen', ['ngui.utils'])
         }
 
         var scrolloverflows = [];
-
         function setScrolloverflows() {
           angular.forEach($element.parents(), function(elem) {
             elem = angular.element(elem);
-            if (elem.css('overflow') === 'scroll') {
-              scrolloverflows.push(elem);
-              elem.css('overflow', 'hidden');
+            if (elem.css('overflow') === 'scroll' || elem.css('overflow') === 'auto') {
+              scrolloverflows.push({overflow:elem.css('overflow'), el:elem});
+              elem.css('overflow', 'visible');
             }
           });
         }
@@ -82,7 +81,7 @@ angular.module('ngui.fullscreen', ['ngui.utils'])
         function resetScrolloverflows() {
           if (scrolloverflows.length > 0) {
             angular.forEach(scrolloverflows, function(elem) {
-              elem.css('overflow', 'scroll');
+              elem.el.css('overflow', elem.overflow);
             });
             scrolloverflows = [];
           }
