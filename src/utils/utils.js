@@ -1,7 +1,7 @@
 "use strict"
 angular.module('ngui.utils', ['ui.bootstrap.transition'])
-  .factory('treeNode', ['utils', function(utils) {
-    function TreeNode(option, parent, keyParser, applyData) {
+  .factory('TreeNode', ['utils', function(utils) {
+    function TreeNode(option, parent, sync, keyParser, leafParser, applyData, syncFunc) {
       if (angular.isFunction(keyParser)) {
         this.$key = keyParser(this, option);
         if (!angular.isString(this.$key)) {
@@ -18,8 +18,16 @@ angular.module('ngui.utils', ['ui.bootstrap.transition'])
         applyData(this, option);
         this.$applyData = applyData;
       } else {
-        this.data = option.data;
+        this.$data = option.data;
       }
+
+      this.$sync = !!sync;
+      this.$syncFunc = angular.isFunction(syncFunc) ? syncFunc : null;
+      this.$loaded = this.$sync ? false : true;
+      this.$leafParser = angular.isFunction(leafParser) ? leafParser : null;
+      
+      this.$leaf = (this.$leafParser ? this.$leafParser(this, option) : option.leaf) || true;
+
       this.$children = [];
       this.$childrenMap = {};
       if (option.children) {
@@ -32,9 +40,18 @@ angular.module('ngui.utils', ['ui.bootstrap.transition'])
     }
 
     TreeNode.prototype.getChildren = function() {
-      return this.$children;
+      var _self = this;
+      return utils.deferred(function(def){
+        if(_self.loaded){
+          def.resolve(_self.$children); 
+        }else{
+          _self.syncFunc(def);
+        }
+      });
     }
-
+    TreeNode.prototype.isLeaf = function() {
+      return this.$leaf;
+    }
     TreeNode.prototype.addChildren = function() {
       var option, _self = this,
         node, existNode;
@@ -50,7 +67,7 @@ angular.module('ngui.utils', ['ui.bootstrap.transition'])
           _self.addChildren(child);
         });
       } else if (angular.isObject(option)) {
-        node = new TreeNode(option, _self, _self.$keyParser, _self.$applyData);
+        node = new TreeNode(option, _self, _self.$sync, _self.$keyParser, _self.$leafParser,_self.$applyData, _self.$syncFunc);
         existNode = _self.$childrenMap[node.$key];
         if (existNode) {
           _self.$children[_self.$children.indexOf(existNode)] = node;
@@ -58,6 +75,8 @@ angular.module('ngui.utils', ['ui.bootstrap.transition'])
           _self.$children.push(node);
         }
         _self.$childrenMap[node.$key] = node;
+        _self.$loaded = true;
+        _self.$leaf = false;
       }
     }
 
@@ -100,11 +119,7 @@ angular.module('ngui.utils', ['ui.bootstrap.transition'])
       }
       return node;
     }
-    return {
-      createTree: function(option, parent, keyParser, applyData){
-        return new TreeNode(option, parent, keyParser, applyData);
-      }
-    }
+    return TreeNode;
   }])
   .factory('utils', ['$q', '$transition', function($q, $transition) {
     function Transition() {
