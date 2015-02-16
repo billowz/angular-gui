@@ -2,7 +2,7 @@ angular.module('ngui.demo', ['app', 'ngui', 'ui.bootstrap'])
 .controller('DemoCtrl', ['$scope', '$window','appService', function ($scope, $window, appService) {
 
 
-  $scope.menu = null;
+  $scope.menu = {};
   $scope.cfg = {};
 
 
@@ -11,7 +11,7 @@ angular.module('ngui.demo', ['app', 'ngui', 'ui.bootstrap'])
   });
 
   appService.getMenu().then(function(cfg){
-    $scope.menu = cfg;
+  	$scope.menu = cfg;
   });
 }]);
 

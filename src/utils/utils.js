@@ -1,6 +1,6 @@
 "use strict"
 angular.module('ngui.utils', ['ui.bootstrap.transition'])
-  .factory('treeNode', ['utils', function(utils) {
+  .factory('TreeNode', ['utils', function(utils) {
     function TreeNode(option, parent, keyParser, applyData) {
       if (angular.isFunction(keyParser)) {
         this.$key = keyParser(this, option);
@@ -33,6 +33,9 @@ angular.module('ngui.utils', ['ui.bootstrap.transition'])
 
     TreeNode.prototype.getChildren = function() {
       return this.$children;
+    }
+    TreeNode.prototype.hasChild = function() {
+      return this.$children.length>0;
     }
 
     TreeNode.prototype.addChildren = function() {
@@ -100,11 +103,7 @@ angular.module('ngui.utils', ['ui.bootstrap.transition'])
       }
       return node;
     }
-    return {
-      createTree: function(option, parent, keyParser, applyData){
-        return new TreeNode(option, parent, keyParser, applyData);
-      }
-    }
+    return TreeNode;
   }])
   .factory('utils', ['$q', '$transition', function($q, $transition) {
     function Transition() {

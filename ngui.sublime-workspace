@@ -79,7 +79,7 @@
 			"file": "css/main.css",
 			"settings":
 			{
-				"buffer_size": 114,
+				"buffer_size": 118,
 				"line_ending": "Windows"
 			}
 		},
@@ -95,7 +95,7 @@
 			"file": "Gruntfile.js",
 			"settings":
 			{
-				"buffer_size": 14836,
+				"buffer_size": 14762,
 				"line_ending": "Windows"
 			}
 		},
@@ -103,7 +103,7 @@
 			"file": "template/panel/panel.html",
 			"settings":
 			{
-				"buffer_size": 836,
+				"buffer_size": 992,
 				"line_ending": "Windows"
 			}
 		},
@@ -116,13 +116,21 @@
 			}
 		},
 		{
-			"contents": "angular.module('ngui.fullscreen', ['ui.bootstrap.transition', 'ngui.utils'])\n.directive('nguiFullscreen', ['utils', '$window', function(utils, $window){\n	return {\n		restrict: 'A',\n		link: function($scope, $element, $attrs) {\n			var initialAnimSkip = true;\n			var currentTransition;\n			function doTransition(change) {\n				var newTransition = $transition(element, change);\n				if (currentTransition) {\n				  currentTransition.cancel();\n				}\n				currentTransition = newTransition;\n				newTransition.then(newTransitionDone, newTransitionDone);\n				return newTransition;\n\n				function newTransitionDone() {\n				  // Make sure it's this transition, otherwise, leave it alone.\n				  if (currentTransition === newTransition) {\n				    currentTransition = undefined;\n				  }\n				}\n			}\n\n			function fullscreen() {\n				if (initialAnimSkip) {\n				  initialAnimSkip = false;\n				  fullscreenDone();\n				} else {\n				  element.removeClass('collapse').addClass('collapsing');\n				  doTransition({ height: element[0].scrollHeight + 'px' }).then(expandDone);\n				}\n			}\n\n			function fullscreenDone() {\n				element.removeClass('collapsing');\n				element.addClass('collapse in');\n				element.css({height: 'auto'});\n			}\n\n			function fullscreen() {\n				if (initialAnimSkip) {\n				  initialAnimSkip = false;\n				  collapseDone();\n				  element.css({height: attrs.nguiCollapseHeight || 0});\n				} else {\n				  // CSS transitions don't work with height: auto, so we have to manually change the height to a specific value\n				  element.css({ height: element[0].scrollHeight + 'px' });\n				  //trigger reflow so a browser realizes that height was updated from auto to a specific value\n				  var x = element[0].offsetWidth;\n\n				  element.removeClass('collapse in').addClass('collapsing');\n\n				  doTransition({ height: attrs.nguiCollapseHeight || 0 }).then(collapseDone);\n				}\n			}\n\n			function collapseDone() {\n			element.removeClass('collapsing');\n			element.addClass(attrs.nguiCollapseHeight>0 ? 'ngui-collapse':'collapse');\n			}\n			var resize = function(){\n				if($scope[$attrs.nguiFullscreen]){\n					$element.css({\n						'position':'absolute',\n						'z-index':9999999,\n						width:angular.element($window).width(),\n						height:angular.element($window).height()\n					});\n					$element.offset({left:0,top:0});\n				}\n			}\n			var destory = function(){\n				angular.element($window).off('resize', resize);\n			}\n			var scrolloverflows = [], hideoverflows = [];\n\n			return $scope.$watch($attrs.nguiFullscreen, function(val, oldVal) {\n				if (val == oldVal) {\n					return;\n				}\n				if (val) {\n					resize();\n              		angular.element($window).on('resize', resize);\n              		$element.on('$destroy', destory);\n              		angular.forEach($element.parents(), function(elem){\n              			elem = angular.element(elem);\n              			if(elem.css('overflow')==='scroll'){\n              				scrolloverflows.push(elem);\n              				elem.css('overflow', 'hidden');\n              			}\n              		});\n				}else{\n					$element.off('$destroy', destory);\n					destory();\n					$element.css({\n						'position':'initial',\n						'z-index':0,\n						width:'',\n						height:''\n					});\n					if(scrolloverflows.length>0){\n						angular.forEach(scrolloverflows, function(elem){\n							elem.css('overflow', 'scroll');\n						});\n						scrolloverflows = [];\n					}\n				}\n			});\n		}\n	}\n}]);\n",
+			"file": "bower_components/angular-ui-bootstrap/template/tabs/tab.html",
+			"settings":
+			{
+				"buffer_size": 128,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"contents": "\"use strict\"\nangular.module('ngui.fullscreen', ['ui.bootstrap.transition', 'ngui.utils'])\n.directive('nguiFullscreen', ['utils', '$window', function(utils, $window){\n	return {\n		restrict: 'A',\n		link: function($scope, $element, $attrs) {\n			var initialAnimSkip = true;\n			var currentTransition;\n			function doTransition(change) {\n				var newTransition = $transition(element, change);\n				if (currentTransition) {\n				  currentTransition.cancel();\n				}\n				currentTransition = newTransition;\n				newTransition.then(newTransitionDone, newTransitionDone);\n				return newTransition;\n\n				function newTransitionDone() {\n				  // Make sure it's this transition, otherwise, leave it alone.\n				  if (currentTransition === newTransition) {\n				    currentTransition = undefined;\n				  }\n				}\n			}\n\n			function fullscreen() {\n				if (initialAnimSkip) {\n				  initialAnimSkip = false;\n				  fullscreenDone();\n				} else {\n				  element.removeClass('collapse').addClass('collapsing');\n				  doTransition({ height: element[0].scrollHeight + 'px' }).then(expandDone);\n				}\n			}\n\n			function fullscreenDone() {\n				element.removeClass('collapsing');\n				element.addClass('collapse in');\n				element.css({height: 'auto'});\n			}\n\n			function fullscreen() {\n				if (initialAnimSkip) {\n				  initialAnimSkip = false;\n				  collapseDone();\n				  element.css({height: attrs.nguiCollapseHeight || 0});\n				} else {\n				  // CSS transitions don't work with height: auto, so we have to manually change the height to a specific value\n				  element.css({ height: element[0].scrollHeight + 'px' });\n				  //trigger reflow so a browser realizes that height was updated from auto to a specific value\n				  var x = element[0].offsetWidth;\n\n				  element.removeClass('collapse in').addClass('collapsing');\n\n				  doTransition({ height: attrs.nguiCollapseHeight || 0 }).then(collapseDone);\n				}\n			}\n\n			function collapseDone() {\n			element.removeClass('collapsing');\n			element.addClass(attrs.nguiCollapseHeight>0 ? 'ngui-collapse':'collapse');\n			}\n			var resize = function(){\n				if($scope[$attrs.nguiFullscreen]){\n					$element.css({\n						'position':'absolute',\n						'z-index':9999999,\n						width:angular.element($window).width(),\n						height:angular.element($window).height()\n					});\n					$element.offset({left:0,top:0});\n				}\n			}\n			var destory = function(){\n				angular.element($window).off('resize', resize);\n			}\n			var scrolloverflows = [], hideoverflows = [];\n\n			return $scope.$watch($attrs.nguiFullscreen, function(val, oldVal) {\n				if (val == oldVal) {\n					return;\n				}\n				if (val) {\n					resize();\n              		angular.element($window).on('resize', resize);\n              		$element.on('$destroy', destory);\n              		angular.forEach($element.parents(), function(elem){\n              			elem = angular.element(elem);\n              			if(elem.css('overflow')==='scroll'){\n              				scrolloverflows.push(elem);\n              				elem.css('overflow', 'hidden');\n              			}\n              		});\n				}else{\n					$element.off('$destroy', destory);\n					destory();\n					$element.css({\n						'position':'initial',\n						'z-index':0,\n						width:'',\n						height:''\n					});\n					if(scrolloverflows.length>0){\n						angular.forEach(scrolloverflows, function(elem){\n							elem.css('overflow', 'scroll');\n						});\n						scrolloverflows = [];\n					}\n				}\n			});\n		}\n	}\n}]);\n",
 			"file": "src/fullscreen/fullscreen.js",
 			"file_size": 3097,
 			"file_write_time": 130681781651575137,
 			"settings":
 			{
-				"buffer_size": 3375,
+				"buffer_size": 3388,
 				"line_ending": "Windows"
 			}
 		},
@@ -130,7 +138,7 @@
 			"file": "src/utils/utils.js",
 			"settings":
 			{
-				"buffer_size": 2017,
+				"buffer_size": 6608,
 				"line_ending": "Windows"
 			}
 		},
@@ -138,7 +146,7 @@
 			"file": "misc/demo/index.html",
 			"settings":
 			{
-				"buffer_size": 8706,
+				"buffer_size": 6593,
 				"line_ending": "Windows"
 			}
 		},
@@ -146,24 +154,16 @@
 			"file": "src/if/if.js",
 			"settings":
 			{
-				"buffer_size": 748,
-				"line_ending": "Windows"
+				"buffer_size": 761,
+				"line_ending": "Unix"
 			}
 		},
 		{
 			"file": "src/collapse/collapse.js",
 			"settings":
 			{
-				"buffer_size": 2079,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "template/panel/header.html",
-			"settings":
-			{
-				"buffer_size": 11,
-				"line_ending": "Windows"
+				"buffer_size": 2092,
+				"line_ending": "Unix"
 			}
 		},
 		{
@@ -191,18 +191,17 @@
 			}
 		},
 		{
-			"file": "template/panel/header.html.js",
-			"settings":
-			{
-				"buffer_size": 175,
-				"line_ending": "Unix"
-			}
-		},
-		{
 			"file": "src/panel/panel.js",
 			"settings":
 			{
-				"buffer_size": 879,
+				"buffer_size": 647,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"settings":
+			{
+				"buffer_size": 0,
 				"line_ending": "Windows"
 			}
 		},
@@ -210,7 +209,7 @@
 			"file": "dist/angular-gui-tpls.js",
 			"settings":
 			{
-				"buffer_size": 10449,
+				"buffer_size": 21223,
 				"line_ending": "Unix"
 			}
 		},
@@ -218,7 +217,7 @@
 			"file": "src/panel/docs/demo.html",
 			"settings":
 			{
-				"buffer_size": 354,
+				"buffer_size": 372,
 				"line_ending": "Windows"
 			}
 		},
@@ -226,7 +225,7 @@
 			"file": "src/panel/docs/demo.js",
 			"settings":
 			{
-				"buffer_size": 117,
+				"buffer_size": 0,
 				"line_ending": "Windows"
 			}
 		}
@@ -266,10 +265,13 @@
 	},
 	"file_history":
 	[
+		"/C/Users/cmp/git/angular-gui/src/translude/transclude.js",
+		"/C/Users/cmp/git/angular-gui/template/panel/header.html",
+		"/C/Users/cmp/git/angular-gui/template/panel/header.html.js",
+		"/C/Users/cmp/git/angular-gui/src/panel/transclude.js",
 		"/C/Users/cmp/git/angular-gui/css/fonts.css",
 		"/C/Users/cmp/git/angular-gui/.gitignore",
 		"/C/Users/cmp/git/angular-gui/src/panel/panel.js",
-		"/C/Users/cmp/git/angular-gui/template/panel/header.html",
 		"/C/Users/cmp/git/angular-gui/package.json",
 		"/C/Users/cmp/git/angular-gui/Gruntfile.js",
 		"/C/Users/cmp/git/angular-gui/fonts/icomoon.css",
@@ -402,6 +404,11 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"$transcludeFn",
+			"startingTag",
+			"ngTranscludeDirective",
+			"transclude",
+			"$eval",
 			"google",
 			"$transcludeFn",
 			"tabcontenttransclude",
@@ -524,12 +531,7 @@
 			"../components",
 			"components",
 			"lib",
-			"components",
-			";\n",
-			"});*/\n",
-			"2014-08-14 08:46:39 [Timer-0] com.digicompass.cmp.bsv.objects.NetworkObjectsImportor:980\nINFO:Synchronization Dimension Models Use:1586ms",
-			"Eden",
-			" Angourie"
+			"components"
 		],
 		"highlight": false,
 		"in_selection": false,
@@ -573,7 +575,7 @@
 	"groups":
 	[
 		{
-			"selected": 4,
+			"selected": 14,
 			"sheets":
 			[
 				{
@@ -582,15 +584,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 114,
+						"buffer_size": 118,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								114,
-								114
+								0,
+								0
 							]
 						],
 						"settings":
@@ -601,7 +603,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 10,
+					"stack_index": 14,
 					"type": "text"
 				},
 				{
@@ -629,7 +631,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 15,
+					"stack_index": 16,
 					"type": "text"
 				},
 				{
@@ -638,15 +640,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 14836,
+						"buffer_size": 14762,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								6991,
-								6991
+								0,
+								0
 							]
 						],
 						"settings":
@@ -668,26 +670,28 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 836,
+						"buffer_size": 992,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								835,
-								835
+								0,
+								0
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/HTML/HTML.tmLanguage"
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 2,
 					"type": "text"
 				},
 				{
@@ -703,8 +707,8 @@
 						"selection":
 						[
 							[
-								7128,
-								7128
+								6756,
+								6766
 							]
 						],
 						"settings":
@@ -712,47 +716,19 @@
 							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
 						},
 						"translation.x": 0.0,
-						"translation.y": 5313.0,
+						"translation.y": 5796.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 3,
 					"type": "text"
 				},
 				{
 					"buffer": 5,
-					"file": "src/fullscreen/fullscreen.js",
+					"file": "bower_components/angular-ui-bootstrap/template/tabs/tab.html",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 3375,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1506,
-								1506
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 621.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 5,
-					"type": "text"
-				},
-				{
-					"buffer": 6,
-					"file": "src/utils/utils.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 2017,
+						"buffer_size": 128,
 						"regions":
 						{
 						},
@@ -765,125 +741,172 @@
 						],
 						"settings":
 						{
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 11,
-					"type": "text"
-				},
-				{
-					"buffer": 7,
-					"file": "misc/demo/index.html",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 8706,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								5964,
-								5964
-							]
-						],
-						"settings":
-						{
 							"syntax": "Packages/HTML/HTML.tmLanguage"
 						},
 						"translation.x": 0.0,
-						"translation.y": 2407.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 4,
 					"type": "text"
 				},
 				{
-					"buffer": 8,
-					"file": "src/if/if.js",
+					"buffer": 6,
+					"file": "src/fullscreen/fullscreen.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 748,
+						"buffer_size": 3388,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								687,
-								687
+								0,
+								13
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
+							"editorconfig": true,
+							"ensure_newline_at_eof_on_save": true,
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true,
+							"trim_trailing_white_space_on_save": true
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 3,
+					"stack_index": 5,
 					"type": "text"
 				},
 				{
-					"buffer": 9,
-					"file": "src/collapse/collapse.js",
+					"buffer": 7,
+					"file": "src/utils/utils.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 2079,
+						"buffer_size": 6608,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								222,
-								2079
+								0,
+								0
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
 						},
-						"translation.x": -0.0,
-						"translation.y": 828.0,
+						"translation.x": 0.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 6,
 					"type": "text"
 				},
 				{
-					"buffer": 10,
-					"file": "template/panel/header.html",
+					"buffer": 8,
+					"file": "misc/demo/index.html",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 11,
+						"buffer_size": 6593,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								11,
-								11
+								0,
+								0
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/HTML/HTML.tmLanguage"
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 2407.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 11,
+					"type": "text"
+				},
+				{
+					"buffer": 9,
+					"file": "src/if/if.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 761,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								13,
+								0
+							]
+						],
+						"settings":
+						{
+							"editorconfig": true,
+							"ensure_newline_at_eof_on_save": true,
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true,
+							"trim_trailing_white_space_on_save": true
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 13,
+					"stack_index": 7,
+					"type": "text"
+				},
+				{
+					"buffer": 10,
+					"file": "src/collapse/collapse.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2092,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								600,
+								600
+							]
+						],
+						"settings":
+						{
+							"editorconfig": true,
+							"ensure_newline_at_eof_on_save": true,
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true,
+							"trim_trailing_white_space_on_save": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 8,
 					"type": "text"
 				},
 				{
@@ -905,13 +928,14 @@
 						],
 						"settings":
 						{
-							"syntax": "Packages/CSS/CSS.tmLanguage"
+							"syntax": "Packages/CSS/CSS.tmLanguage",
+							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 8,
+					"stack_index": 13,
 					"type": "text"
 				},
 				{
@@ -939,7 +963,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 7,
+					"stack_index": 12,
 					"type": "text"
 				},
 				{
@@ -955,75 +979,78 @@
 						"selection":
 						[
 							[
-								383,
-								383
+								111,
+								111
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/CSS/CSS.tmLanguage"
+							"syntax": "Packages/CSS/CSS.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 9,
+					"stack_index": 10,
 					"type": "text"
 				},
 				{
 					"buffer": 14,
-					"file": "template/panel/header.html.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 175,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								42,
-								16
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 14,
-					"type": "text"
-				},
-				{
-					"buffer": 15,
 					"file": "src/panel/panel.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 879,
+						"buffer_size": 647,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								773,
-								773
+								137,
+								137
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 15,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 0,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
 					"type": "text"
 				},
 				{
@@ -1032,20 +1059,22 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 10449,
+						"buffer_size": 21223,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								5071,
-								5071
+								0,
+								0
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
 						"translation.y": 3864.0,
@@ -1060,15 +1089,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 354,
+						"buffer_size": 372,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								230,
-								230
+								0,
+								0
 							]
 						],
 						"settings":
@@ -1079,7 +1108,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 12,
+					"stack_index": 15,
 					"type": "text"
 				},
 				{
@@ -1088,15 +1117,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 117,
+						"buffer_size": 0,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								117,
-								117
+								0,
+								0
 							]
 						],
 						"settings":
@@ -1107,7 +1136,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 16,
+					"stack_index": 9,
 					"type": "text"
 				}
 			]
