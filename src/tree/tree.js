@@ -3,7 +3,7 @@ angular.module('ngui.tree', ['ngui.utils', 'ngui.transclude','ngui.collapse', 'n
   .directive('nguiTree', ['utils','$compile','TreeNode', function(utils, $compile, TreeNode) {
   	function parseNode(pel, node, excludeSelf, isRoot){
 		if(excludeSelf){
-			angular.forEach(node.getChildren(), function(n){
+			angular.forEach(node.$children, function(n){
 				parseNode(pel, n, false, true);
 			});
 		}else{
@@ -11,13 +11,14 @@ angular.module('ngui.tree', ['ngui.utils', 'ngui.transclude','ngui.collapse', 'n
 			var action = $('<a href="'+(node.href || node.router||'#')+'">'+node.text+'</a>');
 			li.data('treeNode', node);
 			li.append(action);
-			if(node.hasChild()){
+			if(!node.isLeaf()){
 				li.addClass('dropdown' +(isRoot ? '':' dropdown-submenu'));
 				action.addClass('dropdown-toggle');
 				action.attr('data-toggle', 'dropdown');
+				action.append('<span class="caret"></span>');
 				var cel = $('<ul class="dropdown-menu"></ul>');
 				li.append(cel);
-				angular.forEach(node.getChildren(), function(n){
+				angular.forEach(node.$children, function(n){
     				parseNode(cel, n, false, false);
     			});
 			}
@@ -29,11 +30,7 @@ angular.module('ngui.tree', ['ngui.utils', 'ngui.transclude','ngui.collapse', 'n
       restrict: 'EA',
       template: '<ul></ul>',
       scope: {
-      	root:'=nguiTree',
-      	rootDisplay: '@',
-      	leafTemplate:  '@',
-      	nodeTemplate: '@',
-      	rootTemplate: '@'
+      	root:'=nguiTree'
       },
       replace: true,
       transclude: true,

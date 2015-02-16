@@ -51,7 +51,7 @@
             if(!angular.isArray(cfgs)){
               cfgs = [cfgs];
             }
-            return new TreeNode({key:'root', text:'', children: cfgs}, null, menuKeyParser, applyData);
+            return new TreeNode({key:'root', text:'', children: cfgs}, null, false, menuKeyParser, null, applyData, null);
           }
 
 
