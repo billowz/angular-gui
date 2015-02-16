@@ -45,12 +45,6 @@
     width: 225px;
 }
 .workspace {
-    overflow: auto;
-    position: absolute;
-    left: 0px;
-    top: 50px;
-    bottom: 0;
-    right: 0;
 }
 .workspace .vnav{
   left:225px;
