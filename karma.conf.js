@@ -10,7 +10,6 @@ files = [
   'bower_components/angular-mocks/angular-mocks.js',
   'bower_components/bootstrap/dist/js/bootstrap.min.js',
   'bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js',
-  'misc/test-lib/helpers.js',
   'src/**/*.js',
   'template/**/*.js'
 ];
