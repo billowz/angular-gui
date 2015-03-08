@@ -76,69 +76,18 @@
 	"buffers":
 	[
 		{
-			"file": "css/main.css",
+			"file": "misc/demo/demo.html",
 			"settings":
 			{
-				"buffer_size": 118,
-				"line_ending": "Windows"
+				"buffer_size": 8385,
+				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "css/collapse.css",
+			"file": "misc/demo/assets/demo.css",
 			"settings":
 			{
-				"buffer_size": 35,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "Gruntfile.js",
-			"settings":
-			{
-				"buffer_size": 14762,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "template/panel/panel.html",
-			"settings":
-			{
-				"buffer_size": 992,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "bower_components/angular-ui-bootstrap/src/tabs/tabs.js",
-			"settings":
-			{
-				"buffer_size": 8076,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "bower_components/angular-ui-bootstrap/template/tabs/tab.html",
-			"settings":
-			{
-				"buffer_size": 128,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"contents": "\"use strict\"\nangular.module('ngui.fullscreen', ['ui.bootstrap.transition', 'ngui.utils'])\n.directive('nguiFullscreen', ['utils', '$window', function(utils, $window){\n	return {\n		restrict: 'A',\n		link: function($scope, $element, $attrs) {\n			var initialAnimSkip = true;\n			var currentTransition;\n			function doTransition(change) {\n				var newTransition = $transition(element, change);\n				if (currentTransition) {\n				  currentTransition.cancel();\n				}\n				currentTransition = newTransition;\n				newTransition.then(newTransitionDone, newTransitionDone);\n				return newTransition;\n\n				function newTransitionDone() {\n				  // Make sure it's this transition, otherwise, leave it alone.\n				  if (currentTransition === newTransition) {\n				    currentTransition = undefined;\n				  }\n				}\n			}\n\n			function fullscreen() {\n				if (initialAnimSkip) {\n				  initialAnimSkip = false;\n				  fullscreenDone();\n				} else {\n				  element.removeClass('collapse').addClass('collapsing');\n				  doTransition({ height: element[0].scrollHeight + 'px' }).then(expandDone);\n				}\n			}\n\n			function fullscreenDone() {\n				element.removeClass('collapsing');\n				element.addClass('collapse in');\n				element.css({height: 'auto'});\n			}\n\n			function fullscreen() {\n				if (initialAnimSkip) {\n				  initialAnimSkip = false;\n				  collapseDone();\n				  element.css({height: attrs.nguiCollapseHeight || 0});\n				} else {\n				  // CSS transitions don't work with height: auto, so we have to manually change the height to a specific value\n				  element.css({ height: element[0].scrollHeight + 'px' });\n				  //trigger reflow so a browser realizes that height was updated from auto to a specific value\n				  var x = element[0].offsetWidth;\n\n				  element.removeClass('collapse in').addClass('collapsing');\n\n				  doTransition({ height: attrs.nguiCollapseHeight || 0 }).then(collapseDone);\n				}\n			}\n\n			function collapseDone() {\n			element.removeClass('collapsing');\n			element.addClass(attrs.nguiCollapseHeight>0 ? 'ngui-collapse':'collapse');\n			}\n			var resize = function(){\n				if($scope[$attrs.nguiFullscreen]){\n					$element.css({\n						'position':'absolute',\n						'z-index':9999999,\n						width:angular.element($window).width(),\n						height:angular.element($window).height()\n					});\n					$element.offset({left:0,top:0});\n				}\n			}\n			var destory = function(){\n				angular.element($window).off('resize', resize);\n			}\n			var scrolloverflows = [], hideoverflows = [];\n\n			return $scope.$watch($attrs.nguiFullscreen, function(val, oldVal) {\n				if (val == oldVal) {\n					return;\n				}\n				if (val) {\n					resize();\n              		angular.element($window).on('resize', resize);\n              		$element.on('$destroy', destory);\n              		angular.forEach($element.parents(), function(elem){\n              			elem = angular.element(elem);\n              			if(elem.css('overflow')==='scroll'){\n              				scrolloverflows.push(elem);\n              				elem.css('overflow', 'hidden');\n              			}\n              		});\n				}else{\n					$element.off('$destroy', destory);\n					destory();\n					$element.css({\n						'position':'initial',\n						'z-index':0,\n						width:'',\n						height:''\n					});\n					if(scrolloverflows.length>0){\n						angular.forEach(scrolloverflows, function(elem){\n							elem.css('overflow', 'scroll');\n						});\n						scrolloverflows = [];\n					}\n				}\n			});\n		}\n	}\n}]);\n",
-			"file": "src/fullscreen/fullscreen.js",
-			"file_size": 3097,
-			"file_write_time": 130681781651575137,
-			"settings":
-			{
-				"buffer_size": 3388,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "src/utils/utils.js",
-			"settings":
-			{
-				"buffer_size": 6608,
+				"buffer_size": 145,
 				"line_ending": "Windows"
 			}
 		},
@@ -146,106 +95,51 @@
 			"file": "misc/demo/index.html",
 			"settings":
 			{
-				"buffer_size": 6593,
-				"line_ending": "Windows"
+				"buffer_size": 8212,
+				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "src/if/if.js",
+			"file": "src/utils/utils.js",
 			"settings":
 			{
-				"buffer_size": 761,
+				"buffer_size": 3556,
 				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/tree/tree.js",
+			"settings":
+			{
+				"buffer_size": 6028,
+				"line_ending": "Windows"
 			}
 		},
 		{
 			"file": "src/collapse/collapse.js",
 			"settings":
 			{
-				"buffer_size": 2092,
+				"buffer_size": 1844,
 				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "css/actions.css",
-			"settings":
-			{
-				"buffer_size": 1113,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "css/panel.css",
-			"settings":
-			{
-				"buffer_size": 276,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "css/fullscreen.css",
-			"settings":
-			{
-				"buffer_size": 641,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "src/panel/panel.js",
-			"settings":
-			{
-				"buffer_size": 647,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"settings":
-			{
-				"buffer_size": 0,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "dist/angular-gui-tpls.js",
-			"settings":
-			{
-				"buffer_size": 21223,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "src/panel/docs/demo.html",
-			"settings":
-			{
-				"buffer_size": 372,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "src/panel/docs/demo.js",
-			"settings":
-			{
-				"buffer_size": 0,
-				"line_ending": "Windows"
 			}
 		}
 	],
 	"build_system": "",
 	"command_palette":
 	{
-		"height": 35.0,
+		"height": 311.0,
 		"selected_items":
 		[
 			[
-				"install",
+				"Package Control: ",
 				"Package Control: Install Package"
 			],
 			[
-				"Package Control: ",
+				"install",
 				"Package Control: Install Package"
 			]
 		],
-		"width": 416.0
+		"width": 472.0
 	},
 	"console":
 	{
@@ -263,19 +157,55 @@
 		"side_bar_visible": false,
 		"status_bar_visible": false
 	},
+	"expanded_folders":
+	[
+		"/C/Users/cmp/git/angular-gui",
+		"/C/Users/cmp/git/angular-gui/bower_components",
+		"/C/Users/cmp/git/angular-gui/css",
+		"/C/Users/cmp/git/angular-gui/misc",
+		"/C/Users/cmp/git/angular-gui/misc/demo",
+		"/C/Users/cmp/git/angular-gui/misc/demo/assets",
+		"/C/Users/cmp/git/angular-gui/src",
+		"/C/Users/cmp/git/angular-gui/src/collapse",
+		"/C/Users/cmp/git/angular-gui/src/tree",
+		"/C/Users/cmp/git/angular-gui/src/utils"
+	],
 	"file_history":
 	[
+		"/C/Users/cmp/git/angular-gui/css/main.css",
+		"/C/Users/cmp/git/angular-gui/misc/demo/demo.html",
+		"/C/Users/cmp/git/angular-gui/src/menu/menu.js",
+		"/C/Users/cmp/git/angular-gui/src/dropdown/docs/demo.html",
+		"/C/Users/cmp/git/angular-gui/src/dropdown/dropdown.js",
+		"/C/Users/cmp/git/angular-gui/css/collapse.css",
+		"/C/Users/cmp/git/angular-gui/Gruntfile.js",
+		"/C/Users/cmp/git/angular-gui/template/panel/panel.html",
+		"/C/Users/cmp/git/angular-gui/bower_components/angular-ui-bootstrap/template/tabs/tab.html",
+		"/C/Users/cmp/git/angular-gui/src/fullscreen/fullscreen.js",
+		"/C/Users/cmp/git/angular-gui/src/utils/utils.js",
+		"/C/Users/cmp/git/angular-gui/src/tree/tree.js",
+		"/C/Users/cmp/git/angular-gui/css/dropdown.css",
+		"/C/Users/cmp/git/angular-gui/bower.json",
+		"/C/Users/cmp/git/angular-gui/misc/demo/assets/app.js",
+		"/C/Users/cmp/git/angular-gui/misc/demo/index.html",
+		"/C/Users/cmp/git/angular-gui/src/if/if.js",
+		"/C/Users/cmp/git/angular-gui/src/collapse/collapse.js",
+		"/C/Users/cmp/git/angular-gui/css/actions.css",
+		"/C/Users/cmp/git/angular-gui/css/panel.css",
+		"/C/Users/cmp/git/angular-gui/css/fullscreen.css",
+		"/C/Users/cmp/git/angular-gui/src/panel/panel.js",
+		"/C/Users/cmp/git/angular-gui/misc/demo/assets/demo.css",
+		"/C/Users/cmp/git/angular-gui/dist/angular-gui-tpls.js",
+		"/C/Users/cmp/git/angular-gui/src/panel/docs/demo.html",
+		"/C/Users/cmp/git/angular-gui/src/panel/docs/demo.js",
 		"/C/Users/cmp/git/angular-gui/src/translude/transclude.js",
 		"/C/Users/cmp/git/angular-gui/template/panel/header.html",
 		"/C/Users/cmp/git/angular-gui/template/panel/header.html.js",
 		"/C/Users/cmp/git/angular-gui/src/panel/transclude.js",
 		"/C/Users/cmp/git/angular-gui/css/fonts.css",
 		"/C/Users/cmp/git/angular-gui/.gitignore",
-		"/C/Users/cmp/git/angular-gui/src/panel/panel.js",
 		"/C/Users/cmp/git/angular-gui/package.json",
-		"/C/Users/cmp/git/angular-gui/Gruntfile.js",
 		"/C/Users/cmp/git/angular-gui/fonts/icomoon.css",
-		"/C/Users/cmp/git/angular-gui/template/panel/panel.html",
 		"/C/work/BSV/nohup.20141103.out/nohup.out",
 		"/C/Workspace/applicationContext-web.xml",
 		"/C/Users/cmp/git/ian-data-core/ian-data-core/target/nohup/nohup.out",
@@ -369,28 +299,11 @@
 		"/C/Workspace/Cmp/ian-service-core/js/src/scripts/ian-net.js",
 		"/C/Users/cmp/Desktop/ian-js2/src/scripts/ian-model_yq.js",
 		"/C/Users/cmp/Desktop/ian-js2/libs/jquery-cookie/.bower.json",
-		"/C/Users/cmp/Desktop/ian-js/src/styles/ian.css",
-		"/C/Users/cmp/Desktop/ian-js/src/scripts/ian-eventdriver.js",
-		"/C/Users/cmp/Desktop/ian-js/src/scripts/ian-core.js",
-		"/C/Users/cmp/Desktop/ian-js/src/scripts/main.js",
-		"/C/Users/cmp/Desktop/ian-js/src/scripts/ian-proc.js",
-		"/C/Users/cmp/Desktop/ian-js/src/scripts/ian-net.js",
-		"/C/Users/cmp/Desktop/ian-js/src/scripts/ian-net-module.js",
-		"/C/Users/cmp/Desktop/ian-js/src/scripts/ian-model.js",
-		"/C/Users/cmp/Desktop/ian-js/src/scripts/ian-web.js",
-		"/C/Users/cmp/Desktop/ian-js/src/scripts/ian-sched.js",
-		"/C/Users/cmp/Desktop/ian-js/src/index.html",
-		"/C/Users/cmp/AppData/Roaming/Sublime Text 3/Packages/Grunt/SublimeGrunt.sublime-settings",
-		"/C/Users/cmp/Desktop/ian-js/src/scripts/ian-net-bayeux.js",
-		"/C/Users/cmp/AppData/Roaming/Sublime Text 3/Packages/HTML-CSS-JS Prettify/Default (Windows).sublime-keymap",
-		"/C/Users/cmp/AppData/Roaming/Sublime Text 3/Packages/HTML-CSS-JS Prettify/.jsbeautifyrc",
-		"/C/Users/cmp/AppData/Roaming/Sublime Text 3/Packages/Default/Preferences.sublime-settings",
-		"/C/Users/cmp/AppData/Roaming/Sublime Text 3/Packages/DocBlockr/Base File.sublime-settings",
-		"/C/Users/cmp/AppData/Roaming/Sublime Text 3/Packages/TernJS/TernJS.sublime-settings"
+		"/C/Users/cmp/Desktop/ian-js/src/styles/ian.css"
 	],
 	"find":
 	{
-		"height": 39.0
+		"height": 43.0
 	},
 	"find_in_files":
 	{
@@ -404,6 +317,12 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"less",
+			"getChildren",
+			"$compileProvider",
+			"$comp",
+			"toggleInvoker",
+			"ontoggle",
 			"$transcludeFn",
 			"startingTag",
 			"ngTranscludeDirective",
@@ -525,13 +444,7 @@
 			"<br>",
 			"instantclient",
 			"b360ec69-00b5-4f78-8714-fdcddcfde745",
-			",",
-			"&",
-			"navigation",
-			"../components",
-			"components",
-			"lib",
-			"components"
+			","
 		],
 		"highlight": false,
 		"in_selection": false,
@@ -575,16 +488,16 @@
 	"groups":
 	[
 		{
-			"selected": 14,
+			"selected": 1,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "css/main.css",
+					"file": "misc/demo/demo.html",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 118,
+						"buffer_size": 8385,
 						"regions":
 						{
 						},
@@ -592,432 +505,45 @@
 						[
 							[
 								0,
-								0
+								8385
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/CSS/CSS.tmLanguage"
+							"editorconfig": true,
+							"ensure_newline_at_eof_on_save": true,
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true,
+							"trim_trailing_white_space_on_save": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 486.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 14,
+					"stack_index": 1,
 					"type": "text"
 				},
 				{
 					"buffer": 1,
-					"file": "css/collapse.css",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 35,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								33,
-								33
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/CSS/CSS.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 16,
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "Gruntfile.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 14762,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 5727.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 17,
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "template/panel/panel.html",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 992,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/HTML/HTML.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "bower_components/angular-ui-bootstrap/src/tabs/tabs.js",
+					"file": "misc/demo/assets/demo.css",
 					"semi_transient": true,
 					"settings":
 					{
-						"buffer_size": 8076,
+						"buffer_size": 145,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								6756,
-								6766
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 5796.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 3,
-					"type": "text"
-				},
-				{
-					"buffer": 5,
-					"file": "bower_components/angular-ui-bootstrap/template/tabs/tab.html",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 128,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/HTML/HTML.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 4,
-					"type": "text"
-				},
-				{
-					"buffer": 6,
-					"file": "src/fullscreen/fullscreen.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 3388,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								13
-							]
-						],
-						"settings":
-						{
-							"editorconfig": true,
-							"ensure_newline_at_eof_on_save": true,
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true,
-							"trim_trailing_white_space_on_save": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 5,
-					"type": "text"
-				},
-				{
-					"buffer": 7,
-					"file": "src/utils/utils.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 6608,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 6,
-					"type": "text"
-				},
-				{
-					"buffer": 8,
-					"file": "misc/demo/index.html",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 6593,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/HTML/HTML.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 2407.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 11,
-					"type": "text"
-				},
-				{
-					"buffer": 9,
-					"file": "src/if/if.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 761,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								13,
-								0
-							]
-						],
-						"settings":
-						{
-							"editorconfig": true,
-							"ensure_newline_at_eof_on_save": true,
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true,
-							"trim_trailing_white_space_on_save": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 7,
-					"type": "text"
-				},
-				{
-					"buffer": 10,
-					"file": "src/collapse/collapse.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 2092,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								600,
-								600
-							]
-						],
-						"settings":
-						{
-							"editorconfig": true,
-							"ensure_newline_at_eof_on_save": true,
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true,
-							"trim_trailing_white_space_on_save": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 8,
-					"type": "text"
-				},
-				{
-					"buffer": 11,
-					"file": "css/actions.css",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1113,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								285,
-								285
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/CSS/CSS.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 13,
-					"type": "text"
-				},
-				{
-					"buffer": 12,
-					"file": "css/panel.css",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 276,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								274,
-								274
+								145,
+								145
 							]
 						],
 						"settings":
 						{
 							"syntax": "Packages/CSS/CSS.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 12,
-					"type": "text"
-				},
-				{
-					"buffer": 13,
-					"file": "css/fullscreen.css",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 641,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								111,
-								111
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/CSS/CSS.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 10,
-					"type": "text"
-				},
-				{
-					"buffer": 14,
-					"file": "src/panel/panel.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 647,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								137,
-								137
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -1027,105 +553,119 @@
 					"type": "text"
 				},
 				{
-					"buffer": 15,
+					"buffer": 2,
+					"file": "misc/demo/index.html",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 0,
+						"buffer_size": 8212,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								1121,
+								1121
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/Text/Plain text.tmLanguage"
+							"editorconfig": true,
+							"ensure_newline_at_eof_on_save": true,
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true,
+							"trim_trailing_white_space_on_save": true
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 2,
 					"type": "text"
 				},
 				{
-					"buffer": 16,
-					"file": "dist/angular-gui-tpls.js",
+					"buffer": 3,
+					"file": "src/utils/utils.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 21223,
+						"buffer_size": 3556,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								741,
+								741
 							]
 						],
 						"settings":
 						{
+							"editorconfig": true,
+							"ensure_newline_at_eof_on_save": true,
 							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
 							"tab_size": 2,
-							"translate_tabs_to_spaces": true
+							"translate_tabs_to_spaces": true,
+							"trim_trailing_white_space_on_save": true
 						},
-						"translation.x": 0.0,
-						"translation.y": 3864.0,
+						"translation.x": 26.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 18,
+					"stack_index": 4,
 					"type": "text"
 				},
 				{
-					"buffer": 17,
-					"file": "src/panel/docs/demo.html",
+					"buffer": 4,
+					"file": "src/tree/tree.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 372,
+						"buffer_size": 6028,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								248,
+								257
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/HTML/HTML.tmLanguage"
+							"editorconfig": true,
+							"ensure_newline_at_eof_on_save": true,
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true,
+							"trim_trailing_white_space_on_save": true
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 15,
+					"stack_index": 3,
 					"type": "text"
 				},
 				{
-					"buffer": 18,
-					"file": "src/panel/docs/demo.js",
+					"buffer": 5,
+					"file": "src/collapse/collapse.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 0,
+						"buffer_size": 1844,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								1167,
+								1167
 							]
 						],
 						"settings":
@@ -1136,7 +676,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 9,
+					"stack_index": 5,
 					"type": "text"
 				}
 			]
@@ -1144,7 +684,7 @@
 	],
 	"incremental_find":
 	{
-		"height": 31.0
+		"height": 35.0
 	},
 	"input":
 	{
@@ -1184,7 +724,7 @@
 	"project": "ngui.sublime-project",
 	"replace":
 	{
-		"height": 58.0
+		"height": 66.0
 	},
 	"save_all_on_build": true,
 	"select_file":
@@ -1211,6 +751,7 @@
 		],
 		"width": 656.0
 	},
+	"selected_group": 0,
 	"settings":
 	{
 	},

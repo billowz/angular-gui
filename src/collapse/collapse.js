@@ -41,12 +41,6 @@ angular.module('ngui.collapse', ['ui.bootstrap.transition', 'ngui.utils'])
           element.addClass(attrs.nguiCollapseHeight > 0 ? 'ngui-collapse' : 'collapse');
         }
         utils.defaultVal(scope, attrs.nguiCollapse, attrs[attrs.nguiCollapse] === 'true');
-        scope['is_' + attrs.nguiCollapse] = function() {
-          return scope[attrs.nguiCollapse];
-        }
-        scope['toggle_' + attrs.nguiCollapse] = function() {
-          scope[attrs.nguiCollapse] = !scope[attrs.nguiCollapse];
-        }
         return scope.$watch(attrs.nguiCollapse, function(val, nval) {
           if (!!val === !!nval) {
             return;
