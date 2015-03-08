@@ -1,9 +1,9 @@
-angular.module('ngui.demo', ['app', 'ngui', 'ui.bootstrap'])
+angular.module('ngui.demo', ['app', 'ngui', 'ui.bootstrap','ngAnimate'])
   .controller('DemoCtrl', ['$scope', '$window', 'configService', 'menuService',
     function($scope, $window, configService, menuService) {
 
       $scope.menu = {};
-      $scope.cfg = {};
+      $scope.cfg ;
 
       configService.getConfig().then(function(cfg) {
         $scope.cfg = cfg;

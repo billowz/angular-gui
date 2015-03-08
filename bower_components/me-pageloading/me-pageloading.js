@@ -98,7 +98,8 @@ angular.module('me-pageloading', [])
             }
 
             this.el = options.el;
-            this.stop = true;
+            this.showing = false;
+            this.hideing = false;
             svg = Snap(this.el.find('svg')[0]);
             this.path = svg.select('path');
             this.effect = options.effect || 'random';
@@ -177,10 +178,13 @@ angular.module('me-pageloading', [])
 
             self.animateOpt = animateOpt;
             self.isAnimating = true;
-            self.stop = false;
+            self.showing = true;
             self.animateSVG('in', animateOpt, function(){
-              if(!self.stop)
-                self.el.addClass('pageloading-loading');
+              self.el.addClass('pageloading-loading');
+              self.showing = false;
+              if(self.hideing){
+                self.hide();
+              }
             });
 
             self.el.addClass('show');
@@ -192,14 +196,16 @@ angular.module('me-pageloading', [])
             if(!animateOpt){ // have stopped or is stopping the animation, just return
                 return false;
             }
-            self.animateOpt = null; // prevent hide one animation multi times
-            self.stop = true;
-            self.el.removeClass('pageloading-loading');
-            self.animateSVG('out', animateOpt, function(){
-                self.el.removeClass('show');
-                self.isAnimating = false;
-            });
-            }, 1000);
+            self.hideing = true;
+            if(!self.showing){
+              self.animateOpt = null; // prevent hide one animation multi times
+              self.el.removeClass('pageloading-loading');
+              self.animateSVG('out', animateOpt, function(){
+                  self.el.removeClass('show');
+                  self.isAnimating = false;
+                  self.hideing = false;
+              });
+            }
         };
 
         Animater.prototype.animateSVG = function(dir, animateOpt, cbk){
@@ -285,14 +291,17 @@ angular.module('me-pageloading', [])
                 changeError;
 
             changeStart = function() {
+                console.log('changeStart',arguments);
                 mePageLoading.show();
             };
 
             changeSuccess = changeError = function() {
+                console.log('changeSuccess',arguments);
                 mePageLoading.hide();
             };
 
             init = function() {
+                console.log('init',arguments);
                 if (inited) {
                     return;
                 }

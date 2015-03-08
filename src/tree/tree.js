@@ -94,6 +94,9 @@ angular.module('ngui.tree', ['ngui.utils', 'ngui.transclude','ngui.collapse', 'n
       }
       return root;
     }
+    TreeNode.prototype.isRoot = function(){
+      return !this.parent;
+    }
     TreeNode.prototype.findNode = function(path) {
       var node = this,
         _self = this;
@@ -126,14 +129,41 @@ angular.module('ngui.tree', ['ngui.utils', 'ngui.transclude','ngui.collapse', 'n
     return TreeNode;
   }])
   .directive('nguiTree', ['utils','$compile','TreeNode', function(utils, $compile, TreeNode) {
-  	function parseNode(pel, node, excludeSelf, isRoot, templ){
+    function initTreeNode(node){
+      node.href = node.href || 'javascript:void(0);';
+      node.router = node.router || false;
+      node.text = node.text || '';
+    }
+    function parseTree(node, treeEl, treeTempl, nodeTempl, actionTempl){
+      initTreeNode(node);
+      if(!treeEl){
+        treeEl = $(treeTempl(node));
+      }
+      var node = $(nodeTempl(node));
+      var action = $(actionTempl(node));
+      node.data('treeNode', node);
+      node.append(action);
+      treeEl.append(node);
+      if(!node.isLeaf()){
+        ctreeEl = $(treeTempl(node));
+        node.append(ctreeEl);
+        angular.forEach(node.$children, function(n){
+          parseTree(n, ctreeEl, treeTempl, nodeTempl, actionTempl);
+        });
+      }
+      return tree;
+    }
+  	function parseNode(pel, node, excludeSelf, isRoot, actionTempl){
   		if(excludeSelf){
   			angular.forEach(node.$children, function(n){
-  				parseNode(pel, n, false, true, templ);
+  				parseNode(pel, n, false, true, actionTempl);
   			});
   		}else{
-  			var li = $('<li></li>');
-  			var action = $(templ(node));
+        node.href = node.href || 'javascript:void(0);';
+        node.router = node.router || false;
+        node.text = node.text || '';
+  			var li = $('<li class="tree-node"></li>');
+  			var action = $(actionTempl(node));
   			li.data('treeNode', node);
   			li.append(action);
   			if(!node.isLeaf()){
@@ -143,7 +173,7 @@ angular.module('ngui.tree', ['ngui.utils', 'ngui.transclude','ngui.collapse', 'n
   				var cel = $('<ul class="dropdown-menu"></ul>');
   				li.append(cel);
   				angular.forEach(node.$children, function(n){
-      				parseNode(cel, n, false, false, templ);
+      				parseNode(cel, n, false, false, actionTempl);
       			});
   			}
   			pel.append(li);
@@ -151,10 +181,10 @@ angular.module('ngui.tree', ['ngui.utils', 'ngui.transclude','ngui.collapse', 'n
   	}
     return {
       restrict: 'EA',
-      template: '<ul class="dropdown"></ul>',
       scope: {
       	root:'=nguiTree'
       },
+      template:'<ul class="tree"></ul>',
       replace: true,
       transclude: true,
       controller: ['$scope', function($scope){
@@ -162,10 +192,12 @@ angular.module('ngui.tree', ['ngui.utils', 'ngui.transclude','ngui.collapse', 'n
       compile: function () {
         return {
           post: function ($scope, $elm, $attrs, uiGridCtrl) {
-            $scope.templ = _.template($attrs.treeTemplate || '<a href="<%=((typeof href!=="undefined") && href) ? href:"#"%>" <%if((typeof router!=="undefined") && router){%>ui-sref="<%=router%>"<%}%> ><%=text%></a>');
+            $scope.nodeTempl = _.template($attrs.nodeTemplate || '<ul class="tree <%=_tree_root ? "dropdown": "tree-sub dropdown-menu"%>"></ul>');
+            $scope.actionTempl = _.template($attrs.actionTemplate || '<a class="tree-node-content" href="<%=href%>" <%if(router){%>ui-sref="<%=router%>"<%}%> ><%=text%></a>');
+            $scope.nodeTempl = _.template($attrs.nodeTemplate || '<li class="tree-node dropdown <%=_tree_root ? "":"dropdown-submenu"%>"></li>');
           	function parse(){
           		if($scope.root && $scope.root instanceof TreeNode){
-          			parseNode($elm, $scope.root, !$scope.rootDisplay, true, $scope.templ);
+          			parseNode($elm, $scope.root, !$scope.rootDisplay, true, $scope.actionTempl);
           			$('.dropdown-submenu [data-toggle=dropdown]').on('click', function(event) {
     							event.preventDefault();
     							event.stopPropagation();
@@ -176,11 +208,15 @@ angular.module('ngui.tree', ['ngui.utils', 'ngui.transclude','ngui.collapse', 'n
           		}
           	}
 
-			      parse();
           	$scope.$watch('root', function(val, nval){
+            console.stack();
+              console.log(val === nval, arguments);
+              if(val === nval) return;
         			$elm.empty();
         			parse();
           	});
+            console.log($scope.root);
+            parse();
           }
         };
       }
