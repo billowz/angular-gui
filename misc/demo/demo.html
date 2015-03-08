@@ -21,14 +21,13 @@
     <script src="angular/angular.js"></script>
     <script src="bootstrap/dist/js/bootstrap.js"></script>
     <script src="angular-ui-router/release/angular-ui-router.js"></script>
-    <script src="me-pageloading/me-pageloading.js"></script>
     <script src="angular-bootstrap/ui-bootstrap-tpls.js"></script>
     <script src="<%= pkg.name%>-tpls.js"></script>
 
     <script>
       (function(){
         "use strict"
-        angular.module('app', ['ngui','ui.router','me-pageloading'])
+        angular.module('app', ['ngui','ui.router'])
         .factory('appService', ['utils', 'TreeNode',function(utils, TreeNode){
           var cfg = {
             name: '<%=pkg.fullname%>',
