@@ -1,14 +1,14 @@
-.dropdown-submenu {
+.subdropdown {
     position: relative;
 }
-.dropdown-submenu>.dropdown-menu {
+.subdropdown>.dropdown-menu {
     top: 0;
     left: 100%;
     margin-top: -6px;
-    margin-left: -1px;
-    -webkit-border-radius: 0 6px 6px 6px;
-    -moz-border-radius: 0 6px 6px 6px;
-    border-radius: 0 6px 6px 6px;
+    margin-left: -2px;
+    -webkit-border-radius: 0 6px 6px 0;
+    -moz-border-radius: 0 6px 6px 0;
+    border-radius: 0 6px 6px 0;
 }
 .dropdown>.dropdown-toggle {
     -webkit-box-shadow: none;
@@ -18,16 +18,81 @@
     -webkit-box-shadow: none;
     box-shadow: none;
 }
-.dropdown-submenu.pull-left {
+.subdropdown.pull-left {
     float: none;
 }
-.dropdown-submenu.pull-left>.dropdown-menu {
+.subdropdown.pull-left>.dropdown-menu {
     left: -100%;
     margin-left: 10px;
     -webkit-border-radius: 6px 0 6px 6px;
     -moz-border-radius: 6px 0 6px 6px;
     border-radius: 6px 0 6px 6px;
 }
+.subdropdown>a:after {
+    display: block;
+    content: " ";
+    float: right;
+    width: 0;
+    height: 0;
+    border-color: transparent;
+    border-style: solid;
+    border-width: 5px 0 5px 5px;
+    border-left-color: #cccccc;
+    margin-top: 5px;
+    margin-right: -10px;
+}
+.subdropdown:hover>a:after {
+    border-left-color: #555;
+}
+@media (max-width: 767px) {
+    .navbar-nav .open .dropdown-menu {
+        position: static;
+        float: none;
+        width: auto;
+        margin-top: 0;
+        background-color: transparent;
+        border: 0;
+        -webkit-box-shadow: none;
+        box-shadow: none;
+        margin-left: 10px;
+    }
+}
+@media (max-width: 767px) {
+    .navbar-nav .open .dropdown-menu > li > a, .navbar-nav .open .dropdown-menu .dropdown-header {
+        padding: 5px 15px 5px 15px;
+    }
+}
+/* Side Navigation */
 
-.dropdown-submenu>a:after{display:block;content:" ";float:right;width:0;height:0;border-color:transparent;border-style:solid;border-width:5px 0 5px 5px;border-left-color:#cccccc;margin-top:5px;margin-right:-10px;}
-.dropdown-submenu:hover>a:after{border-left-color:#555;}
+@media(min-width:768px) {
+    .side-nav {
+        position: fixed;
+        top: 51px;
+        left: 225px;
+        width: 225px;
+        margin-left: -225px;
+        border: none;
+        border-radius: 0;
+        overflow-y: auto;
+        background-color: #222;
+    }
+    .side-nav>li>a {
+        width: 225px;
+    }
+    .side-nav li a:hover, .side-nav li a:focus {
+        outline: none;
+        background-color: #000 !important;
+    }
+    .side-nav>li>ul {
+        padding: 0;
+    }
+    .side-nav>li>ul>li>a {
+        display: block;
+        padding: 10px 15px 10px 38px;
+        text-decoration: none;
+        color: #999;
+    }
+    .side-nav>li>ul>li>a:hover {
+        color: #fff;
+    }
+}
