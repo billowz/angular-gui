@@ -134,34 +134,13 @@ angular.module('ngui.tree', ['ngui.utils', 'ngui.transclude','ngui.collapse', 'n
       node.router = node.router || false;
       node.text = node.text || '';
     }
-    function parseTree(node, treeEl, treeTempl, nodeTempl, actionTempl){
-      initTreeNode(node);
-      if(!treeEl){
-        treeEl = $(treeTempl(node));
-      }
-      var node = $(nodeTempl(node));
-      var action = $(actionTempl(node));
-      node.data('treeNode', node);
-      node.append(action);
-      treeEl.append(node);
-      if(!node.isLeaf()){
-        ctreeEl = $(treeTempl(node));
-        node.append(ctreeEl);
-        angular.forEach(node.$children, function(n){
-          parseTree(n, ctreeEl, treeTempl, nodeTempl, actionTempl);
-        });
-      }
-      return tree;
-    }
   	function parseNode(pel, node, excludeSelf, isRoot, actionTempl){
   		if(excludeSelf){
   			angular.forEach(node.$children, function(n){
   				parseNode(pel, n, false, true, actionTempl);
   			});
   		}else{
-        node.href = node.href || 'javascript:void(0);';
-        node.router = node.router || false;
-        node.text = node.text || '';
+        initTreeNode(node);
   			var li = $('<li class="tree-node"></li>');
   			var action = $(actionTempl(node));
   			li.data('treeNode', node);
@@ -209,9 +188,6 @@ angular.module('ngui.tree', ['ngui.utils', 'ngui.transclude','ngui.collapse', 'n
           	}
 
           	$scope.$watch('root', function(val, nval){
-            console.stack();
-              console.log(val === nval, arguments);
-              if(val === nval) return;
         			$elm.empty();
         			parse();
           	});
