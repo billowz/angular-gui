@@ -1,4 +1,4 @@
-.body-container {
+.viewport {
     overflow: hidden;
     position: absolute;
     left: 0;
@@ -10,9 +10,18 @@
     margin-bottom: 0;
 }
 .workspace {
+  overflow-y: auto;
+  position: absolute;
+  left: 0;
+  right:0;
+  top:50px;
+  bottom:0;
 }
-.workspace .vnav{
-  left:225px;
+
+@media(min-width:768px) {
+  .workspace.rworkspace{
+    left:225px;
+  }
 }
 .fullscreen {
     position: absolute;

@@ -90,7 +90,9 @@ angular.module('ngui.dropdown', ['ngui.tree'])
                 $('.subdropdown [data-toggle=dropdown]').on('click', function(event) {
                   event.preventDefault();
                   event.stopPropagation();
-                  $(this).parent().siblings().removeClass('open');
+                  if($attrs.autoClose !== 'false'){
+                    $(this).parent().siblings().removeClass('open');
+                  }
                   $(this).parent().toggleClass('open');
                 });
                 $compile($elm.children())($scope);

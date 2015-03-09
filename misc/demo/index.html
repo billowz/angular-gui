@@ -24,7 +24,7 @@
 </head>
 
 <body>
-  <div class="body-container">
+  <div class="viewport">
     <div class="navbar navbar-inverse navbar-static-top" role="navigation">
       <div class="container-fluid">
         <div class="navbar-header">
@@ -43,14 +43,13 @@
           </li>
         </ul>
         <div class="collapse navbar-collapse">
-          <ul ngui-dropdown="menu" class="nav navbar-nav side-nav">
+          <ul ngui-dropdown="menu" auto-close="false" class="nav navbar-nav side-nav">
           </ul>
         </div>
       </div>
     </div>
 
-
-    <div class="workspace">
+    <div class="workspace rworkspace">
       <div class="container-fluid">
           <div class="row">
               <div class="col-md-12 an-scaleup-rotatefall" ui-view >
