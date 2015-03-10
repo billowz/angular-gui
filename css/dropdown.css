@@ -44,6 +44,9 @@
 .subdropdown:hover>a:after {
     border-left-color: #555;
 }
+.dropdown .active{
+  color:#eee;
+}
 @media (max-width: 767px) {
     .navbar-nav .open .dropdown-menu {
         margin-left: 10px;

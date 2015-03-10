@@ -275,7 +275,7 @@ module.exports = function(grunt) {
 
 
   grunt.renameTask('watch', 'watchs');
-  grunt.registerTask('server', ['clean', 'build', 'copy', 'connect:server', 'watchs']);
+  grunt.registerTask('server', ['clean', 'html2js', 'build', 'copy', 'connect:server', 'watchs']);
   grunt.registerTask('watch', []);
   //Rename our watch task to 'delta', then make actual 'watch'
   //task build things, then start test server

@@ -11,6 +11,7 @@ angular.module('ngui.tree', ['ngui.utils', 'ngui.transclude','ngui.collapse', 'n
         syncFunc = option.syncFunc;
         option = option.option;
       }
+      this.$parent = parent;
       if (angular.isFunction(keyParser)) {
         this.$key = keyParser(this, option);
         if (!angular.isString(this.$key)) {
@@ -45,7 +46,13 @@ angular.module('ngui.tree', ['ngui.utils', 'ngui.transclude','ngui.collapse', 'n
     TreeNode.prototype.getKey = function() {
       return this.$key;
     }
-
+    TreeNode.prototype.getHierarchy = function(){
+      var tmp = this, rs = [];
+      while(!tmp.isRoot()){
+        rs.push(tmp);
+        tmp = tmp.$parent;
+      }
+    }
     TreeNode.prototype.getChildren = function() {
       var _self = this;
       return utils.deferred(function(def){
@@ -89,13 +96,13 @@ angular.module('ngui.tree', ['ngui.utils', 'ngui.transclude','ngui.collapse', 'n
 
     TreeNode.prototype.getRoot = function() {
       var root = this;
-      while (root.parent) {
-        root = root.parent;
+      while (root.$parent) {
+        root = root.$parent;
       }
       return root;
     }
     TreeNode.prototype.isRoot = function(){
-      return !this.parent;
+      return !this.$parent;
     }
     TreeNode.prototype.findNode = function(path) {
       var node = this,

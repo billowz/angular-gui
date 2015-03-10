@@ -25,6 +25,8 @@
 
 <body>
   <div class="viewport">
+    <div ngui-navigation="cfg.navtheme" title="cfg.title" menu = "menu"></div>
+    <!--
     <div class="navbar navbar-inverse navbar-static-top" role="navigation">
       <div class="container-fluid">
         <div class="navbar-header">
@@ -43,13 +45,13 @@
           </li>
         </ul>
         <div class="collapse navbar-collapse">
-          <ul ngui-dropdown="menu" auto-close="false" class="nav navbar-nav side-nav">
+          <ul ngui-dropdown="menu" auto-close="false" class="nav navbar-nav">
           </ul>
         </div>
       </div>
-    </div>
+    </div> -->
 
-    <div class="workspace rworkspace">
+    <div class="workspace">
       <div class="container-fluid">
           <div class="row">
               <div class="col-md-12 an-scaleup-rotatefall" ui-view >
@@ -68,12 +70,14 @@
         angular.module('app')
         .run(['configService','menuService',function(configService, menuService){
           var cfg = {
+            title: '<%=pkg.fullname%>',
             name: '<%=pkg.fullname%>',
             version: '<%=pkg.version%>',
             author: '<%=pkg.author%>',
             github: '<%=pkg.github%>',
             homepage: '<%=pkg.homepage%>',
-            dependencies: []
+            dependencies: [],
+            navtheme: 'horizontal'
           }
           <% for(var key in bower.dependencies){%>
             cfg.dependencies.push({lib:'<%=key%>' , version:'<%=bower.dependencies[key]%>'});

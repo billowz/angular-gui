@@ -40,6 +40,17 @@ angular.module('ngui.dropdown', ['ngui.tree'])
       nodeEl.data('treeNode', node);
       node.$el = nodeEl;
       dropdownEl.append(nodeEl);
+      actionEl.on('click', function(){
+        if(node.isLeaf()){
+          actionEl.addClass('active');
+          p = node.$parent;
+          while(p && p.$el){
+            $(p.$el.children()[0]).addClass('active');
+            console.log($(p.$el.children()[0]));
+            p = p.$parent;
+          }
+        }
+      });
       if(node.handler){
         actionEl.on('click', node.handler);
       }

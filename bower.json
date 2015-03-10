@@ -26,7 +26,8 @@
     "fastclick": "~0.6.7",
     "font-awesome": "~4.1.0",
     "Snap.svg": "~0.3.0",
-    "me-pageloading": "0.3.4"
+    "me-pageloading": "0.3.4",
+    "bootstrap-modal": "2.2.5"
   }
 }
 
