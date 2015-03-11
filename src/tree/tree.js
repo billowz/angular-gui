@@ -48,10 +48,11 @@ angular.module('ngui.tree', ['ngui.utils', 'ngui.transclude','ngui.collapse', 'n
     }
     TreeNode.prototype.getHierarchy = function(){
       var tmp = this, rs = [];
-      while(!tmp.isRoot()){
-        rs.push(tmp);
+      while(tmp){
+        rs.unshift(tmp);
         tmp = tmp.$parent;
       }
+      return rs;
     }
     TreeNode.prototype.getChildren = function() {
       var _self = this;

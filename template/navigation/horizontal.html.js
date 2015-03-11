@@ -14,7 +14,7 @@ angular.module("template/navigation/horizontal.html", []).run(["$templateCache",
     "        <ul class=\"nav navbar-right top-nav\">\n" +
     "        </ul>\n" +
     "        <div class=\"collapse navbar-collapse\">\n" +
-    "            <ul ngui-dropdown=\"getMenu()\" auto-close=\"false\" class=\"nav navbar-nav\">\n" +
+    "            <ul ngui-dropdown=\"getMenu()\" theme=\"menu\" auto-close=\"false\" class=\"nav navbar-nav\">\n" +
     "            </ul>\n" +
     "        </div>\n" +
     "    </div>\n" +

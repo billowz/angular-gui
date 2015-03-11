@@ -44,23 +44,69 @@
 .subdropdown:hover>a:after {
     border-left-color: #555;
 }
-.dropdown .active{
-  color:#eee;
+.navbar-nav .dropdown-menu {
+    padding: 0;
 }
 @media (max-width: 767px) {
+    .navbar-nav .dropdown-menu>li, .navbar-nav>li {
+        padding: 2px 0 0 0;
+        margin: 0;
+    }
     .navbar-nav .open .dropdown-menu {
         margin-left: 10px;
     }
-}
-@media (max-width: 767px) {
     .navbar-nav .open .dropdown-menu > li > a, .navbar-nav .open .dropdown-menu .dropdown-header {
+        padding: 5px 15px 5px 15px;
+    }
+    .navbar-nav .active .dropdown-menu {
+        position: static;
+        float: none;
+        width: auto;
+        margin-top: 0;
+        background-color: transparent;
+        border: 0;
+        -webkit-box-shadow: none;
+        box-shadow: none;
+        display: block;
+        margin-left: 10px;
+    }
+    .navbar-inverse .navbar-nav .dropdown-menu > li > a {
+        color: #9d9d9d;
+    }
+    .navbar-inverse .navbar-nav .open > a, .navbar-inverse .navbar-nav .open > a:hover, .navbar-inverse .navbar-nav .open > a:focus {
+        color: #fff;
+        background-color: #222;
+    }
+    .navbar-inverse .navbar-nav .active > a, .navbar-inverse .navbar-nav .active > a:hover, .navbar-inverse .navbar-nav .active > a:focus {
+        color: #fff;
+        background-color: #080808;
+    }
+    .navbar-inverse .navbar-nav li>a:hover, .navbar-inverse .navbar-nav li>a:focus {
+        color: #fff;
+        background-color: #222;
+    }
+    .navbar-nav .dropdown-menu > li > a {
+        line-height: 20px;
+    }
+    .navbar-nav .dropdown-menu > li > a, .navbar-nav .dropdown-menu .dropdown-header {
         padding: 5px 15px 5px 15px;
     }
 }
 /* Side Navigation */
 
 @media(min-width:768px) {
-    .side-nav .open .dropdown-menu {
+    .sidebar {
+        position: fixed;
+        top: 51px;
+        left: 0;
+        bottom: 0;
+        width: 225px;
+        border: none;
+        border-radius: 0;
+        overflow-y: auto;
+        background-color: #222;
+    }
+    .side-nav .open>.dropdown-menu, .navbar-nav .active>.dropdown-menu {
         position: static;
         float: none;
         width: auto;
@@ -70,25 +116,17 @@
         -webkit-box-shadow: none;
         box-shadow: none;
         margin-left: 10px;
+        display: block;
     }
-    .side-nav {
-        position: fixed;
-        top: 51px;
-        left: 225px;
-        bottom: 0;
-        width: 225px;
-        margin-left: -225px;
-        border: none;
-        border-radius: 0;
-        overflow-y: auto;
-        background-color: #222;
+    .side-nav .dropdown-menu>li, .side-nav>li {
+        padding: 2px 0 0 0;
+        margin: 0;
+    }
+    .side-nav>li {
+        float: none;
     }
     .side-nav>li>a {
         width: 225px;
-    }
-    .side-nav li a:hover, .side-nav li a:focus {
-        outline: none;
-        background-color: #000 !important;
     }
     .side-nav>li>ul {
         padding: 0;
@@ -99,19 +137,25 @@
         text-decoration: none;
         color: #999;
     }
-    .side-nav>li>ul>li>a:hover {
-        color: #fff;
+    .navbar-inverse .side-nav li > a {
+        color: #9d9d9d;
     }
-}
-.navbar-inverse .side-nav .open .dropdown-menu > li > a {
-    color: #9d9d9d;
-}
-.side-nav .open .dropdown-menu > li > a, .side-nav .open .dropdown-menu .dropdown-header {
-    padding: 5px 15px 5px 15px;
-}
-.side-nav .open .dropdown-menu > li > a {
-    line-height: 20px;
-}
-.side-nav .open .dropdown-menu > li > a, .side-nav .open .dropdown-menu .dropdown-header {
-    padding: 5px 15px 5px 15px;
+    .side-nav li>a:hover, .side-nav li>a:focus {
+        color: #fff;
+        background-color: #222;
+    }
+    .navbar-inverse .side-nav .active > a, .navbar-inverse .side-nav .active > a:hover, .navbar-inverse .side-nav .active > a:focus {
+        color: #fff;
+        background-color: #080808;
+    }
+    .navbar-inverse .side-nav .open > a, .navbar-inverse .side-nav .open > a:hover, .navbar-inverse .side-nav .open > a:focus {
+        color: #fff;
+        background-color: #222;
+    }
+    .side-nav .dropdown-menu > li > a {
+        line-height: 20px;
+    }
+    .side-nav .dropdown-menu > li > a, .side-nav .dropdown-menu .dropdown-header {
+        padding: 5px 15px 5px 15px;
+    }
 }

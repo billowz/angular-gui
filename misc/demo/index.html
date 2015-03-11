@@ -77,7 +77,7 @@
             github: '<%=pkg.github%>',
             homepage: '<%=pkg.homepage%>',
             dependencies: [],
-            navtheme: 'horizontal'
+            navtheme: 'vertical'
           }
           <% for(var key in bower.dependencies){%>
             cfg.dependencies.push({lib:'<%=key%>' , version:'<%=bower.dependencies[key]%>'});
