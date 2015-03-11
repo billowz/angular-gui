@@ -115,6 +115,15 @@ angular.module('ngui.utils', ['ui.bootstrap.transition'])
       return {
         getTheme: function(key, name) {
           return themeCfg[key].themes[name];
+        },
+        getThemes: function(key){
+          var themes = [];
+          if(themeCfg[key]){
+            for(var t in themeCfg[key].themes){
+              themes.push(t);
+            }
+          }
+          return themes;
         }
       }
     };

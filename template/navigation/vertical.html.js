@@ -11,8 +11,16 @@ angular.module("template/navigation/vertical.html", []).run(["$templateCache", f
     "                <span class=\"icon-bar\"></span>\n" +
     "            </button>\n" +
     "        </div>\n" +
-    "        <ul class=\"nav navbar-right top-nav\">\n" +
-    "        </ul>\n" +
+    "        <ul class=\"nav navbar-right \">\n" +
+    "            <li role=\"presentation\" class=\"dropdown\">\n" +
+    "              <a role=\"menuitem\" href=\"javascript:void(0);\" data-toggle=\"dropdown\" class=\"dropdown-toggle\">Theme</a>\n" +
+    "              <ul class=\"dropdown-menu\">\n" +
+    "                <li role=\"presentation\" ng-repeat=\"theme in supportThemes\">\n" +
+    "                <a href=\"javascript:void(0)\" ng-click=\"cfg.navtheme=theme\" ng-bind=\"theme\"></a>\n" +
+    "                </li>\n" +
+    "              </ul>\n" +
+    "            </li>\n" +
+    "          </ul>\n" +
     "        <div class=\"collapse navbar-collapse sidebar\">\n" +
     "            <ul ngui-dropdown=\"getMenu()\" theme=\"menu\" auto-close=\"false\" class=\"nav navbar-nav side-nav\">\n" +
     "            </ul>\n" +

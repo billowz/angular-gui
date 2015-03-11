@@ -9,8 +9,16 @@
                 <span class="icon-bar"></span>
             </button>
         </div>
-        <ul class="nav navbar-right top-nav">
-        </ul>
+        <ul class="nav navbar-right ">
+            <li role="presentation" class="dropdown">
+              <a role="menuitem" href="javascript:void(0);" data-toggle="dropdown" class="dropdown-toggle">Theme</a>
+              <ul class="dropdown-menu">
+                <li role="presentation" ng-repeat="theme in supportThemes">
+                <a href="javascript:void(0)" ng-click="cfg.navtheme=theme" ng-bind="theme"></a>
+                </li>
+              </ul>
+            </li>
+          </ul>
         <div class="collapse navbar-collapse sidebar">
             <ul ngui-dropdown="getMenu()" theme="menu" auto-close="false" class="nav navbar-nav side-nav">
             </ul>

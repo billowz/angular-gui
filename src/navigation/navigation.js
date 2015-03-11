@@ -39,6 +39,7 @@ angular.module('ngui.navigation', ['ngui.dropdown', 'ngui.utils'])
             }
             return null;
           }
+          $scope.supportThemes = themeConfig.getThemes('navigation');
           $scope.getMenu = function() {
             if ($attr.menu) {
               return $scope.$eval($attr.menu);
