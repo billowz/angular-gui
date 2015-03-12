@@ -68,7 +68,7 @@
       (function(){
         "use strict"
         angular.module('app')
-        .run(['configService','menuService',function(configService, menuService){
+        .config(['configServiceProvider','menuServiceProvider',function(configService, menuService){
           var cfg = {
             title: '<%=pkg.fullname%>',
             name: '<%=pkg.fullname%>',
@@ -77,12 +77,11 @@
             github: '<%=pkg.github%>',
             homepage: '<%=pkg.homepage%>',
             dependencies: [],
-            navtheme: 'vertical'
+            navtheme: 'theme-vertical'
           }
           <% for(var key in bower.dependencies){%>
             cfg.dependencies.push({lib:'<%=key%>' , version:'<%=bower.dependencies[key]%>'});
           <%}%>
-          configService.loadLocalConfig(cfg);
 
 
 
@@ -139,7 +138,13 @@
               text: '<%= module.displayName %>'
             });
           <% }); %>
-          menuService.loadLocalMenu(menuCfg);
+
+          configService.syncFunc = function(success, err){
+            success(cfg);
+          }
+          menuService.syncFunc = function(success, err){
+            success(menuCfg);
+          }
         }])
         .config(function($stateProvider, $urlRouterProvider) {
           //

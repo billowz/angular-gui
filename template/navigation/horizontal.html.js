@@ -1,6 +1,6 @@
 angular.module("template/navigation/horizontal.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("template/navigation/horizontal.html",
-    "<div class=\"navbar navbar-inverse navbar-static-top\" role=\"navigation\">\n" +
+    "<div class=\"navbar navbar-static-top\" role=\"navigation\">\n" +
     "    <div class=\"container-fluid\">\n" +
     "        <div class=\"navbar-header\">\n" +
     "            <a class=\"navbar-brand\" ng-bind=\"getTitle()\"></a>\n" +
@@ -22,7 +22,7 @@ angular.module("template/navigation/horizontal.html", []).run(["$templateCache",
     "            </li>\n" +
     "          </ul>\n" +
     "        <div class=\"collapse navbar-collapse\">\n" +
-    "            <ul ngui-dropdown=\"getMenu()\" theme=\"menu\" auto-close=\"false\" class=\"nav navbar-nav\">\n" +
+    "            <ul ngui-tree=\"getMenu()\" theme=\"theme.default\" auto-close=\"false\" class=\"nav navbar-nav dropdown\">\n" +
     "            </ul>\n" +
     "        </div>\n" +
     "    </div>\n" +

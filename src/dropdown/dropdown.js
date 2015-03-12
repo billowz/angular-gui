@@ -1,4 +1,4 @@
-angular.module('ngui.dropdown', ['ngui.tree', 'ngui.utils'])
+angular.module('ngui.dropdown', ['ngui.tree', 'ngui.utils', 'ngui.theme'])
   .config(['themeConfigProvider', function(themeConfigProvider) {
     themeConfigProvider.registerThemeConfig('dropdown', function(opt) {
       var theme = {};
@@ -58,10 +58,6 @@ angular.module('ngui.dropdown', ['ngui.tree', 'ngui.utils'])
     }
     return {
       restrict: 'EA',
-      scope: {
-        root: '=nguiDropdown',
-        rootDisplay: '@'
-      },
       template: '<div class="dropdown"></div>',
       replace: true,
       transclude: true,
@@ -74,10 +70,24 @@ angular.module('ngui.dropdown', ['ngui.tree', 'ngui.utils'])
               }
               return null;
             }
+            $scope.isRootDisplay = function() {
+              if ($attrs.rootDisplay) {
+                return $scope.$eval($attrs.rootDisplay) || $attrs.rootDisplay;
+              }
+              return null;
+            }
+
+            $scope.getRoot = function() {
+              if ($attrs.nguiDropdown) {
+                return $scope.$eval($attrs.nguiDropdown);
+              }
+              return null;
+            }
 
             function render() {
-              if ($scope.root && $scope.root instanceof TreeNode) {
-                var menu = $scope.rootDisplay ? [$scope.root] : $scope.root.$children;
+              var root = $scope.getRoot();
+              if (root && root instanceof TreeNode) {
+                var menu = $scope.isRootDisplay() ? [root] : root.$children;
                 var theme = themeConfig.getTheme('dropdown', $scope.getTheme() || 'default');
                 angular.forEach(menu, function(node) {
                   node.$dropdown_root = true;
@@ -92,7 +102,7 @@ angular.module('ngui.dropdown', ['ngui.tree', 'ngui.utils'])
                 $compile($elm.children())($scope);
               }
             }
-            $scope.$watch('root', function(val, nval) {
+            $scope.$watch($scope.getRoot, function(val, nval) {
               $elm.empty();
               render();
             });

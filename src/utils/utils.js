@@ -1,7 +1,6 @@
 "use strict"
 angular.module('ngui.utils', ['ui.bootstrap.transition'])
-
-.factory('utils', ['$q', '$transition', function($q, $transition) {
+  .factory('utils', ['$q', '$transition', function($q, $transition) {
     function Transition() {
       this.currentTransition = null;
     }
@@ -34,6 +33,14 @@ angular.module('ngui.utils', ['ui.bootstrap.transition'])
       },
       trim: function(str) {
         return angular.isString(str) ? str.replace(/(^\s*)|(\s*$)/g, "") : '';
+      },
+      upperFirstChar: function(str) {
+        return str.replace(/\b(\w)/g, function(m) {
+          return m.toUpperCase();
+        });
+      },
+      replaceSpaces: function(str, char) {
+        return str.replace(/\s+/g, char);
       },
       forEach: function(obj, iterator, context) {
         var key, length;
@@ -108,39 +115,4 @@ angular.module('ngui.utils', ['ui.bootstrap.transition'])
       }
     };
     return utils;
-  }])
-  .provider('themeConfig', [function() {
-    var themeCfg = {};
-    this.$get = function() {
-      return {
-        getTheme: function(key, name) {
-          return themeCfg[key].themes[name];
-        },
-        getThemes: function(key){
-          var themes = [];
-          if(themeCfg[key]){
-            for(var t in themeCfg[key].themes){
-              themes.push(t);
-            }
-          }
-          return themes;
-        }
-      }
-    };
-    this.registerThemeConfig = function(key, themeCheckFunc) {
-      themeCfg[key] = {
-        themeCheckFunc: themeCheckFunc,
-        themes: {}
-      }
-    }
-    this.addTheme = function(key, name, opt) {
-      if (themeCfg[key]) {
-        if (angular.isFunction(themeCfg[key].themeCheckFunc)) {
-          opt = themeCfg[key].themeCheckFunc(opt);
-        }
-        if (opt) {
-          themeCfg[key].themes[name] = opt;
-        }
-      }
-    }
   }]);

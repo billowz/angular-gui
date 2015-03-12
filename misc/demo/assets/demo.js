@@ -5,11 +5,12 @@ angular.module('ngui.demo', ['app', 'ngui', 'ui.bootstrap','ngAnimate'])
       $scope.menu = {};
       $scope.cfg = {} ;
 
-      configService.getConfig().then(function(cfg) {
+      configService.listen(function(cfg) {
         $scope.cfg = cfg;
       });
 
-      menuService.getMenu().then(function(cfg) {
+      menuService.listen(function(cfg) {
+        console.log(cfg);
         $scope.menu = cfg;
       });
     }
