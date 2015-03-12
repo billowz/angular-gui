@@ -21,7 +21,7 @@
     display: block;
     width: 100%;
     text-decoration: none;
-    padding: 3px 20px;
+    padding: 3px 5px;
     clear: both;
     font-weight: normal;
     line-height: 1.42857143;
@@ -46,26 +46,15 @@
     color: #262626;
     background-color: #f5f5f5;
 }
-.tree-node.node>.tree-node-action:before {
-    display: block;
-    content: " ";
-    float: left;
-    width: 0;
-    height: 0;
-    border-color: transparent;
-    margin-top: 5px;
-    margin-left: -12px;
-    border-style: solid;
-    border-width: 5px 0 5px 5px;
-    border-left-color: #6C6C6C;
+.tree-node>.tree-node-action>.fa-caret{
+  float:left;
+  margin: 3px 5px;
 }
-.tree-node.node.open>.tree-node-action:before {
-    border-style: solid;
-    border-width: 5px 5px 0 5px;
-    border-top-color: #6C6C6C;
-    border-left-color: transparent;
-    margin-top: 7px;
-    margin-left: -15px;
+.tree-node.node>.tree-node-action>.fa-caret:before {
+  content: "\f0da";
+}
+.tree-node.node.open>.tree-node-action>.fa-caret:before {
+  content: "\f0d7";
 }
 .navbar {
     background: #eee;
@@ -114,8 +103,12 @@
     background-color: #e5e5e5;
 }
 .dropdown.tree .tree-sub>.tree-node>.tree-node-action {
-    padding-left: 6px;
+      padding: 2px 0 2px 5px;
     color: #9d9d9d;
+}
+
+.dropdown.tree .tree-node>.tree-node-action>.fa-caret{
+  float:right;
 }
 .dropdown.tree .tree-sub>.tree-node.open>.tree-node-action, .navbar-inverse .tree>.tree-node.open>.tree-node-action:hover, .navbar-inverse .tree>.tree-node.open>.tree-node-action:focus {
     color: #262626;
@@ -138,17 +131,11 @@
 .dropdown.tree .tree-sub>.tree-node>.tree-sub {
     padding: 5px;
 }
-.dropdown.tree .tree-node.node>.tree-node-action:before {
-    float: right;
-    margin-top: 5px;
-    margin-left: 0;
-    margin-right: -15px;
-}
-.dropdown.tree .tree-node.node.open>.tree-node-action:before {
-    margin-top: 7px;
-}
 .navbar-nav.dropdown.tree>.tree-node>.tree-node-action {
     padding: 15px;
+}
+.navbar {
+    border: none;
 }
 .navbar-nav.dropdown.tree>.tree-node>.tree-node-action:hover, .navbar-nav.dropdown.tree>.tree-node>.tree-node-action:focus {
     color: #262626;
@@ -173,6 +160,53 @@
 .navbar-inverse .navbar-nav.dropdown.tree>.tree-node.active>.tree-node-action, .navbar-inverse .navbar-nav.dropdown.tree>.tree-node.active>.tree-node-action:hover, .navbar-inverse .navbar-nav.dropdown.tree>.tree-node.active>.tree-node-action:focus {
     color: #fff;
     background-color: #080808;
+}
+@media(max-width:767px) {
+
+    .navbar-nav.dropdown.tree > .tree-node {
+        position: relative;
+        float: none;
+    }
+    .navbar-nav.dropdown.tree .tree {
+        position: relative;
+        background: #fff;
+        border: none;
+        -webkit-border-radius: 0;
+        -moz-border-radius: 0;
+        border-radius: 0;
+        margin-top: 0;
+    }
+    .navbar-nav.dropdown.tree .tree-node>.tree-sub {
+        padding: 0;
+    }
+    .navbar-nav.dropdown.tree .tree .divider {
+        background-color: #e5e5e5;
+    }
+    .navbar-nav.dropdown.tree .tree-sub>.tree-node>.tree-node-action {
+        padding-left: 6px;
+        color: #9d9d9d;
+    }
+    .navbar-nav.dropdown.tree .tree-sub>.tree-node.open>.tree-node-action, .navbar-inverse .tree>.tree-node.open>.tree-node-action:hover, .navbar-inverse .tree>.tree-node.open>.tree-node-action:focus {
+        color: #262626;
+        background-color: #f5f5f5;
+    }
+    .navbar-nav.dropdown.tree .tree-sub>.tree-node>.tree-node-action:hover, .navbar-inverse .tree>.tree-node>.tree-node-action:focus {
+        color: #262626;
+        background-color: #f5f5f5;
+    }
+    .navbar-nav.dropdown.tree .tree-sub >.tree-node.active >.tree-node-action, .navbar-inverse .tree >.tree-node.active >.tree-node-action:hover, .navbar-inverse .tree >.tree-node.active >.tree-node-action:focus {
+        color: #fff;
+        outline: 0;
+        background-color: #337ab7;
+    }
+    .navbar-nav.dropdown.tree .tree-sub>.tree-node>.tree-sub {
+        left: 0;
+        top: 0;
+        margin-left: 0;
+    }
+    .navbar-nav.dropdown.tree .tree-sub>.tree-node>.tree-sub {
+        padding: 0;
+    }
 }
 @media(min-width:768px) {
     .sidebar {
@@ -202,12 +236,7 @@
     padding: 7px 20px;
     font-size: 16px;
 }
-.side-nav.tree .tree-node.node>.tree-node-action:before {
-    float: right;
-    margin-top: 7px;
-    margin-left: 0;
-    margin-right: -15px;
-}
-.side-nav.tree .tree-node.node.open>.tree-node-action:before {
-    margin-top: 10px;
+
+.side-nav.tree .tree-node>.tree-node-action>.fa-caret{
+  float:right;
 }

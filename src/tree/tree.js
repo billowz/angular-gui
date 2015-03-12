@@ -156,7 +156,6 @@ angular.module('ngui.tree', ['ngui.utils', 'ngui.theme'])
       var nodeEl = $(node[treeRootKey] ? theme.rootTmpl(node) : theme.nodeTmpl(node));
       nodeEl.data('treeNode', node);
       node.$el = nodeEl;
-      dropdownEl.append(nodeEl);
       var actionEl = nodeEl.find('[role=menuitem]:first');
 
       if (node.handler) {
@@ -169,6 +168,7 @@ angular.module('ngui.tree', ['ngui.utils', 'ngui.theme'])
           parseTree(menuEl, childNode, theme, handler);
         });
       }
+      dropdownEl.append(nodeEl);
       handler(node);
     }
     return {
@@ -201,6 +201,7 @@ angular.module('ngui.tree', ['ngui.utils', 'ngui.theme'])
 
             function render() {
               var root = $scope.getRoot();
+              var isDropdown = $elm.hasClass('dropdown');
               if (root && root instanceof TreeNode) {
                 var menu = $scope.isRootDisplay() ? [root] : root.$children;
                 var theme = themeConfig.getTheme(themeKey, $scope.getTheme() || defaultTheme);
@@ -209,14 +210,21 @@ angular.module('ngui.tree', ['ngui.utils', 'ngui.theme'])
                   parseTree($elm, node, theme, function(node) {
                     node.$el.find('[role=menuitem]:first').on('click', function(event) {
                       if (node.isLeaf()) {
+                        $elm.find('[role=presentation]').removeClass('active');
                         utils.forEach(node.getHierarchy(), function(n) {
-                          if (n[treeRootKey]) {
-                            n.$el.parent().find('[role=presentation]').removeClass('active');
-                          }
                           if (n.$el) {
                             n.$el.addClass('active');
                           }
                         });
+                        if(isDropdown){
+                          angular.forEach($elm.find('.tree'), function(el){
+                            var elm = $(el);
+                            if(elm.hasClass('in')){
+                              elm.collapse('toggle')
+                            }
+                          });
+                          $elm.find('.tree-node').removeClass('open');
+                        }
                       } else {
                         event.preventDefault();
                         event.stopPropagation();
@@ -239,6 +247,9 @@ angular.module('ngui.tree', ['ngui.utils', 'ngui.theme'])
                     }
                   });
                 });
+                if(isDropdown){
+                  $elm.find('.tree').removeClass('in');
+                }
                 $('.subdropdown [data-toggle=dropdown]').on('click', function(event) {
                   event.preventDefault();
                   event.stopPropagation();
@@ -268,8 +279,8 @@ angular.module('ngui.tree', ['ngui.utils', 'ngui.theme'])
     });
 
     var defMenuTmpl = '<ul class="tree tree-sub <%=expand ? "collapse in":"collapse"%>" role="menu"></ul>';
-    var defNodeTmpl = '<li role="presentation" class="tree-node <%=$leaf ? "leaf" : "node"%>"><a role="menuitem" class="tree-node-action" <%if($leaf){%> href="<%=href%>" <%if(router){%>ui-sref="<%=router%>"<%}}else{%> href="javascript:void(0);"<%}%>><%=text%></a></li>'
-    var defRootTmpl = '<li role="presentation" class="tree-node root <%=$leaf ? "leaf" : "node"%>"><a role="menuitem" class="tree-node-action" href="javascript:void(0);"><%=text%></a></li>';
+    var defNodeTmpl = '<li role="presentation" class="tree-node <%=$leaf ? "leaf" : "node"%>"><a role="menuitem" class="tree-node-action" <%if($leaf){%> href="<%=href%>" <%if(router){%>ui-sref="<%=router%>"<%}}else{%> href="javascript:void(0);"<%}%>><%=text%><span class="fa fa-caret"></span></a></li>'
+    var defRootTmpl = '<li role="presentation" class="tree-node root <%=$leaf ? "leaf" : "node"%>"><a role="menuitem" class="tree-node-action" href="javascript:void(0);"><%=text%><span class="fa fa-caret"></span></a></li>';
     themeConfigProvider.addTheme('tree', 'theme.default', {
       menuTmpl: defMenuTmpl,
       nodeTmpl: defNodeTmpl,
