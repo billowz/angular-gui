@@ -156,11 +156,6 @@ angular.module('ngui.tree', ['ngui.utils', 'ngui.theme'])
       var nodeEl = $(node[treeRootKey] ? theme.rootTmpl(node) : theme.nodeTmpl(node));
       nodeEl.data('treeNode', node);
       node.$el = nodeEl;
-      var actionEl = nodeEl.find('[role=menuitem]:first');
-
-      if (node.handler) {
-        actionEl.on('click', node.handler);
-      }
       if (!node.isLeaf()) {
         var menuEl = $(theme.menuTmpl(node));
         nodeEl.append(menuEl);
@@ -179,20 +174,20 @@ angular.module('ngui.tree', ['ngui.utils', 'ngui.theme'])
       compile: function() {
         return {
           post: function($scope, $elm, $attrs, uiGridCtrl) {
-            $scope.getTheme = function() {
+            var getTheme = function() {
               if ($attrs.theme) {
                 return $scope.$eval($attrs.theme) || $attrs.theme;
               }
               return null;
             }
-            $scope.isRootDisplay = function() {
+            var isRootDisplay = function() {
               if ($attrs.rootDisplay) {
                 return $scope.$eval($attrs.rootDisplay) || $attrs.rootDisplay;
               }
               return null;
             }
 
-            $scope.getRoot = function() {
+            var getRoot = function() {
               if ($attrs.nguiTree) {
                 return $scope.$eval($attrs.nguiTree);
               }
@@ -200,43 +195,23 @@ angular.module('ngui.tree', ['ngui.utils', 'ngui.theme'])
             }
 
             function render() {
-              var root = $scope.getRoot();
-              var isDropdown = $elm.hasClass('dropdown');
+              var root = getRoot();
+              if(root && !(root instanceof TreeNode)){
+                root = new TreeNode({option:root,
+                  applyData: function(node, option) {
+                    angular.extend(node, option);
+                  }});
+              }
               if (root && root instanceof TreeNode) {
-                var menu = $scope.isRootDisplay() ? [root] : root.$children;
-                var theme = themeConfig.getTheme(themeKey, $scope.getTheme() || defaultTheme);
+                var menu = isRootDisplay() ? [root] : root.$children;
+                var theme = themeConfig.getTheme(themeKey, getTheme() || defaultTheme);
                 angular.forEach(menu, function(node) {
                   node[treeRootKey] = true;
                   parseTree($elm, node, theme, function(node) {
-                    node.$el.find('[role=menuitem]:first').on('click', function(event) {
-                      if (node.isLeaf()) {
-                        $elm.find('[role=presentation]').removeClass('active');
-                        utils.forEach(node.getHierarchy(), function(n) {
-                          if (n.$el) {
-                            n.$el.addClass('active');
-                          }
-                        });
-                        if(isDropdown){
-                          angular.forEach($elm.find('.tree'), function(el){
-                            var elm = $(el);
-                            if(elm.hasClass('in')){
-                              elm.collapse('toggle')
-                            }
-                          });
-                          $elm.find('.tree-node').removeClass('open');
-                        }
-                      } else {
-                        event.preventDefault();
-                        event.stopPropagation();
-                        var tree = node.$el.find('.tree:first');
-                        if (tree.hasClass('in')) {
-                          node.$el.removeClass('open');
-                        } else {
-                          node.$el.addClass('open');
-                        }
-                        tree.collapse('toggle');
-                      }
-                    });
+                    if (theme.nodeInit) {
+                      theme.nodeInit($elm, node);
+                    }
+                    var actionEl = node.$el.find('[role=menuitem]:first');
                     if (!node.isLeaf()) {
                       var tree = node.$el.find('.tree:first');
                       if (tree.hasClass('in')) {
@@ -245,10 +220,33 @@ angular.module('ngui.tree', ['ngui.utils', 'ngui.theme'])
                         node.$el.removeClass('open');
                       }
                     }
+                    actionEl.on('click', function(event) {
+                      if (node.isLeaf()) {
+                        $elm.find('[role=presentation]').removeClass('active');
+                        utils.forEach(node.getHierarchy(), function(n) {
+                          if (n.$el) {
+                            n.$el.addClass('active');
+                          }
+                        });
+                      } else {
+                        var tree = node.$el.find('.tree:first');
+                        if (tree.hasClass('in')) {
+                          node.$el.removeClass('open');
+                        } else {
+                          node.$el.addClass('open');
+                        }
+                        tree.collapse('toggle');
+                        event.preventDefault();
+                        event.stopPropagation();
+                      }
+                    });
+                    if (node.handler) {
+                      actionEl.on('click', node.handler.bind(node));
+                    }
                   });
                 });
-                if(isDropdown){
-                  $elm.find('.tree').removeClass('in');
+                if (theme.init) {
+                  theme.init($elm);
                 }
                 $('.subdropdown [data-toggle=dropdown]').on('click', function(event) {
                   event.preventDefault();
@@ -259,7 +257,7 @@ angular.module('ngui.tree', ['ngui.utils', 'ngui.theme'])
                 $compile($elm.children())($scope);
               }
             }
-            $scope.$watch($scope.getRoot, function(val, nval) {
+            $scope.$watch(getRoot, function(val, nval) {
               $elm.empty();
               render();
             });
@@ -275,6 +273,8 @@ angular.module('ngui.tree', ['ngui.utils', 'ngui.theme'])
       theme.menuTmpl = _.template(opt.menuTmpl);
       theme.nodeTmpl = _.template(opt.nodeTmpl);
       theme.rootTmpl = _.template(opt.rootTmpl);
+      theme.init = opt.init;
+      theme.nodeInit = opt.nodeInit;
       return theme;
     });
 
@@ -285,5 +285,35 @@ angular.module('ngui.tree', ['ngui.utils', 'ngui.theme'])
       menuTmpl: defMenuTmpl,
       nodeTmpl: defNodeTmpl,
       rootTmpl: defRootTmpl,
-    });
+    });/*
+    themeConfigProvider.addTheme('tree', 'theme.dropdown', {
+      menuTmpl: defMenuTmpl,
+      nodeTmpl: defNodeTmpl,
+      rootTmpl: defRootTmpl,
+      init: function($elm) {
+        $elm.find('.tree').removeClass('in');
+        $elm.addClass('dropdown');
+      },
+      nodeInit: function($elm, node) {
+        node.$el.find('[role=menuitem]:first').on('click', function(event) {
+          if (node.isLeaf()) {
+            angular.forEach($elm.find('.tree'), function(el) {
+              var elm = $(el);
+              if (elm.hasClass('in')) {
+                elm.collapse('toggle')
+              }
+            });
+            $elm.find('.tree-node').removeClass('open');
+          } else {
+            angular.forEach(node.$el.parent().find('.tree'), function(el) {
+              var elm = $(el);
+              if (elm.hasClass('in')) {
+                elm.collapse('toggle')
+              }
+            });
+            $elm.find('.tree-node').removeClass('open');
+          }
+        });
+      }
+    });*/
   }]);

@@ -1,4 +1,4 @@
-<div class="navbar navbar-inverse navbar-static-top" role="navigation">
+<div class="navbar navbar-inverse navbar-static-top" role="navigation" >
     <div class="container-fluid">
         <div class="navbar-header">
             <a class="navbar-brand" ng-bind="cfg.title"></a>
@@ -13,16 +13,14 @@
             <li role="presentation" class="dropdown">
                 <a role="menuitem" href="javascript:void(0);" data-toggle="dropdown" class="dropdown-toggle">Theme</a>
                 <ul class="dropdown-menu">
-                    <li role="presentation" ng-repeat="t in supportThemes">
+                    <li role="presentation" ng-repeat="t in miniSupportThemes">
                         <a ng-click="cfg.theme=t" ng-bind="t"></a>
                     </li>
                 </ul>
             </li>
         </ul>
         <div class="collapse navbar-collapse">
-            <ul ngui-dropdown="menu" theme="theme.menu" class="nav navbar-nav">
-            </ul>
-            <ul ng-if="miniTheme" ngui-tree="menu" theme="theme.default" class="nav navbar-nav">
+            <ul ngui-tree="menu" theme="theme.default" class="nav navbar-nav">
             </ul>
         </div>
     </div>

@@ -3,15 +3,15 @@ angular.module('ngui.demo').controller('TreeCtrl',['$scope','TreeNode',function 
   function randomTreeNode(parent, level, count){
     for(var i=0; i<count; i++){
       parent.children.push({
-        text:'testTree-'+level+'-'+i,
+        text:parent.text+'-'+i,
         key:idx++,
         children:[]
       });
     }
   }
-  function _randomTree(count){
+  function _randomTree(name, count){
     var treeOpt = {
-      text:'testTree',
+      text:name,
       key:idx++,
       children:[]
     };
@@ -29,8 +29,9 @@ angular.module('ngui.demo').controller('TreeCtrl',['$scope','TreeNode',function 
   }
   $scope.randomTree = function(){
     var c = Math.random() *10;
-    $scope.tree = _randomTree(c);
+    $scope.tree = _randomTree('tree1',c);
     console.log(c, $scope.tree);
+    $scope.tree2 = _randomTree('tree2',c);
   }
   $scope.randomTree();
 }]);

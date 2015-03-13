@@ -1,0 +1,24 @@
+.viewport {
+    overflow: hidden;
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+}
+.viewport .workspace {
+  overflow-y: auto;
+  position: absolute;
+  left: 0;
+  right:0;
+  top:50px;
+  bottom:0;
+  padding:5px;
+}
+.viewport.wheel .workspace{
+  top:0;
+}
+
+.navbar {
+    margin-bottom: 0;
+}

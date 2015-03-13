@@ -24,9 +24,15 @@
 </head>
 
 <body>
-  <div class="viewport">
-    <div ngui-navigation="cfg.navtheme" title="cfg.title" menu = "menu"></div>
-    <!--
+  <div ngui-viewport="cfg" menu="menu">
+    <div class="row">
+      <div class="col-md-12 an-scaleup-rotatefall" ui-view >
+        </div>
+    </div>
+  </div>
+  <!--<div class="viewport">
+    <div ngui-navigation="cfg.navtheme" title="cfg.title" menu = "menu" class="navbar-inverse"></div>
+
     <div class="navbar navbar-inverse navbar-static-top" role="navigation">
       <div class="container-fluid">
         <div class="navbar-header">
@@ -49,9 +55,9 @@
           </ul>
         </div>
       </div>
-    </div> -->
+    </div>
 
-    <div class="workspace" ng-class="{rworkspace:cfg.navtheme!=='horizontal'}">
+    <div class="workspace side" ng-class="{rworkspace:cfg.navtheme!=='horizontal'}">
       <div class="container-fluid">
           <div class="row">
               <div class="col-md-12 an-scaleup-rotatefall" ui-view >
@@ -60,7 +66,7 @@
         </div>
     </div>
 
-  </div>
+  </div> -->
 
 
 </body>
