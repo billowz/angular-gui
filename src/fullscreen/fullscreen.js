@@ -73,7 +73,7 @@ angular.module('ngui.fullscreen', ['ngui.utils'])
             elem = angular.element(elem);
             if (elem.css('overflow') === 'scroll' || elem.css('overflow') === 'auto') {
               scrolloverflows.push({overflow:elem.css('overflow'), el:elem});
-              elem.css('overflow', 'visible');
+              elem.css('overflow', elem.hasClass('viewport') ? 'hidden' : 'visible');
             }
           });
         }

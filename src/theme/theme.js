@@ -11,7 +11,7 @@ angular.module('ngui.theme', [])
           var themes = [];
           if (themeCfg[key]) {
             for (var t in themeCfg[key].themes) {
-              themes.push(t);
+              themes.push(themeCfg[key].themes[t]);
             }
           }
           return themes;
@@ -29,6 +29,7 @@ angular.module('ngui.theme', [])
         if (angular.isFunction(themeCfg[key].themeCheckFunc)) {
           opt = themeCfg[key].themeCheckFunc(opt);
         }
+        opt.$name = name;
         if (opt) {
           themeCfg[key].themes[name] = opt;
         }

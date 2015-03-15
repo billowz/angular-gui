@@ -1,5 +1,6 @@
 .subdropdown {
     position: relative;
+    z-index: 999999;
 }
 .subdropdown>.dropdown-menu {
     top: 0;
@@ -28,59 +29,46 @@
     -moz-border-radius: 6px 0 6px 6px;
     border-radius: 6px 0 6px 6px;
 }
-.navbar-nav>.dropdown>a {
-    padding-right: 25px;
+.dropdown-menu > li > a {
+    outline: 0;
+    text-decoration: none;
+    color: #555;
 }
-.subdropdown>a:after, .navbar-nav > .dropdown > a:after {
+.dropdown-menu > .active > a {
+    color: #fff;
+    background-color: #337ab7;
+}
+.dropdown-menu>li:hover>a {
+    color: #000;
+}
+.dropdown-menu>.open>a, .dropdown-menu>.open>a:hover, .dropdown-menu>.open>a, .dropdown-menu>.open>a:focus{
+    color: #000;
+}
+.dropdown-menu>.subdropdown>a:after, .navbar-nav > .dropdown > a:after {
     display: block;
     content: " ";
     float: right;
     width: 0;
     height: 0;
-    border-color: transparent;
     border-style: solid;
     border-width: 5px 0 5px 5px;
-    border-left-color: #cccccc;
     margin-top: 5px;
     margin-right: -10px;
-}
-.navbar-inverse .navbar-nav > .dropdown > a:after {
+    border-color: transparent;
     border-left-color: #cccccc;
 }
-.dropdown-menu>.open>a:after, .navbar-nav > .dropdown.open > a:after {
+.dropdown-menu>.subdropdown.active>a:after, .navbar-nav > .dropdown.active > a:after {
+    border-top-color: transparent;
+    border-left-color: #555;
+}
+.dropdown-menu>li:hover>a:after {
+    border-top-color: transparent;
+    border-left-color: #555;
+}
+.subdropdown.open>a:after, .dropdown-menu>.subdropdown.open:hover>a:after, .navbar-nav > .open > a:after, .navbar-nav > .open:hover > a:after {
     border-width: 5px 5px 0 5px;
-    border-left-color: transparent;
-    border-top-color: #cccccc;
     margin-top: 8px;
     margin-right: -12px;
-}
-.navbar-inverse .navbar-nav > .navbar-nav > .dropdown.open > a:after {
-    border-left-color: #fff;
-}
-.dropdown-menu>.subdropdown:hover>a:after {
-    border-left-color: #555;
-}
-.navbar-nav > .dropdown:hover > a:after {
-    border-left-color: #555;
-}
-.navbar-inverse .navbar-nav > .dropdown:hover > a:after {
-    border-left-color: #fff;
-}
-.dropdown-menu>.open:hover>a:after {
+    border-left-color: transparent;
     border-top-color: #555;
-    border-left-color: transparent;
-}
-.navbar-nav > .open:hover > a:after {
-    border-top-color: #555;
-    border-left-color: transparent;
-}
-.navbar-inverse .navbar-nav > .open:hover > a:after {
-    border-top-color: #fff;
-    border-left-color: transparent;
-}
-.dropdown-menu > .active > a, .dropdown-menu > .active > a:hover, .dropdown-menu > .active > a:focus {
-    color: #fff;
-    text-decoration: none;
-    background-color: #337ab7;
-    outline: 0;
 }

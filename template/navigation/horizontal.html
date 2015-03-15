@@ -1,6 +1,6 @@
-<div class="navbar navbar-inverse navbar-static-top" role="navigation">
+<div class="navbar navbar-static-top" role="navigation">
     <div class="container-fluid">
-        <div class="navbar-header">
+        <div class="navbar-header" >
             <a class="navbar-brand" ng-bind="cfg.title"></a>
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                 <span class="sr-only">Toggle navigation</span>
@@ -9,18 +9,10 @@
                 <span class="icon-bar"></span>
             </button>
         </div>
-        <ul class="nav navbar-right ">
-            <li role="presentation" class="dropdown">
-                <a role="menuitem" href="javascript:void(0);" data-toggle="dropdown" class="dropdown-toggle">Theme</a>
-                <ul class="dropdown-menu">
-                    <li role="presentation" ng-repeat="t in supportThemes">
-                        <a ng-click="cfg.theme=t" ng-bind="t"></a>
-                    </li>
-                </ul>
-            </li>
+        <ul class="nav navbar-nav navbar-right " ng-include="'template/navigation/theme.html'">
         </ul>
         <div class="collapse navbar-collapse">
-            <ul ngui-dropdown="menu" theme="theme.menu" class="nav navbar-nav">
+            <ul ng-if="!miniTheme" ngui-dropdown="menu" theme="theme.menu" class="nav navbar-nav">
             </ul>
             <ul ng-if="miniTheme" ngui-tree="menu" theme="theme.default" class="nav navbar-nav">
             </ul>

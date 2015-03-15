@@ -24,10 +24,9 @@
 </head>
 
 <body>
-  <div ngui-viewport="cfg" menu="menu">
+  <div ngui-workbench="cfg" menu="menu">
     <div class="row">
-      <div class="col-md-12 an-scaleup-rotatefall" ui-view >
-        </div>
+      <div class="col-md-12 an-scaleup-rotatefall" ui-view></div>
     </div>
   </div>
   <!--<div class="viewport">
@@ -162,6 +161,15 @@
             url:'dependencies',
             templateUrl: 'dependencies.tpl'
           });
+          var views = {};
+          <% demoModules.forEach(function(module) {  %>
+            views['/directives/<%= module.name %>'] = {
+              templateUrl: "<%= module.name %>.tpl"
+            }
+          <%})%>
+          $stateProvider.state('inbox', {
+            views:views
+          })
           <% demoModules.forEach(function(module) {  %>
             $stateProvider.state('/directives/<%= module.name %>', {
               url:'/directives/<%= module.name %>',

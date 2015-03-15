@@ -1,0 +1,267 @@
+.workbench {
+    overflow: auto;
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+}
+.workbench .app-progress {
+    height: 10px;
+    border-radius: 0;
+
+    margin: 0;
+}
+/**************************************** Layouts ****************************************/
+/********* wheel *********/
+
+.workbench.wheel .workspace {
+    top: 0;
+}
+/********* Navbar *********/
+
+.navbar {
+    border: none;
+    margin-bottom: 0px;
+}
+.navbar-nav .tree>.tree-node>.tree-node-action>.fa-caret {
+    float: right;
+}
+.navbar-nav.tree>.tree-node>.tree-node-action {
+    padding: 5px 5px 5px 5px;
+    line-height: 20px;
+    font-size: 14px;
+}
+.navbar-nav >.dropdown>a {
+    padding-right: 25px;
+}
+.navbar-nav > .active > a {
+    padding-bottom: 12px;
+    border-bottom: 3px solid #9E9E9E;
+}
+@media(max-width:767px) {
+    .navbar-collapse {
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+}
+.navbar-nav .tree-node>.tree-node-action {
+    margin-top: 2px;
+}
+.navbar-nav .tree-node>.tree-node-action>.fa-caret {
+    float: right;
+}
+/*Side Navbar*/
+
+.side .sidebar {
+    position: absolute;
+    top: 50px;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    overflow: auto;
+    width: 250px;
+    transition-property: width;
+    transition-duration: 1.5s;
+    transition-timing: ease;
+    transition-delay: 0;
+}
+.side .navbar-header {
+    width: 250px;
+}
+.side .navbar-toggle {
+    display: block;
+    border: none;
+    float: left;
+}
+.side .navbar-toggle:hover, .side .navbar-toggle:focus {
+    background: transparent;
+}
+.side .workspace {
+    position: absolute;
+    top: 50px;
+    right: 0;
+    bottom: 0;
+    overflow: hidden;
+    left: 250px;
+    transition-property: left;
+    transition-duration: 1.5s;
+    transition-timing: ease;
+    transition-delay: 0;
+}
+.side .workspace>.container-fluid{
+  position: relative;
+  top:0;
+  left:0;
+  right: 0;
+  bottom: 0;
+  height: 100%;
+  overflow: auto;
+}
+.sideout .sidebar {
+    width: 0;
+    overflow: hidden;
+    transition-property: width;
+    transition-duration: 1.5s;
+    transition-timing: ease;
+    transition-delay: 0;
+}
+.sideout .workspace {
+    left: 0;
+    transition-property: left;
+    transition-duration: 1.5s;
+    transition-timing: ease;
+    transition-delay: 0;
+}
+.sideright .sidebar {
+    right: 0;
+    left: inherit;
+}
+.sideright .workspace {
+    right: 250px;
+    left: 0;
+    transition-property: right;
+    transition-duration: 1.5s;
+    transition-timing: ease;
+    transition-delay: 0;
+}
+.sideout.sideright .workspace {
+    right: 0;
+    transition-property: right;
+    transition-duration: 1.5s;
+    transition-timing: ease;
+    transition-delay: 0;
+}
+.side .sidebar .tree {
+    width: 100%;
+}
+/**************************************** Navbar Skin ****************************************/
+/********* default *********/
+
+.navbar {
+    background: #F8F8F8;
+}
+.navbar-brand {
+    color: #555;
+}
+.navbar-toggle .icon-bar {
+    background: #777777;
+}
+.navbar-nav.tree li>a {
+    color: #555;
+}
+.navbar-nav.tree .active >a, .navbar-nav.tree .active >a:hover {
+    color: #262626;
+    background-color: #e7e7e7;
+}
+.navbar-nav.tree .open>a, .navbar-nav.tree .open>a:hover {
+    color: #262626;
+    background-color: transparent;
+}
+.navbar-nav.tree li>a:hover {
+    color: #262626;
+    background-color: #e7e7e7;
+}
+.navbar-nav > li> a {
+    color: #777777;
+}
+.navbar-nav > .active > a {
+    color: #555;
+    background: #e7e7e7;
+}
+.navbar-nav > li > a:hover, .navbar-nav > li > a:focus {
+    color: #555;
+    background: #e7e7e7;
+}
+.navbar-nav > .open > a {
+    color: #555;
+    background: transparent;
+}
+/*dropdown icon*/
+
+.navbar-nav > li > a:after {
+    border-top-color: transparent;
+    border-left-color: #777777;
+}
+.navbar-nav > .active > a:after {
+    border-top-color: transparent;
+    border-left-color: #555;
+}
+.navbar-nav > li:hover > a:after {
+    border-top-color: transparent;
+    border-left-color: #555;
+}
+.navbar-nav > .open > a:after, .navbar-nav > .open:hover > a:after {
+    border-top-color: #555;
+    border-left-color: transparent;
+}
+/********* block *********/
+
+.skin-block .navbar {
+    background: #222;
+}
+.skin-block .navbar-brand {
+    color: #9d9d9d;
+}
+.skin-block .navbar-toggle .icon-bar {
+    background: #E8E8E8;
+}
+.skin-block .navbar-nav.tree li>a {
+    color: #9d9d9d;
+}
+.skin-block .navbar-nav.tree .active >a, .skin-block .navbar-nav.tree .active >a:hover {
+    color: #ffffff;
+    background-color: #080808;
+}
+.skin-block .navbar-nav.tree .open>a, .skin-block .navbar-nav.tree .open>a:hover {
+    color: #ffffff;
+    background-color: transparent;
+}
+.skin-block .navbar-nav.tree li>a:hover {
+    color: #ffffff;
+    background-color: #080808;
+}
+.skin-block .navbar-nav > li> a {
+    color: #9d9d9d;
+}
+.skin-block .navbar-nav > .active > a {
+    color: #ffffff;
+    background: #080808;
+    border-bottom-color: #A8010E;
+}
+.skin-block .navbar-nav > li > a:hover, .skin-block .navbar-nav > li > a:focus {
+    color: #ffffff;
+    background: #080808;
+}
+.skin-block .navbar-nav > .open > a {
+    color: #9d9d9d;
+    background: transparent;
+}
+/*dropdown icon*/
+
+.skin-block .navbar-nav > li > a:after {
+    border-top-color: transparent;
+    border-left-color: #777777;
+}
+.skin-block .navbar-nav > .active > a:after {
+    border-top-color: transparent;
+    border-left-color: #ffffff;
+}
+.skin-block .navbar-nav > li:hover > a:after {
+    border-top-color: transparent;
+    border-left-color: #ffffff;
+}
+.skin-block .navbar-nav > .open > a:after, .skin-block .navbar-nav > .open:hover > a:after {
+    border-top-color: #ffffff;
+    border-left-color: transparent;
+}
+/**************************************** Side Navbar Skin ****************************************/
+
+.workbench.side .sidebar {
+    background: #F8F8F8;
+    border-top: 2px solid #ccc;
+}
+.workbench.side.skin-block .sidebar {
+    background: #222;
+    border-top-color: #000;
+}

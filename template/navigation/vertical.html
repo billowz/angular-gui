@@ -1,4 +1,4 @@
-<div class="navbar navbar-inverse navbar-side navbar-static-top" role="navigation">
+<div class="navbar navbar-static-top" role="navigation">
     <div class="container-fluid">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle" >
@@ -7,24 +7,11 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" ng-bind="getTitle()"></a>
+            <a class="navbar-brand" ng-bind="cfg.title"></a>
         </div>
-        <ul class="nav navbar-nav">
+        <ul class="nav navbar-nav navbar-right " ng-include="'template/navigation/theme.html'">
         </ul>
-
-        <ul class="nav navbar-right ">
-            <li role="presentation" class="dropdown">
-              <a role="menuitem" href="javascript:void(0);" data-toggle="dropdown" class="dropdown-toggle">Theme</a>
-              <ul class="dropdown-menu">
-                <li role="presentation" ng-repeat="theme in supportThemes">
-                <a href="javascript:void(0)" ng-click="cfg.navtheme=theme" ng-bind="theme"></a>
-                </li>
-              </ul>
-            </li>
-          </ul>
-        <div class="sidebar right">
-            <ul ngui-tree="getMenu()" theme="theme.default" auto-close="false" class="nav navbar-nav side-nav">
-            </ul>
-        </div>
     </div>
 </div>
+<ul class="sidebar nav navbar-nav tree"  ngui-tree="menu" theme="theme.default">
+</ul>

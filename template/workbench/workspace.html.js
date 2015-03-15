@@ -1,5 +1,5 @@
-angular.module("template/viewport/workspace.html", []).run(["$templateCache", function($templateCache) {
-  $templateCache.put("template/viewport/workspace.html",
+angular.module("template/workbench/workspace.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("template/workbench/workspace.html",
     "<div class=\"workspace\">\n" +
     "  <div class=\"container-fluid\">\n" +
     "      <div class=\"row\">\n" +

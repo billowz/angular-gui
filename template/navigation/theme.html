@@ -1,0 +1,16 @@
+<li role="presentation" class="dropdown">
+    <a role="menuitem" href="javascript:void(0);" data-toggle="dropdown" class="dropdown-toggle">Layout</a>
+    <ul class="dropdown-menu">
+        <li role="presentation" ng-repeat="t in supportThemes" ng-class="{active:currentTheme === t}">
+            <a href="javascript:void(0);" ng-click="cfg.theme=t.$name" ng-bind="t.label || t.$name"></a>
+        </li>
+    </ul>
+</li>
+<li role="presentation" class="dropdown">
+    <a role="menuitem" href="javascript:void(0);" data-toggle="dropdown" class="dropdown-toggle">Skin</a>
+    <ul class="dropdown-menu">
+        <li role="presentation" ng-repeat="t in supportSkins" ng-class="{active:currentSkin === t}">
+            <a href="javascript:void(0);" ng-click="cfg.skin=t.name" ng-bind="t.label || t.$name" ></a>
+        </li>
+    </ul>
+</li>

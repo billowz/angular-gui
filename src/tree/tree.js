@@ -55,6 +55,13 @@ angular.module('ngui.tree', ['ngui.utils', 'ngui.theme'])
       }
       return rs;
     }
+    TreeNode.prototype.eachAll = function(handler){
+      var _self = this;
+      handler(_self, _self.$parent);
+      angular.forEach(_self.$children, function(node){
+        node.eachAll(handler);
+      });
+    }
     TreeNode.prototype.getChildren = function() {
       var _self = this;
       return utils.deferred(function(def) {
@@ -147,7 +154,8 @@ angular.module('ngui.tree', ['ngui.utils', 'ngui.theme'])
       node.router = node.router || false;
       node.text = node.text || '';
       node.$el = null;
-      node.expand = node.expand || false;
+      node.$active = node.$active || false;
+      node.$expand = node.$expand || false;
       node[treeRootKey] = node[treeRootKey] || false;
     }
 
@@ -193,7 +201,6 @@ angular.module('ngui.tree', ['ngui.utils', 'ngui.theme'])
               }
               return null;
             }
-
             function render() {
               var root = getRoot();
               if(root && !(root instanceof TreeNode)){
@@ -222,18 +229,25 @@ angular.module('ngui.tree', ['ngui.utils', 'ngui.theme'])
                     }
                     actionEl.on('click', function(event) {
                       if (node.isLeaf()) {
-                        $elm.find('[role=presentation]').removeClass('active');
+                        angular.forEach($elm.find('.active[role=presentation]'), function(el){
+                          el = $(el);
+                          el.removeClass('active');
+                          el.data('treeNode').$active = false;
+                        });
                         utils.forEach(node.getHierarchy(), function(n) {
                           if (n.$el) {
                             n.$el.addClass('active');
                           }
+                          n.$active = true;
                         });
                       } else {
                         var tree = node.$el.find('.tree:first');
                         if (tree.hasClass('in')) {
                           node.$el.removeClass('open');
+                          node.$expand = false;
                         } else {
                           node.$el.addClass('open');
+                          node.$expand = true;
                         }
                         tree.collapse('toggle');
                         event.preventDefault();
@@ -278,9 +292,9 @@ angular.module('ngui.tree', ['ngui.utils', 'ngui.theme'])
       return theme;
     });
 
-    var defMenuTmpl = '<ul class="tree tree-sub <%=expand ? "collapse in":"collapse"%>" role="menu"></ul>';
-    var defNodeTmpl = '<li role="presentation" class="tree-node <%=$leaf ? "leaf" : "node"%>"><a role="menuitem" class="tree-node-action" <%if($leaf){%> href="<%=href%>" <%if(router){%>ui-sref="<%=router%>"<%}}else{%> href="javascript:void(0);"<%}%>><%=text%><span class="fa fa-caret"></span></a></li>'
-    var defRootTmpl = '<li role="presentation" class="tree-node root <%=$leaf ? "leaf" : "node"%>"><a role="menuitem" class="tree-node-action" href="javascript:void(0);"><%=text%><span class="fa fa-caret"></span></a></li>';
+    var defMenuTmpl = '<ul class="tree tree-sub <%=$expand ? "collapse in":"collapse"%>" role="menu"></ul>';
+    var defNodeTmpl = '<li role="presentation" class="tree-node  <%=$active ? "active":""%> <%=$leaf ? "leaf" : "node"%>"><a role="menuitem" class="tree-node-action" <%if($leaf){%> href="<%=href%>" <%if(router){%>ui-sref="<%=router%>"<%}}else{%> href="javascript:void(0);"<%}%>><%=text%><span class="fa fa-caret"></span></a></li>'
+    var defRootTmpl = '<li role="presentation" class="tree-node root <%=$active ? "active":""%> <%=$leaf ? "leaf" : "node"%>"><a role="menuitem" class="tree-node-action" href="javascript:void(0);"><%=text%><span class="fa fa-caret"></span></a></li>';
     themeConfigProvider.addTheme('tree', 'theme.default', {
       menuTmpl: defMenuTmpl,
       nodeTmpl: defNodeTmpl,

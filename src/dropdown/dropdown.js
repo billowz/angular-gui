@@ -9,7 +9,7 @@ angular.module('ngui.dropdown', ['ngui.tree', 'ngui.utils', 'ngui.theme'])
     });
 
     var defMenuTmpl = '<ul class="dropdown-menu" role="menu"></ul>';
-    var defNodeTmpl = '<li role="presentation" <%if(!$leaf){%>class="dropdown <%=$dropdown_root ? "":"subdropdown"%>"<%}%>>' + '<a role="menuitem"' + '<%if($leaf){%> href="<%=href%>" <%if(router){%>ui-sref="<%=router%>"<%}%>' + '<%}else{%> href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown"<%}%>' + '><%=text%>' + '</a>' + '</li>';
+    var defNodeTmpl = '<li role="presentation" class="<%=$active ? "active":""%> <%if(!$leaf){%>dropdown <%=$dropdown_root ? "":"subdropdown"%><%}%>" >' + '<a role="menuitem"' + '<%if($leaf){%> href="<%=href%>" <%if(router){%>ui-sref="<%=router%>"<%}%>' + '<%}else{%> href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown"<%}%>' + '><%=text%>' + '</a>' + '</li>';
     var defRootTmpl = '<div><button role="menuitem" class="dropdown-toggle" data-toggle="dropdown"><%=text%></botton></div>';
     themeConfigProvider.addTheme('dropdown', 'default', {
       menuTmpl: defMenuTmpl,
@@ -24,35 +24,21 @@ angular.module('ngui.dropdown', ['ngui.tree', 'ngui.utils', 'ngui.theme'])
       node.text = node.text || '';
       node.$el = null;
       node.$dropdown_root = node.$dropdown_root || false;
+      node.$active = node.$active || false;
     }
 
-    function parseDropdown(dropdownEl, node, theme) {
+    function parseDropdown(dropdownEl, node, theme, init) {
       initNode(node);
       var nodeEl = $(node.$dropdown_root ? theme.rootTmpl(node) : theme.nodeTmpl(node));
       nodeEl.data('treeNode', node);
       node.$el = nodeEl;
       dropdownEl.append(nodeEl);
-      var actionEl = nodeEl.first('[role=menuitem]');
-      if (node.isLeaf()) {
-        actionEl.on('click', function() {
-          utils.forEach(node.getHierarchy(), function(n) {
-            if (n.$dropdown_root) {
-              n.$el.parent().find('[role=presentation]').removeClass('active');
-            }
-            if (n.$el) {
-              n.$el.addClass('active');
-            }
-          });
-        });
-      }
-      if (node.handler) {
-        actionEl.on('click', node.handler);
-      }
+      init(node);
       if (!node.isLeaf()) {
         var menuEl = $(theme.menuTmpl(node));
         nodeEl.append(menuEl);
         angular.forEach(node.$children, function(childNode) {
-          parseDropdown(menuEl, childNode, theme);
+          parseDropdown(menuEl, childNode, theme, init);
         });
       }
     }
@@ -91,7 +77,27 @@ angular.module('ngui.dropdown', ['ngui.tree', 'ngui.utils', 'ngui.theme'])
                 var theme = themeConfig.getTheme('dropdown', $scope.getTheme() || 'default');
                 angular.forEach(menu, function(node) {
                   node.$dropdown_root = true;
-                  parseDropdown($elm, node, theme);
+                  parseDropdown($elm, node, theme, function(node) {
+                    var actionEl = node.$el.first('[role=menuitem]');
+                    if (node.isLeaf()) {
+                      actionEl.on('click', function() {
+                        angular.forEach($elm.find('.active[role=presentation]'), function(el){
+                              el = $(el);
+                              el.removeClass('active');
+                              el.data('treeNode').$active = false;
+                            });
+                        utils.forEach(node.getHierarchy(), function(n) {
+                          if (n.$el) {
+                            n.$el.addClass('active');
+                          }
+                          n.$active = true;
+                        });
+                      });
+                    }
+                    if (node.handler) {
+                      actionEl.on('click', node.handler);
+                    }
+                  });
                 });
                 $('.subdropdown [data-toggle=dropdown]').on('click', function(event) {
                   event.preventDefault();
