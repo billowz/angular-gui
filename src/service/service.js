@@ -121,23 +121,8 @@ angular.module('ngui.service', ['ngui.utils', 'ngui.tree', 'ngui.data'])
     var _self = this;
     this.syncFunc = null;
     this.$get = ['utils', 'TreeNode', 'GlobalDataProvider', function(utils, TreeNode, GlobalDataProvider) {
-      function parseMenu(cfgs) {
-        if (!angular.isArray(cfgs)) {
-          cfgs = [cfgs];
-        }
-        return new TreeNode({
-          option: {
-            key: 'root',
-            text: '',
-            children: cfgs
-          },
-          applyData: function(node, option) {
-            angular.extend(node, option);
-          }
-        });
-      }
       this.dataHandler = function(data) {
-        return parseMenu(data);
+        return data;
       }
       return new GlobalDataProvider('menu', {
         syncFunc: _self.syncFunc,

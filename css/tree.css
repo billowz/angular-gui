@@ -104,3 +104,14 @@
     padding: 5px;
 }*/
 /*navbar*/
+
+
+
+
+.ztree li>span.button.switch {
+  font-family: FontAwesome;
+  font-style: normal;
+  font-weight: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

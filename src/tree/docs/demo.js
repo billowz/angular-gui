@@ -3,7 +3,7 @@ angular.module('ngui.demo').controller('TreeCtrl',['$scope','TreeNode','$timeout
   function randomTreeNode(parent, level, count){
     for(var i=0; i<count; i++){
       parent.children.push({
-        text:parent.text+'-'+i,
+        label:parent.text+'-'+i,
         key:idx++,
         children:[]
       });
@@ -11,7 +11,7 @@ angular.module('ngui.demo').controller('TreeCtrl',['$scope','TreeNode','$timeout
   }
   function _randomTree(name, count){
     var treeOpt = {
-      text:name,
+      label:name,
       key:idx++,
       children:[]
     };
@@ -22,15 +22,13 @@ angular.module('ngui.demo').controller('TreeCtrl',['$scope','TreeNode','$timeout
         randomTreeNode(cc, 3, count);
       });
     });
-    return new TreeNode({option:treeOpt,
-        applyData: function(node, option) {
-          angular.extend(node, option);
-        }});
+    return treeOpt;
   }
   $scope.randomTree = function(){
-    var c = 20;
+    var c = Math.random() * 20;
     $scope.tree = _randomTree('tree1',c);
-    console.log(c, $scope.tree);
+    var i = 0;
+    console.log(c, i, $scope.tree);
     $scope.tree2 = _randomTree('tree2',c);
   }
   $timeout($scope.randomTree, 50);

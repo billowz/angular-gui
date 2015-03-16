@@ -1,119 +1,136 @@
 (function() {
   "use strict"
-  angular.module('ngui.workbench', ['ngui.utils', 'ngui.theme', 'ngui.tree', 'ngui.dropdown', 'ngui.service', 'ngui.process'])
+  angular.module('ngui.workbench', [
+      'ngui.utils', 'ngui.theme', 'ngui.tree', 'ngui.tree',
+      'ngui.dropdown', 'ngui.service', 'ngui.process'
+    ])
     .constant('nguiWorkbenchConfig', {
       miniWidth: 767,
       themeType: 'workbench',
       defaultTheme: 'theme-topmenu',
       defaultMiniTheme: 'theme-topmenu'
     })
-    .config(['themeConfigProvider', 'nguiWorkbenchConfig', function(themeConfigProvider, workbenchConfig) {
-      themeConfigProvider.registerThemeConfig(workbenchConfig.themeType, null);
-      themeConfigProvider.addTheme(workbenchConfig.themeType, 'theme-topmenu', {
-        navTmplUrl: 'template/navigation/horizontal.html',
-        label: 'Horizontal',
-        skins: [{
-          name: 'white',
-          label: 'White',
-          color: '#FFFFFF'
-        }, {
-          name: 'block',
-          label: 'Block',
-          cls: 'skin-block',
-          color: '#222222'
-        }],
-        defaultSkin: 'block',
-        init: function($element, navEl) {
-          this.onClickLeafHandler = function() {
-            navEl.find('.navbar-collapse').collapse('toggle');
-          }
-          navEl.delegate('.leaf', 'click', this.onClickLeafHandler);
-        },
-        destroy: function($element, navEl) {
-          if (this.onClickLeafHandler)
-            navEl.undelegate('.leaf', 'click', this.onClickLeafHandler);
-        }
-      });
-      themeConfigProvider.addTheme(workbenchConfig.themeType, 'theme-topleft', {
-        navTmplUrl: 'template/navigation/vertical.html',
-        label: 'Side Menu',
-        skins: [{
-          name: 'white',
-          label: 'White',
-          color: '#FFFFFF'
-        }, {
-          name: 'block',
-          label: 'Block',
-          cls: 'skin-block',
-          color: '#222222'
-        }],
-        defaultSkin: 'block',
-        init: function($element, navEl) {
-          $element.addClass('side');
-          this.onClickLeafHandler = function() {
-            navEl.find('.navbar-collapse').collapse('toggle');
-          }
-          navEl.delegate('.leaf', 'click', this.onClickLeafHandler);
-          navEl.find('.navbar-toggle').on('click', function(){
-            $element.toggleClass('sideout');
-          });
-        },
-        destroy: function($element, navEl) {
-          $element.removeClass('side');
-          if (this.onClickLeafHandler)
-            navEl.undelegate('.leaf', 'click', this.onClickLeafHandler);
-        }
-      });
+    .config(['themeConfigProvider', 'nguiWorkbenchConfig',
+      function(themeConfigProvider, workbenchConfig) {
+        themeConfigProvider.registerThemeConfig(workbenchConfig.themeType, null);
+        themeConfigProvider.addTheme(workbenchConfig.themeType, 'theme-topmenu', {
+          navTmplUrl: 'template/navigation/horizontal.html',
+          label: 'Horizontal',
+          skins: [{
+            name: 'white',
+            label: 'White',
+            color: '#FFFFFF'
+          }, {
+            name: 'block',
+            label: 'Block',
+            cls: 'skin-block',
+            color: '#222222'
+          }],
+          defaultSkin: 'block',
+          beforeCompile: function($element, navEl, $scope) {
+            $scope.menuOptions = {
+              callback: {
+                onClick: function(event, id, node) {
+                  var zTree = $.fn.zTree.getZTreeObj(id);
+                  zTree.expandNode(node);
+                }
+              }
+            }
+          },
+          afterCompile: function($element, navEl, $scope) {
 
-      themeConfigProvider.addTheme(workbenchConfig.themeType, 'theme-topright', {
-        navTmplUrl: 'template/navigation/vertical.html',
-        label: 'Right Side Menu',
-        skins: [{
-          name: 'white',
-          label: 'White',
-          color: '#FFFFFF'
-        }, {
-          name: 'block',
-          label: 'Block',
-          cls: 'skin-block',
-          color: '#222222'
-        }],
-        defaultSkin: 'block',
-        init: function($element, navEl) {
-          $element.addClass('side sideright');
-          this.onClickLeafHandler = function() {
-            navEl.find('.navbar-collapse').collapse('toggle');
+            this.onClickLeafHandler = function() {
+              navEl.find('.navbar-collapse').collapse('toggle');
+            }
+            navEl.delegate('.leaf', 'click', this.onClickLeafHandler);
+          },
+          destroy: function($element, navEl, $scope) {
+            $scope.menuOptions = null;
+            if (this.onClickLeafHandler)
+              navEl.undelegate('.leaf', 'click', this.onClickLeafHandler);
           }
-          navEl.delegate('.leaf', 'click', this.onClickLeafHandler);
-          navEl.find('.navbar-toggle').on('click', function(){
-            $element.toggleClass('sideout');
-          });
-        },
-        destroy: function($element, navEl) {
-          $element.removeClass('side sideright');
-          if (this.onClickLeafHandler)
-            navEl.undelegate('.leaf', 'click', this.onClickLeafHandler);
-        }
-      });
-      themeConfigProvider.addTheme(workbenchConfig.themeType, 'theme-wheel', {
-        navTmplUrl: 'template/navigation/wheel.html',
-        wheelCls: 'wheel',
-        label: 'Wheel Menu',
-        init: function($element) {
-          $element.addClass(this.wheelCls);
-        },
-        destroy: function($element) {
-          $element.removeClass(this.wheelCls);
-        }
-      });
+        });
+        themeConfigProvider.addTheme(workbenchConfig.themeType, 'theme-topleft', {
+          navTmplUrl: 'template/navigation/vertical.html',
+          label: 'Side Menu',
+          skins: [{
+            name: 'white',
+            label: 'White',
+            color: '#FFFFFF'
+          }, {
+            name: 'block',
+            label: 'Block',
+            cls: 'skin-block',
+            color: '#222222'
+          }],
+          defaultSkin: 'block',
+          afterCompile: function($element, navEl) {
+            $element.addClass('side');
+            this.onClickLeafHandler = function() {
+              navEl.find('.navbar-collapse').collapse('toggle');
+            }
+            navEl.delegate('.leaf', 'click', this.onClickLeafHandler);
+            navEl.find('.navbar-toggle').on('click', function() {
+              $element.toggleClass('sideout');
+            });
+          },
+          destroy: function($element, navEl) {
+            $element.removeClass('side');
+            if (this.onClickLeafHandler)
+              navEl.undelegate('.leaf', 'click', this.onClickLeafHandler);
+          }
+        });
 
-      var menuNodeTmpl = '<li role="presentation" class="<%=$active ? "active" : ""%> <%if(!$leaf){%>dropdown menu <%=$dropdown_root ? "":"subdropdown"%><%}%>"><a role="menuitem"<%if($leaf){%> href="<%=href%>" <%if(router){%>ui-sref="<%=router%>"<%}%><%}else{%> href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown"<%}%>><%=text%></a></li>';
-      themeConfigProvider.addTheme('dropdown', 'theme.menu', {
-        menuTmpl: '<ul class="dropdown-menu" role="menu"></ul>',
-        nodeTmpl: menuNodeTmpl,
-        rootTmpl: menuNodeTmpl,
-      });
-    }])
+        themeConfigProvider.addTheme(workbenchConfig.themeType, 'theme-topright', {
+          navTmplUrl: 'template/navigation/vertical.html',
+          label: 'Right Side Menu',
+          skins: [{
+            name: 'white',
+            label: 'White',
+            color: '#FFFFFF'
+          }, {
+            name: 'block',
+            label: 'Block',
+            cls: 'skin-block',
+            color: '#222222'
+          }],
+          defaultSkin: 'block',
+          afterCompile: function($element, navEl) {
+            $element.addClass('side sideright');
+            this.onClickLeafHandler = function() {
+              navEl.find('.navbar-collapse').collapse('toggle');
+            }
+            navEl.delegate('.leaf', 'click', this.onClickLeafHandler);
+            navEl.find('.navbar-toggle').on('click', function() {
+              $element.toggleClass('sideout');
+            });
+          },
+          destroy: function($element, navEl) {
+            $element.removeClass('side sideright');
+            if (this.onClickLeafHandler)
+              navEl.undelegate('.leaf', 'click', this.onClickLeafHandler);
+          }
+        });
+        themeConfigProvider.addTheme(workbenchConfig.themeType, 'theme-wheel', {
+          navTmplUrl: 'template/navigation/wheel.html',
+          wheelCls: 'wheel',
+          label: 'Wheel Menu',
+          afterCompile: function($element) {
+            $element.addClass(this.wheelCls);
+          },
+          destroy: function($element) {
+            $element.removeClass(this.wheelCls);
+          }
+        });
+
+        var menuNodeTmpl = '<li role="presentation" class="<%=$active ? "active" : ""%> <%if(!$leaf){%>dropdown menu <%=$dropdown_root ? "":"subdropdown"%><%}%>"><a role="menuitem"<%if($leaf){%> href="<%=href%>" <%if(router){%>ui-sref="<%=router%>"<%}%><%}else{%> href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown"<%}%>><%=text%></a></li>';
+        themeConfigProvider.addTheme('dropdown', 'theme.menu', {
+          menuTmpl: '<ul class="dropdown-menu" role="menu"></ul>',
+          nodeTmpl: menuNodeTmpl,
+          rootTmpl: menuNodeTmpl,
+        });
+      }
+    ])
     .directive('nguiWorkbench', ['$window', '$sce', '$timeout',
       '$templateCache', '$compile', 'themeConfig', 'nguiWorkbenchConfig',
       'configService', 'menuService',
@@ -178,15 +195,19 @@
               }
               var navEl = $element.find('.navigation:first');
               if (currentTheme && currentTheme.destroy) {
-                currentTheme.destroy.apply(currentTheme, [$element, navEl]);
+                currentTheme.destroy.apply(currentTheme, [$element, navEl, $scope]);
+              }
+
+              if (theme.beforeCompile) {
+                theme.beforeCompile.apply(theme, [$element, navEl, $scope]);
               }
               if (!currentTheme || currentTheme.navTmplUrl !== theme.navTmplUrl) {
                 navEl.html('');
                 navEl.html($templateCache.get(theme.navTmplUrl));
                 $compile(navEl.contents())($scope);
               }
-              if (theme.init) {
-                theme.init.apply(theme, [$element, navEl]);
+              if (theme.afterCompile) {
+                theme.afterCompile.apply(theme, [$element, navEl, $scope]);
               }
               $scope.currentTheme = theme;
               $scope.supportSkins = theme.skins;
@@ -205,7 +226,7 @@
             }
 
             function toggleSkin(val) {
-              if($scope.currentSkin){
+              if ($scope.currentSkin) {
                 destorySkin($scope.currentSkin);
               }
               if ($scope.currentTheme) {

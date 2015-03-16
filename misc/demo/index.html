@@ -8,9 +8,11 @@
     <title ng-bind="cfg.name"></title>
     <link rel="stylesheet" href="bootstrap/dist/css/bootstrap.css" />
     <link rel="stylesheet" href="font-awesome/css/font-awesome.css" />
+    <link rel="stylesheet" href="ztree/css/zTreeStyle.css" />
     <link rel="stylesheet" href="<%= pkg.name%>.css" />
     <script src="underscore/underscore.js"></script>
     <script src="jquery/dist/jquery.js"></script>
+    <script src="ztree/jquery.ztree.core-3.5.js"></script>
     <script src="angular/angular.js"></script>
     <script src="angular-animate/angular-animate.js"></script>
     <script src="angular-ui-router/release/angular-ui-router.js"></script>
@@ -92,45 +94,45 @@
 
           var menuCfg = [{
             key: 'directives',
-            text: 'Directives',
+            label: 'Directives',
             children:[]
           },{
             key: 'start',
-            text: 'Getting started'
+            label: 'Getting started'
           },{
             key: 'dependencies',
-            text: 'Dependencies',
+            label: 'Dependencies',
             router: 'dependencies'
           },{
             key: 'tree',
-            text: 'Tree',
+            label: 'Tree',
             children:[
               {
                 key: 'node1',
-                text: 'Node1',
+                label: 'Node1',
                 children:[
                   {
                     key: 'start',
-                    text: 'Getting started1'
+                    label: 'Getting started1'
                   },
                   {
                     key: 'start2',
-                    text: 'Getting started2'
+                    label: 'Getting started2'
                   },
                   {
                     key: 'start3',
-                    text: 'Getting started3'
+                    label: 'Getting started3'
                   }
                 ]
               },{
                 key: 'node2',
-                text: 'Node2',
+                label: 'Node2',
                 children:[
 
                 ]
               },{
                 key: 'node3',
-                text: 'Node3',
+                label: 'Node3',
                 children:[
                 ]
               }
@@ -140,7 +142,7 @@
             menuCfg[0].children.push({
               key: '<%= module.name %>',
               router: '/directives/<%= module.name %>',
-              text: '<%= module.displayName %>'
+              label: '<%= module.displayName %>'
             });
           <% }); %>
 

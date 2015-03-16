@@ -14,9 +14,7 @@ angular.module("template/navigation/horizontal.html", []).run(["$templateCache",
     "        <ul class=\"nav navbar-nav navbar-right \" ng-include=\"'template/navigation/theme.html'\">\n" +
     "        </ul>\n" +
     "        <div class=\"collapse navbar-collapse\">\n" +
-    "            <ul ng-if=\"!miniTheme\" ngui-dropdown=\"menu\" theme=\"theme.menu\" class=\"nav navbar-nav\">\n" +
-    "            </ul>\n" +
-    "            <ul ng-if=\"miniTheme\" ngui-tree=\"menu\" theme=\"theme.default\" class=\"nav navbar-nav\">\n" +
+    "            <ul ngui-ztree=\"menu\" options=\"menuOptions\" class=\"nav navbar-nav\">\n" +
     "            </ul>\n" +
     "        </div>\n" +
     "    </div>\n" +
