@@ -367,7 +367,7 @@ angular.module('ngui.tree', ['ngui.utils', 'ngui.theme'])
           name: 'label',
           title: '',
           children: 'children',
-          url: ''
+          url: 'href'
         });
         setting.data.simpleData = setting.data.simpleData || {};
         utils.extendIf(setting.data.simpleData, {
@@ -376,7 +376,7 @@ angular.module('ngui.tree', ['ngui.utils', 'ngui.theme'])
         setting.view = setting.view || {};
         utils.extendIf(setting.view, {
           dbClickExpand: false,
-          expandSpeed: "slow",
+          expandSpeed: "fast",
           showLine: false,
           showIcon: showIcon
         });

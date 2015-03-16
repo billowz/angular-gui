@@ -141,7 +141,7 @@
           <% demoModules.forEach(function(module) {  %>
             menuCfg[0].children.push({
               key: '<%= module.name %>',
-              router: '/directives/<%= module.name %>',
+              href: '#/directives/<%= module.name %>',
               label: '<%= module.displayName %>'
             });
           <% }); %>

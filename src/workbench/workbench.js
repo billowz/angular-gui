@@ -28,26 +28,117 @@
           }],
           defaultSkin: 'block',
           beforeCompile: function($element, navEl, $scope) {
+            var _self = this;
             $scope.menuOptions = {
+              data:{
+                key:{
+                  url:'href'
+                }
+              },
               callback: {
                 onClick: function(event, id, node) {
                   var zTree = $.fn.zTree.getZTreeObj(id);
-                  zTree.expandNode(node);
-                }
+                  zTree.expandNode(node, !node.open, node.open, null, true);
+                  event.preventDefault();
+                  event.stopPropagation();
+                },
+                onExpand: function(event, treeId, treeNode) {
+                  _self.curExpandNode = treeNode;
+                },
+                beforeExpand: _self.beforeExpand.bind(_self)
               }
             }
           },
-          afterCompile: function($element, navEl, $scope) {
+          beforeExpand: function(treeId, treeNode) {
+            var pNode = this.curExpandNode ? this.curExpandNode.getParentNode() : null;
+            var treeNodeP = treeNode.parentTId ? treeNode.getParentNode() : null;
+            var zTree = $.fn.zTree.getZTreeObj(treeId);
+            for (var i = 0, l = !treeNodeP ? 0 : treeNodeP.children.length; i < l; i++) {
+              if (treeNode !== treeNodeP.children[i]) {
+                zTree.expandNode(treeNodeP.children[i], false);
+              }
+            }
+            while (pNode) {
+              if (pNode === treeNode) {
+                break;
+              }
+              pNode = pNode.getParentNode();
+            }
+            if (!pNode) {
+              this.singlePath(zTree, treeNode);
+            }
 
+          },
+          singlePath: function(zTree, newNode) {
+            var curExpandNode = this.curExpandNode;
+            if (newNode === curExpandNode) return;
+
+            var rootNodes, tmpRoot, tmpTId, i, j, n;
+
+            if (!curExpandNode) {
+              tmpRoot = newNode;
+              while (tmpRoot) {
+                tmpTId = tmpRoot.tId;
+                tmpRoot = tmpRoot.getParentNode();
+              }
+              rootNodes = zTree.getNodes();
+              for (i = 0, j = rootNodes.length; i < j; i++) {
+                n = rootNodes[i];
+                if (n.tId != tmpTId) {
+                  zTree.expandNode(n, false);
+                }
+              }
+            } else if (curExpandNode && curExpandNode.open) {
+              if (newNode.parentTId === curExpandNode.parentTId) {
+                zTree.expandNode(curExpandNode, false);
+              } else {
+                var newParents = [];
+                while (newNode) {
+                  newNode = newNode.getParentNode();
+                  if (newNode === curExpandNode) {
+                    newParents = null;
+                    break;
+                  } else if (newNode) {
+                    newParents.push(newNode);
+                  }
+                }
+                if (newParents != null) {
+                  var oldNode = curExpandNode;
+                  var oldParents = [];
+                  while (oldNode) {
+                    oldNode = oldNode.getParentNode();
+                    if (oldNode) {
+                      oldParents.push(oldNode);
+                    }
+                  }
+                  if (newParents.length > 0) {
+                    zTree.expandNode(oldParents[Math.abs(oldParents.length - newParents.length) - 1], false);
+                  } else {
+                    zTree.expandNode(oldParents[oldParents.length - 1], false);
+                  }
+                }
+              }
+            }
+            this.curExpandNode = newNode;
+          },
+          afterCompile: function($element, navEl, $scope) {
             this.onClickLeafHandler = function() {
               navEl.find('.navbar-collapse').collapse('toggle');
             }
             navEl.delegate('.leaf', 'click', this.onClickLeafHandler);
+            this.cleanDropdown = function() {
+              if (!$scope.miniTheme) {
+                $.fn.zTree.getZTreeObj(navEl.find('.ztree').attr('id')).expandAll(false);
+              }
+            };
+            $(document.body).on('click', this.cleanDropdown);
           },
           destroy: function($element, navEl, $scope) {
             $scope.menuOptions = null;
             if (this.onClickLeafHandler)
               navEl.undelegate('.leaf', 'click', this.onClickLeafHandler);
+            if (this.clearDropdown)
+              $(document.body).on('click', this.cleanDropdown);
           }
         });
         themeConfigProvider.addTheme(workbenchConfig.themeType, 'theme-topleft', {

@@ -11,24 +11,30 @@
     border-radius: 0;
     margin: 0;
 }
-
 /**************************************** Layouts ****************************************/
 /********* wheel *********/
+
 .workbench.wheel .workspace {
     top: 0;
 }
-
-
 /********* Navbar *********/
+
 .navbar {
     border: none;
     margin-bottom: 0px;
 }
-.navbar-nav > li > a:focus{
-  color: inherit;
-  background: transparent;
+@media(max-width:767px) {
+    .navbar-collapse {
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+}
+.navbar-nav > li > a:focus {
+    color: inherit;
+    background: transparent;
 }
 /*Navbar ztree menu*/
+
 .navbar-nav.ztree {
     padding: 0;
 }
@@ -53,22 +59,23 @@
 }
 .navbar-nav.ztree li>a.curSelectedNode {
     border: none;
+    opacity:1;
+    height: auto;
+    background: transparent;
 }
 /*row height*/
+
 .navbar-nav.ztree li>a {
-    padding: 10px;
-}
-.navbar-nav.ztree li>a, .navbar-nav.ztree li>span.button.switch {
-    padding-top: 10px;
-    padding-bottom: 10px;
+    padding: 15px 20px 15px 10px;
 }
 /*switch button*/
+
 .navbar-nav.ztree li>span.button.switch {
     width: auto;
     height: auto;
     line-height: inherit;
     position: absolute;
-    top: 5px;
+    top: 20px;
     right: 10px;
     z-index: 1;
 }
@@ -93,32 +100,27 @@
 .navbar-nav.ztree li.level2>a {
     padding-left: 30px;
 }
-
-
 .navbar {
     background: #F8F8F8;
 }
 .navbar-brand {
-    color: #555;
+    color: #555555;
 }
 .navbar-toggle .icon-bar {
     background: #777777;
 }
-.navbar-nav > li> a {
+.navbar-nav.ztree {
+    color: #555555;
+}
+.navbar-nav > li {
     color: #777777;
 }
-.navbar-nav > li > a:hover{
-    color: #555555;
-    background: #e7e7e7;
-}
-.navbar .navbar-nav.ztree {
+.navbar-nav > li:hover {
     color: #555555;
 }
-.navbar .navbar-nav.ztree .active>a:hover,.navbar .navbar-nav.ztree li>a:hover {
-    color: #262626;
+.navbar-nav > li > a:hover {
     background: #e7e7e7;
 }
-
 .skin-block .navbar {
     background: #222;
 }
@@ -128,23 +130,60 @@
 .skin-block .navbar-toggle .icon-bar {
     background: #E8E8E8;
 }
-.skin-block .navbar-nav > li> a {
+.skin-block .navbar-nav.ztree {
     color: #9d9d9d;
 }
-.skin-block .navbar-nav > li > a:hover{
-    color: #ffffff;
-    background: #080808;
-}
-.skin-block .navbar .navbar-nav.ztree {
+.skin-block .navbar-nav > li {
     color: #9d9d9d;
 }
-.skin-block .navbar .navbar-nav.ztree .active>a:hover,.skin-block .navbar .navbar-nav.ztree li>a:hover {
+.skin-block .navbar-nav > li:hover {
     color: #ffffff;
+}
+.skin-block .navbar-nav > li > a:hover {
     background: #080808;
 }
 
+@media(min-width:768px) {
+    .navbar .navbar-nav.ztree {
+        position: relative;
+    }
+    .navbar .navbar-nav.ztree > li ul {
+        position: absolute;
+        background: #ffffff;
+        border: 1px solid #EAE9E9;
+    }
+    .navbar .navbar-nav.ztree > li ul>li>a {
+        font-size: 12px;
+        padding: 5px 15px 5px 5px;
+        border-top: 1px dotted #EAE9E9;
+        margin: 0 3px;
+    }
+    .navbar .navbar-nav.ztree > li ul>li>span.button.switch {
+        top: 8px;
+    }
+    .navbar .navbar-nav.ztree > li ul>li>span.button.switch.noline_open:after {
+        content: "\f0d9";
+    }
+    .navbar .navbar-nav.ztree > li ul>li>span.button.switch.noline_close:after {
+        content: "\f0da";
+    }
+    .navbar .navbar-nav.ztree > li>ul li>ul {
+        left: 100%;
+        top: 0;
+    }
+    .navbar .navbar-nav.ztree > li>ul li{
+      color:#777777;
+    }
+    .navbar .navbar-nav.ztree > li>ul li:hover {
+        color: #555555;
+    }
+    .navbar .navbar-nav.ztree > li>ul li > a:hover, .skin-block .navbar .navbar-nav.ztree > li>ul li > a:hover{
+        background: #e7e7e7;
+    }
+}
 
 /*Side Navbar*/
+
 .side .sidebar {
     position: absolute;
     top: 50px;
@@ -229,7 +268,6 @@
 }
 /**************************************** Navbar Skin ****************************************/
 /********* default *********/
-
 /**************************************** Side Navbar Skin ****************************************/
 
 .workbench.side .sidebar {
