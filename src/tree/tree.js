@@ -1,7 +1,7 @@
 "use strict"
 angular.module('ngui.tree', ['ngui.utils', 'ngui.theme'])
-  .directive('nguiZtree', ['utils', '$document', '$rootScope',
-    function(utils, $document, $rootScope) {
+  .directive('nguiZtree', ['utils', '$document', '$state',
+    function(utils, $document, $state) {
       var __treeIdGen = 0;
 
       function showIcon(treeId, treeNode) {
@@ -156,16 +156,16 @@ angular.module('ngui.tree', ['ngui.utils', 'ngui.theme'])
           if (setting.bindRouter) {
             setting.callback.onNodeCreated = utils.concatFunc(function(event, treeId, treeNode){
               var ck = setting.data.key.children;
-              if(treeNode.active){
-                $element.find('#'+treeNode.tId).addClass('active');
+              if (treeNode.active) {
+                $element.find('#' + treeNode.tId).addClass('active');
               }
-              if(treeNode[ck] && treeNode[ck].length>0){
-                $element.find('#'+treeNode.tId).addClass('parent');
+              if (treeNode[ck] && treeNode[ck].length > 0) {
+                $element.find('#' + treeNode.tId).addClass('parent');
               }
-            },setting.callback.onNodeCreated);
+            }, setting.callback.onNodeCreated);
 
-            function setActive(state){
-              if(!state){
+            function setActive(state) {
+              if (!state) {
                 return;
               }
               var zTree = $.fn.zTree.getZTreeObj(id);
@@ -191,8 +191,9 @@ angular.module('ngui.tree', ['ngui.utils', 'ngui.theme'])
                     }
                   }
                   if (active) {
-                    var tmpNode = node, el;
-                    while(tmpNode){
+                    var tmpNode = node,
+                      el;
+                    while (tmpNode) {
                       tmpNode.active = true;
                       el = $element.find('#' + tmpNode.tId);
                       el.addClass('active');
@@ -203,7 +204,6 @@ angular.module('ngui.tree', ['ngui.utils', 'ngui.theme'])
               });
             }
             $scope.$on("$stateChangeSuccess", function(event, toState, toStateParams, fromState, fromParams) {
-              $scope.__currentState__ = toState;
               setActive(toState);
             });
           }
@@ -216,7 +216,7 @@ angular.module('ngui.tree', ['ngui.utils', 'ngui.theme'])
 
           function render(root) {
             $.fn.zTree.init($element, setting, root || []);
-            setActive($scope.__currentState__);
+            setActive($state.current);
           }
           $scope.$watch(getRoot, function(val, nval) {
             render(val);

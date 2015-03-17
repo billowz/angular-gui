@@ -67,27 +67,46 @@
               applyTheme(ctrl.getTheme(val));
             });
 
+            var currentNavScope;
+
             function applyTheme(theme) {
+              var navScope;
               var currentTheme = $scope.currentTheme;
               if (theme === currentTheme) {
                 return;
               }
               var navEl = $element.find('.navigation:first');
-              if (currentTheme && currentTheme.destroy) {
-                currentTheme.destroy.apply(currentTheme, [$element, navEl, $scope]);
+
+
+
+              if (currentTheme) {
+                if (currentTheme.destroy) {
+                  currentTheme.destroy.apply(currentTheme, [$element, navEl, currentNavScope]);
+                }
+                if (currentTheme.navTmplUrl !== theme.navTmplUrl) {
+                  currentNavScope.$destroy();
+                  currentNavScope = null;
+                  navEl.children().remove();
+                } else {
+                  navScope = currentNavScope;
+                }
+              }
+              if (!navScope) {
+                navScope = $scope.$new();
               }
 
               if (theme.beforeCompile) {
-                theme.beforeCompile.apply(theme, [$element, navEl, $scope]);
+                theme.beforeCompile.apply(theme, [$element, navEl, navScope]);
               }
+
               if (!currentTheme || currentTheme.navTmplUrl !== theme.navTmplUrl) {
-                navEl.html('');
-                navEl.html($templateCache.get(theme.navTmplUrl));
-                $compile(navEl.contents())($scope);
+                navEl.append($templateCache.get(theme.navTmplUrl));
+                $compile(navEl.contents())(navScope);
               }
               if (theme.afterCompile) {
-                theme.afterCompile.apply(theme, [$element, navEl, $scope]);
+                theme.afterCompile.apply(theme, [$element, navEl, navScope]);
               }
+              currentNavScope = navScope;
               $scope.currentTheme = theme;
               $scope.supportSkins = theme.skins;
               toggleSkin($scope.cfg.skin);

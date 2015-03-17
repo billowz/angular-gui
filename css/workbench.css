@@ -224,7 +224,9 @@
     }
 }
 /************************* Side Navbar *************************/
-
+.side.workbench{
+  overflow: hidden;
+}
 .side .sidebar {
     position: absolute;
     top: 50px;
@@ -234,7 +236,7 @@
     overflow: auto;
     width: 250px;
     padding: 15px 0;
-    transition-property: width;
+    transition-property: left;
     transition-duration: 1.5s;
     transition-timing: ease;
     transition-delay: 0;
@@ -273,9 +275,8 @@
     overflow: auto;
 }
 .sideout .sidebar {
-    width: 0;
-    overflow: hidden;
-    transition-property: width;
+    left: -250px;
+    transition-property: left;
     transition-duration: 1.5s;
     transition-timing: ease;
     transition-delay: 0;
@@ -290,10 +291,22 @@
 .sideright .sidebar {
     right: 0;
     left: inherit;
+    transition-property: right;
+    transition-duration: 1.5s;
+    transition-timing: ease;
+    transition-delay: 0;
 }
 .sideright .workspace {
     right: 250px;
     left: 0;
+    transition-property: right;
+    transition-duration: 1.5s;
+    transition-timing: ease;
+    transition-delay: 0;
+}
+
+.sideout.sideright .sidebar {
+    right: -250px;
     transition-property: right;
     transition-duration: 1.5s;
     transition-timing: ease;
