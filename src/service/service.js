@@ -126,7 +126,7 @@ angular.module('ngui.service', ['ngui.utils', 'ngui.tree', 'ngui.data'])
         this.dataHandler = function(data) {
           utils.eachTreeLeaf(data, 'children', function(item) {
             if (item.router) {
-              item.href = '#' + item.router;
+              item.href = '#/' + item.router;
               item.target = '_self';
             }
           });

@@ -1138,9 +1138,7 @@
             html.push("</li>");
         },
         makeDOMNodeMainBefore: function(html, setting, node) {
-            html.push("<li id='", node.tId, "' class='", consts.className.LEVEL, node.level,
-                    "'", node.router ? " ui-sref-active='active'":"",
-                    " tabindex='0' hidefocus='true' treenode>");
+            html.push("<li id='", node.tId, "' class='", consts.className.LEVEL, node.level,"' tabindex='0' hidefocus='true' treenode>");
         },
         makeDOMNodeNameAfter: function(html, setting, node) {
             html.push("</a>");
@@ -1153,12 +1151,8 @@
             for (var f in fontcss) {
                 fontStyle.push(f, ":", fontcss[f], ";");
             }
-            html.push("<a id='", node.tId, consts.id.A,
-                "' class='", consts.className.LEVEL, node.level,
-                "' treeNode", consts.id.A,
-                " onclick=\"", (node.click || ''), "\" ",
-                node.router ? "ui-sref='"+node.router+"'": ((url != null && url.length > 0) ? "href='" + url + "'" : ""),
-                " target='",view.makeNodeTarget(node),"' style='", fontStyle.join(''),
+            html.push("<a id='", node.tId, consts.id.A, "' class='", consts.className.LEVEL, node.level,"' treeNode", consts.id.A," onclick=\"", (node.click || ''),
+                "\" ", ((url != null && url.length > 0) ? "href='" + url + "'" : ""), " target='",view.makeNodeTarget(node),"' style='", fontStyle.join(''),
                 "'");
             if (tools.apply(setting.view.showTitle, [setting.treeId, node], setting.view.showTitle) && title) {html.push("title='", title.replace(/'/g,"&#39;").replace(/</g,'&lt;').replace(/>/g,'&gt;'),"'");}
             html.push(">");

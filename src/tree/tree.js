@@ -1,7 +1,7 @@
 "use strict"
 angular.module('ngui.tree', ['ngui.utils', 'ngui.theme'])
-  .directive('nguiZtree', ['utils', '$document', '$rootScope', '$compile',
-    function(utils, $document, $rootScope, $compile) {
+  .directive('nguiZtree', ['utils', '$document', '$rootScope',
+    function(utils, $document, $rootScope) {
       var __treeIdGen = 0;
 
       function showIcon(treeId, treeNode) {
@@ -156,13 +156,56 @@ angular.module('ngui.tree', ['ngui.utils', 'ngui.theme'])
           if (setting.bindRouter) {
             setting.callback.onNodeCreated = utils.concatFunc(function(event, treeId, treeNode){
               var ck = setting.data.key.children;
-              var el = $element.find('#'+treeNode.tId);
-              if(treeNode[ck] && treeNode[ck].length>0){
-                el.addClass('parent');
+              if(treeNode.active){
+                $element.find('#'+treeNode.tId).addClass('active');
               }
-              $compile(el)($scope);
+              if(treeNode[ck] && treeNode[ck].length>0){
+                $element.find('#'+treeNode.tId).addClass('parent');
+              }
             },setting.callback.onNodeCreated);
 
+            function setActive(state){
+              if(!state){
+                return;
+              }
+              var zTree = $.fn.zTree.getZTreeObj(id);
+              var ck = setting.data.key.children;
+              var href = '#' + state.url;
+              zTree.getNodesByFilter(function(node) {
+                node.active = false;
+                return false;
+              });
+              $element.find('.active').removeClass('active');
+              zTree.getNodesByFilter(function(node) {
+                if ((!node[ck] || node[ck].length === 0) && node.href) {
+                  var _href = utils.trim(node.href),
+                    active = false;
+                  if (_href === href) {
+                    active = true;
+                  } else {
+                    if (_href[_href.length - 1] !== '/') {
+                      _href += '/';
+                    }
+                    if (href.indexOf(_href) != -1) {
+                      active = true;
+                    }
+                  }
+                  if (active) {
+                    var tmpNode = node, el;
+                    while(tmpNode){
+                      tmpNode.active = true;
+                      el = $element.find('#' + tmpNode.tId);
+                      el.addClass('active');
+                      tmpNode = tmpNode.getParentNode();
+                    }
+                  }
+                }
+              });
+            }
+            $scope.$on("$stateChangeSuccess", function(event, toState, toStateParams, fromState, fromParams) {
+              $scope.__currentState__ = toState;
+              setActive(toState);
+            });
           }
           var getRoot = function() {
             if ($attrs.nguiZtree) {
@@ -173,6 +216,7 @@ angular.module('ngui.tree', ['ngui.utils', 'ngui.theme'])
 
           function render(root) {
             $.fn.zTree.init($element, setting, root || []);
+            setActive($scope.__currentState__);
           }
           $scope.$watch(getRoot, function(val, nval) {
             render(val);

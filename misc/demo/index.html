@@ -100,7 +100,7 @@
           },{
             key: 'dependencies',
             label: 'Dependencies',
-            router: '/dependencies'
+            router: 'dependencies'
           },{
             key: 'tree',
             label: 'Tree',
@@ -139,7 +139,7 @@
           <% demoModules.forEach(function(module) {  %>
             menuCfg[0].children.push({
               key: '<%= module.name %>',
-              router: '/directives/<%= module.name %>',
+              router: 'directives/<%= module.name %>',
               label: '<%= module.displayName %>'
             });
           <% }); %>
@@ -171,7 +171,7 @@
             views:views
           })
           <% demoModules.forEach(function(module) {  %>
-            $stateProvider.state('/directives/<%= module.name %>', {
+            $stateProvider.state('directives/<%= module.name %>', {
               url:'/directives/<%= module.name %>',
               templateUrl: "<%= module.name %>.tpl",
                 resolve: {
