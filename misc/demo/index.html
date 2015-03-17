@@ -90,8 +90,6 @@
             cfg.dependencies.push({lib:'<%=key%>' , version:'<%=bower.dependencies[key]%>'});
           <%}%>
 
-
-
           var menuCfg = [{
             key: 'directives',
             label: 'Directives',
@@ -102,7 +100,7 @@
           },{
             key: 'dependencies',
             label: 'Dependencies',
-            router: 'dependencies'
+            router: '/dependencies'
           },{
             key: 'tree',
             label: 'Tree',
@@ -141,7 +139,7 @@
           <% demoModules.forEach(function(module) {  %>
             menuCfg[0].children.push({
               key: '<%= module.name %>',
-              href: '#/directives/<%= module.name %>',
+              router: '/directives/<%= module.name %>',
               label: '<%= module.displayName %>'
             });
           <% }); %>
@@ -160,7 +158,7 @@
           //
           // Now set up the states
           $stateProvider.state('dependencies', {
-            url:'dependencies',
+            url:'/dependencies',
             templateUrl: 'dependencies.tpl'
           });
           var views = {};

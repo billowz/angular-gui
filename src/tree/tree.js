@@ -1,399 +1,184 @@
 "use strict"
 angular.module('ngui.tree', ['ngui.utils', 'ngui.theme'])
-  .factory('TreeNode', ['utils', function(utils) {
-    function TreeNode(option, parent, sync, syncFunc, keyParser, leafParser, applyData) {
-      if (arguments.length === 1) {
-        parent = option.parent;
-        sync = option.sync;
-        keyParser = option.keyParser;
-        leafParser = option.leafParser;
-        applyData = option.applyData;
-        syncFunc = option.syncFunc;
-        option = option.option;
-      }
-      this.$parent = parent;
-      if (angular.isFunction(keyParser)) {
-        this.$key = keyParser(this, option);
-        if (!angular.isString(this.$key)) {
-          throw new Error('TreeNode.$key is not string[' + this.$key + ']')
-        }
-        if (!this.$key) {
-          throw new Error('TreeNode.$key is empty[' + this.$key + ']')
-        }
-        this.$keyParser = keyParser;
-      } else {
-        this.$key = option.key;
-      }
-      if (angular.isFunction(applyData)) {
-        applyData(this, option);
-        this.$applyData = applyData;
-      } else {
-        this.$data = option.data;
-      }
+  .directive('nguiZtree', ['utils', '$document', '$rootScope', '$compile',
+    function(utils, $document, $rootScope, $compile) {
+      var __treeIdGen = 0;
 
-      this.$sync = !!sync;
-      this.$syncFunc = angular.isFunction(syncFunc) ? syncFunc : null;
-      this.$loaded = this.$sync ? false : true;
-      this.$leafParser = angular.isFunction(leafParser) ? leafParser : null;
-      this.$leaf = this.$leafParser ? this.$leafParser(this, option) : this.$loaded ? true : option.leaf;
-      this.$children = [];
-      this.$childrenMap = {};
-      if (option.children) {
-        this.addChildren(option.children);
+      function showIcon(treeId, treeNode) {
+        return treeNode.icon || treeNode.iconSkin || treeNode.iconOpen || treeNode.iconClose;
       }
-    }
-
-    TreeNode.prototype.getKey = function() {
-      return this.$key;
-    }
-    TreeNode.prototype.getHierarchy = function() {
-      var tmp = this,
-        rs = [];
-      while (tmp) {
-        rs.unshift(tmp);
-        tmp = tmp.$parent;
-      }
-      return rs;
-    }
-    TreeNode.prototype.eachAll = function(handler) {
-      var _self = this;
-      handler(_self, _self.$parent);
-      angular.forEach(_self.$children, function(node) {
-        node.eachAll(handler);
-      });
-    }
-    TreeNode.prototype.getChildren = function() {
-      var _self = this;
-      return utils.deferred(function(def) {
-        if (_self.loaded) {
-          def.resolve(_self.$children);
-        } else {
-          _self.syncFunc(def);
-        }
-      });
-    }
-    TreeNode.prototype.isLeaf = function() {
-      return this.$leaf;
-    }
-    TreeNode.prototype.addChildren = function() {
-      var option, _self = this,
-        node, existNode;
-      if (arguments.length === 1) {
-        option = arguments[0];
-      } else if (arguments.length > 1) {
-        option = argumrnts;
-      } else {
-        return;
-      }
-      if (angular.isArray(option)) {
-        angular.forEach(option, function(child) {
-          _self.addChildren(child);
-        });
-      } else if (angular.isObject(option)) {
-        node = new TreeNode(option, _self, _self.$sync, _self.$syncFunc, _self.$keyParser, _self.$leafParser, _self.$applyData);
-        existNode = _self.$childrenMap[node.$key];
-        if (existNode) {
-          _self.$children[_self.$children.indexOf(existNode)] = node;
-        } else {
-          _self.$children.push(node);
-        }
-        _self.$childrenMap[node.$key] = node;
-        _self.$loaded = true;
-        _self.$leaf = false;
-      }
-    }
-
-    TreeNode.prototype.getRoot = function() {
-      var root = this;
-      while (root.$parent) {
-        root = root.$parent;
-      }
-      return root;
-    }
-    TreeNode.prototype.isRoot = function() {
-      return !this.$parent;
-    }
-    TreeNode.prototype.findNode = function(path) {
-      var node = this,
-        _self = this;
-      if (angular.isString(path)) {
-        path = path.split(/\s*\/\s*/g);
-      }
-      if (angular.isArray(path) && path.length > 0) {
-        var item = utils.trim(path[0]);
-        utils.forEach(path, function(item, idx) {
-          item = utils.trim(item);
-          if (idx === 0 && !item) {
-            node = _self.getRoot().findNode(path.slice(1));
-            return false;
-          } else if (!item) {
-            if (idx !== path.length - 1) {
-              node = null;
-              return false;
-            }
-          } else {
-            node = node.$childrenMap[item];
-            if (!node) {
-              node = null;
-              return false;
-            }
+      return {
+        restrict: 'EA',
+        replace: true,
+        template: '<ul class="ztree"></ul>',
+        link: function($scope, $element, $attrs) {
+          var id = $element.attr('id');
+          if (!id) {
+            id = 'tree-' + (++__treeIdGen);
+            $element.attr('id', id);
           }
-        });
-      }
-      return node;
-    }
-    return TreeNode;
-  }])
-  .directive('nguiTree', ['utils', '$compile', 'TreeNode', 'themeConfig', function(utils, $compile, TreeNode, themeConfig) {
-    var treeRootKey = '$tree_root',
-      themeKey = "tree",
-      defaultTheme = 'theme.default'
+          var setting = $scope.$eval($attrs.options) || {};
+          setting.data = setting.data || {};
+          setting.data.key = setting.data.key || {};
+          utils.extendIf(setting.data.key, {
+            name: 'label',
+            title: '',
+            children: 'children',
+            url: ''
+          });
+          setting.data.simpleData = setting.data.simpleData || {};
+          utils.extendIf(setting.data.simpleData, {
+            enable: false
+          });
+          setting.view = setting.view || {};
+          utils.extendIf(setting.view, {
+            dbClickExpand: false,
+            expandSpeed: "fast",
+            showLine: false,
+            showIcon: showIcon
+          });
+          setting.callback = setting.callback || {};
 
-    function initNode(node) {
-      node.href = node.href || 'javascript:void(0);';
-      node.router = node.router || false;
-      node.text = node.text || '';
-      node.$el = null;
-      node.$active = node.$active || false;
-      node.$expand = node.$expand || false;
-      node[treeRootKey] = node[treeRootKey] || false;
-    }
 
-    function parseTree(dropdownEl, node, theme, handler) {
-      initNode(node);
-      var nodeEl = $(node[treeRootKey] ? theme.rootTmpl(node) : theme.nodeTmpl(node));
-      nodeEl.data('treeNode', node);
-      node.$el = nodeEl;
-      if (!node.isLeaf()) {
-        var menuEl = $(theme.menuTmpl(node));
-        nodeEl.append(menuEl);
-        angular.forEach(node.$children, function(childNode) {
-          parseTree(menuEl, childNode, theme, handler);
-        });
-      }
-      dropdownEl.append(nodeEl);
-      handler(node);
-    }
-    return {
-      restrict: 'EA',
-      template: '<div class="tree"></div>',
-      replace: true,
-      transclude: true,
-      compile: function() {
-        return {
-          post: function($scope, $elm, $attrs, uiGridCtrl) {
-            var getTheme = function() {
-              if ($attrs.theme) {
-                return $scope.$eval($attrs.theme) || $attrs.theme;
-              }
-              return null;
-            }
-            var isRootDisplay = function() {
-              if ($attrs.rootDisplay) {
-                return $scope.$eval($attrs.rootDisplay) || $attrs.rootDisplay;
-              }
-              return null;
-            }
-
-            var getRoot = function() {
-              if ($attrs.nguiTree) {
-                return $scope.$eval($attrs.nguiTree);
-              }
-              return null;
-            }
-
-            function render() {
-              var root = getRoot();
-              if (root && !(root instanceof TreeNode)) {
-                root = new TreeNode({
-                  option: root,
-                  applyData: function(node, option) {
-                    angular.extend(node, option);
-                  }
-                });
-              }
-              if (root && root instanceof TreeNode) {
-                var startTime = new Date().getTime();
-                var menu = isRootDisplay() ? [root] : root.$children;
-                var theme = themeConfig.getTheme(themeKey, getTheme() || defaultTheme);
-                angular.forEach(menu, function(node) {
-                  node[treeRootKey] = true;
-                  parseTree($elm, node, theme, function(node) {
-                    if (theme.nodeInit) {
-                      theme.nodeInit($elm, node);
-                    }
-                    var actionEl = node.$el.find('[role=menuitem]:first');
-                    if (!node.isLeaf()) {
-                      var tree = node.$el.find('.tree:first');
-                      if (tree.hasClass('in')) {
-                        node.$el.addClass('open');
-                      } else {
-                        node.$el.removeClass('open');
-                      }
-                    }
-                    actionEl.on('click', function(event) {
-                      if (node.isLeaf()) {
-                        angular.forEach($elm.find('.active[role=presentation]'), function(el) {
-                          el = $(el);
-                          el.removeClass('active');
-                          el.data('treeNode').$active = false;
-                        });
-                        utils.forEach(node.getHierarchy(), function(n) {
-                          if (n.$el) {
-                            n.$el.addClass('active');
-                          }
-                          n.$active = true;
-                        });
-                      } else {
-                        var tree = node.$el.find('.tree:first');
-                        if (tree.hasClass('in')) {
-                          node.$el.removeClass('open');
-                          node.$expand = false;
-                        } else {
-                          node.$el.addClass('open');
-                          node.$expand = true;
-                        }
-                        tree.collapse('toggle');
-                        event.preventDefault();
-                        event.stopPropagation();
-                      }
-                    });
-                    if (node.handler) {
-                      actionEl.on('click', node.handler.bind(node));
-                    }
-                  });
-                });
-                if (theme.init) {
-                  theme.init($elm);
-                }
-                $('.subdropdown [data-toggle=dropdown]').on('click', function(event) {
-                  event.preventDefault();
-                  event.stopPropagation();
-                  $(this).parent().siblings().removeClass('open');
-                  $(this).parent().toggleClass('open');
-                });
-                console.log('build tree', new Date().getTime() - startTime);
-                startTime = new Date().getTime();
-                /*root.eachAll(function(n){
-                  if(n.$el){
-                    $compile(n.$el)($scope);
-                  }
-                });*/
-                $compile($elm.children('li'))($scope);
-                console.log('compiled tree', new Date().getTime() - startTime);
-              }
-            }
-            $scope.$watch(getRoot, function(val, nval) {
-              $elm.empty();
-              render();
-            });
-            render();
-          }
-        };
-      }
-    };
-  }])
-  .config(['themeConfigProvider', function(themeConfigProvider) {
-    themeConfigProvider.registerThemeConfig('tree', function(opt) {
-      var theme = {};
-      theme.menuTmpl = _.template(opt.menuTmpl);
-      theme.nodeTmpl = _.template(opt.nodeTmpl);
-      theme.rootTmpl = _.template(opt.rootTmpl);
-      theme.init = opt.init;
-      theme.nodeInit = opt.nodeInit;
-      return theme;
-    });
-
-    var defMenuTmpl = '<ul class="tree tree-sub <%=$expand ? "collapse in":"collapse"%>" role="menu"></ul>';
-    var defNodeTmpl = '<li role="presentation" class="tree-node  <%=$active ? "active":""%> <%=$leaf ? "leaf" : "node"%>"><a role="menuitem" class="tree-node-action" <%if($leaf){%> href="<%=href%>" <%if(router){%>ui-sref="<%=router%>"<%}}else{%> href="javascript:void(0);"<%}%>><%=text%><span class="fa fa-caret"></span></a></li>'
-    var defRootTmpl = '<li role="presentation" class="tree-node root <%=$active ? "active":""%> <%=$leaf ? "leaf" : "node"%>"><a role="menuitem" class="tree-node-action" href="javascript:void(0);"><%=text%><span class="fa fa-caret"></span></a></li>';
-    themeConfigProvider.addTheme('tree', 'theme.default', {
-      menuTmpl: defMenuTmpl,
-      nodeTmpl: defNodeTmpl,
-      rootTmpl: defRootTmpl,
-    });
-    /*
-        themeConfigProvider.addTheme('tree', 'theme.dropdown', {
-          menuTmpl: defMenuTmpl,
-          nodeTmpl: defNodeTmpl,
-          rootTmpl: defRootTmpl,
-          init: function($elm) {
-            $elm.find('.tree').removeClass('in');
-            $elm.addClass('dropdown');
-          },
-          nodeInit: function($elm, node) {
-            node.$el.find('[role=menuitem]:first').on('click', function(event) {
-              if (node.isLeaf()) {
-                angular.forEach($elm.find('.tree'), function(el) {
-                  var elm = $(el);
-                  if (elm.hasClass('in')) {
-                    elm.collapse('toggle')
-                  }
-                });
-                $elm.find('.tree-node').removeClass('open');
+          setting.callback.onExpand = utils.concatFunc(
+            function(event, treeId, treeNode) {
+              var el = $element.find('#' + treeNode.tId);
+              if (treeNode.open) {
+                el.addClass('open');
               } else {
-                angular.forEach(node.$el.parent().find('.tree'), function(el) {
-                  var elm = $(el);
-                  if (elm.hasClass('in')) {
-                    elm.collapse('toggle')
-                  }
-                });
-                $elm.find('.tree-node').removeClass('open');
+                el.removeClass('open');
               }
+            }, setting.callback.onExpand);
+          // single expand
+          if (setting.singleExpand) {
+            var curExpandNode;
+            setting.callback.onExpand = utils.concatFunc(
+              function(event, treeId, treeNode) {
+                curExpandNode = treeNode;
+              }, setting.callback.onExpand);
+
+
+            setting.callback.beforeExpand = utils.concatFunc(
+              function(treeId, treeNode) {
+                var pNode = curExpandNode ? curExpandNode.getParentNode() : null;
+                var treeNodeP = treeNode.parentTId ? treeNode.getParentNode() : null;
+                var zTree = $.fn.zTree.getZTreeObj(treeId);
+                for (var i = 0, l = !treeNodeP ? 0 : treeNodeP.children.length; i < l; i++) {
+                  if (treeNode !== treeNodeP.children[i]) {
+                    zTree.expandNode(treeNodeP.children[i], false);
+                  }
+                }
+                while (pNode) {
+                  if (pNode === treeNode) {
+                    break;
+                  }
+                  pNode = pNode.getParentNode();
+                }
+                if (!pNode) {
+                  singlePath(zTree, treeNode);
+                }
+              }, setting.callback.beforeExpand);
+
+            function singlePath(zTree, newNode) {
+              if (newNode === curExpandNode) return;
+              var rootNodes, tmpRoot, tmpTId, i, j, n;
+              if (!curExpandNode) {
+                tmpRoot = newNode;
+                while (tmpRoot) {
+                  tmpTId = tmpRoot.tId;
+                  tmpRoot = tmpRoot.getParentNode();
+                }
+                rootNodes = zTree.getNodes();
+                for (i = 0, j = rootNodes.length; i < j; i++) {
+                  n = rootNodes[i];
+                  if (n.tId != tmpTId) {
+                    zTree.expandNode(n, false);
+                  }
+                }
+              } else if (curExpandNode && curExpandNode.open) {
+                if (newNode.parentTId === curExpandNode.parentTId) {
+                  zTree.expandNode(curExpandNode, false);
+                } else {
+                  var newParents = [];
+                  while (newNode) {
+                    newNode = newNode.getParentNode();
+                    if (newNode === curExpandNode) {
+                      newParents = null;
+                      break;
+                    } else if (newNode) {
+                      newParents.push(newNode);
+                    }
+                  }
+                  if (newParents != null) {
+                    var oldNode = curExpandNode;
+                    var oldParents = [];
+                    while (oldNode) {
+                      oldNode = oldNode.getParentNode();
+                      if (oldNode) {
+                        oldParents.push(oldNode);
+                      }
+                    }
+                    if (newParents.length > 0) {
+                      zTree.expandNode(oldParents[Math.abs(oldParents.length - newParents.length) - 1], false);
+                    } else {
+                      zTree.expandNode(oldParents[oldParents.length - 1], false);
+                    }
+                  }
+                }
+              }
+              this.curExpandNode = newNode;
+            }
+          }
+          if (angular.isFunction(setting.onClickOther)) {
+            var __onClickOther = function(event) {
+              if ($(event.target).parents('#' + id).length === 0) {
+                unbindClickDoc();
+                setting.onClickOther($.fn.zTree.getZTreeObj(id));
+              }
+            };
+            $element.on('click', function() {
+              bindClickDoc();
             });
+            var __bindClickDoc = false;
+            var bindClickDoc = function() {
+              if (!__bindClickDoc) {
+                $document.bind('click', __onClickOther);
+                __bindClickDoc = true;
+              }
+            }
+            var unbindClickDoc = function() {
+              if (__bindClickDoc) {
+                $document.unbind('click', __onClickOther);
+                __bindClickDoc = false;
+              }
+            }
           }
-        });*/
-  }])
-  .directive('nguiZtree', ['utils', 'TreeNode', function(utils, TreeNode) {
-    var __treeIdGen = 0;
+          if (setting.bindRouter) {
+            setting.callback.onNodeCreated = utils.concatFunc(function(event, treeId, treeNode){
+              var ck = setting.data.key.children;
+              var el = $element.find('#'+treeNode.tId);
+              if(treeNode[ck] && treeNode[ck].length>0){
+                el.addClass('parent');
+              }
+              $compile(el)($scope);
+            },setting.callback.onNodeCreated);
 
-    function showIcon(treeId, treeNode) {
-      return treeNode.icon || treeNode.iconSkin || treeNode.iconOpen || treeNode.iconClose;
+          }
+          var getRoot = function() {
+            if ($attrs.nguiZtree) {
+              return $scope.$eval($attrs.nguiZtree);
+            }
+            return null;
+          }
+
+          function render(root) {
+            $.fn.zTree.init($element, setting, root || []);
+          }
+          $scope.$watch(getRoot, function(val, nval) {
+            render(val);
+          });
+          render(getRoot());
+        }
+      };
     }
-    return {
-      restrict: 'EA',
-      replace: true,
-      template: '<ul class="ztree"></ul>',
-      link: function($scope, $element, $attrs) {
-        var id = $element.attr('id');
-        if (!id) {
-          id = 'tree-' + (++__treeIdGen);
-          $element.attr('id', id);
-        }
-        var setting = $scope.$eval($attrs.options) || {};
-        setting.data = setting.data || {};
-        setting.data.key = setting.data.key || {};
-        utils.extendIf(setting.data.key, {
-          name: 'label',
-          title: '',
-          children: 'children',
-          url: 'href'
-        });
-        setting.data.simpleData = setting.data.simpleData || {};
-        utils.extendIf(setting.data.simpleData, {
-          enable: false
-        });
-        setting.view = setting.view || {};
-        utils.extendIf(setting.view, {
-          dbClickExpand: false,
-          expandSpeed: "fast",
-          showLine: false,
-          showIcon: showIcon
-        });
-        var getRoot = function() {
-          if ($attrs.nguiZtree) {
-            return $scope.$eval($attrs.nguiZtree);
-          }
-          return null;
-        }
-
-        function render(root) {
-          $.fn.zTree.init($element, setting, root || []);
-        }
-        $scope.$watch(getRoot, function(val, nval) {
-          render(val);
-        });
-        render(getRoot());
-      }
-    };
-  }]);
+  ]);

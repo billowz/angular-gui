@@ -2,6 +2,7 @@
 angular.module('ngui.theme', [])
   .provider('themeConfig', [function() {
     var themeCfg = {};
+    var _self = this;
     this.$get = function() {
       return {
         getTheme: function(key, name) {
@@ -15,7 +16,9 @@ angular.module('ngui.theme', [])
             }
           }
           return themes;
-        }
+        },
+        registerThemeConfig: _self.registerThemeConfig,
+        addTheme: _self.addTheme
       }
     };
     this.registerThemeConfig = function(key, themeCheckFunc) {

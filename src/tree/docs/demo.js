@@ -1,4 +1,5 @@
-angular.module('ngui.demo').controller('TreeCtrl',['$scope','TreeNode','$timeout',function ($scope, TreeNode, $timeout) {
+angular.module('ngui.demo').controller('TreeCtrl',['$scope','$timeout',
+  function ($scope, $timeout) {
   var idx = 0;
   function randomTreeNode(parent, level, count){
     for(var i=0; i<count; i++){

@@ -1,231 +1,19 @@
 (function() {
   "use strict"
   angular.module('ngui.workbench', [
-      'ngui.utils', 'ngui.theme', 'ngui.tree', 'ngui.tree',
-      'ngui.dropdown', 'ngui.service', 'ngui.process'
+      'ngui.utils', 'ngui.theme', 'ngui.tree',
+      'ngui.service', 'ngui.process'
     ])
     .constant('nguiWorkbenchConfig', {
       miniWidth: 767,
       themeType: 'workbench',
-      defaultTheme: 'theme-topmenu',
-      defaultMiniTheme: 'theme-topmenu'
+      defaultTheme: 'theme-navbar',
+      defaultMiniTheme: 'theme-navbar'
     })
-    .config(['themeConfigProvider', 'nguiWorkbenchConfig',
-      function(themeConfigProvider, workbenchConfig) {
-        themeConfigProvider.registerThemeConfig(workbenchConfig.themeType, null);
-        themeConfigProvider.addTheme(workbenchConfig.themeType, 'theme-topmenu', {
-          navTmplUrl: 'template/navigation/horizontal.html',
-          label: 'Horizontal',
-          skins: [{
-            name: 'white',
-            label: 'White',
-            color: '#FFFFFF'
-          }, {
-            name: 'block',
-            label: 'Block',
-            cls: 'skin-block',
-            color: '#222222'
-          }],
-          defaultSkin: 'block',
-          beforeCompile: function($element, navEl, $scope) {
-            var _self = this;
-            $scope.menuOptions = {
-              data:{
-                key:{
-                  url:'href'
-                }
-              },
-              callback: {
-                onClick: function(event, id, node) {
-                  var zTree = $.fn.zTree.getZTreeObj(id);
-                  zTree.expandNode(node, !node.open, node.open, null, true);
-                  event.preventDefault();
-                  event.stopPropagation();
-                },
-                onExpand: function(event, treeId, treeNode) {
-                  _self.curExpandNode = treeNode;
-                },
-                beforeExpand: _self.beforeExpand.bind(_self)
-              }
-            }
-          },
-          beforeExpand: function(treeId, treeNode) {
-            var pNode = this.curExpandNode ? this.curExpandNode.getParentNode() : null;
-            var treeNodeP = treeNode.parentTId ? treeNode.getParentNode() : null;
-            var zTree = $.fn.zTree.getZTreeObj(treeId);
-            for (var i = 0, l = !treeNodeP ? 0 : treeNodeP.children.length; i < l; i++) {
-              if (treeNode !== treeNodeP.children[i]) {
-                zTree.expandNode(treeNodeP.children[i], false);
-              }
-            }
-            while (pNode) {
-              if (pNode === treeNode) {
-                break;
-              }
-              pNode = pNode.getParentNode();
-            }
-            if (!pNode) {
-              this.singlePath(zTree, treeNode);
-            }
-
-          },
-          singlePath: function(zTree, newNode) {
-            var curExpandNode = this.curExpandNode;
-            if (newNode === curExpandNode) return;
-
-            var rootNodes, tmpRoot, tmpTId, i, j, n;
-
-            if (!curExpandNode) {
-              tmpRoot = newNode;
-              while (tmpRoot) {
-                tmpTId = tmpRoot.tId;
-                tmpRoot = tmpRoot.getParentNode();
-              }
-              rootNodes = zTree.getNodes();
-              for (i = 0, j = rootNodes.length; i < j; i++) {
-                n = rootNodes[i];
-                if (n.tId != tmpTId) {
-                  zTree.expandNode(n, false);
-                }
-              }
-            } else if (curExpandNode && curExpandNode.open) {
-              if (newNode.parentTId === curExpandNode.parentTId) {
-                zTree.expandNode(curExpandNode, false);
-              } else {
-                var newParents = [];
-                while (newNode) {
-                  newNode = newNode.getParentNode();
-                  if (newNode === curExpandNode) {
-                    newParents = null;
-                    break;
-                  } else if (newNode) {
-                    newParents.push(newNode);
-                  }
-                }
-                if (newParents != null) {
-                  var oldNode = curExpandNode;
-                  var oldParents = [];
-                  while (oldNode) {
-                    oldNode = oldNode.getParentNode();
-                    if (oldNode) {
-                      oldParents.push(oldNode);
-                    }
-                  }
-                  if (newParents.length > 0) {
-                    zTree.expandNode(oldParents[Math.abs(oldParents.length - newParents.length) - 1], false);
-                  } else {
-                    zTree.expandNode(oldParents[oldParents.length - 1], false);
-                  }
-                }
-              }
-            }
-            this.curExpandNode = newNode;
-          },
-          afterCompile: function($element, navEl, $scope) {
-            this.onClickLeafHandler = function() {
-              navEl.find('.navbar-collapse').collapse('toggle');
-            }
-            navEl.delegate('.leaf', 'click', this.onClickLeafHandler);
-            this.cleanDropdown = function() {
-              if (!$scope.miniTheme) {
-                $.fn.zTree.getZTreeObj(navEl.find('.ztree').attr('id')).expandAll(false);
-              }
-            };
-            $(document.body).on('click', this.cleanDropdown);
-          },
-          destroy: function($element, navEl, $scope) {
-            $scope.menuOptions = null;
-            if (this.onClickLeafHandler)
-              navEl.undelegate('.leaf', 'click', this.onClickLeafHandler);
-            if (this.clearDropdown)
-              $(document.body).on('click', this.cleanDropdown);
-          }
-        });
-        themeConfigProvider.addTheme(workbenchConfig.themeType, 'theme-topleft', {
-          navTmplUrl: 'template/navigation/vertical.html',
-          label: 'Side Menu',
-          skins: [{
-            name: 'white',
-            label: 'White',
-            color: '#FFFFFF'
-          }, {
-            name: 'block',
-            label: 'Block',
-            cls: 'skin-block',
-            color: '#222222'
-          }],
-          defaultSkin: 'block',
-          afterCompile: function($element, navEl) {
-            $element.addClass('side');
-            this.onClickLeafHandler = function() {
-              navEl.find('.navbar-collapse').collapse('toggle');
-            }
-            navEl.delegate('.leaf', 'click', this.onClickLeafHandler);
-            navEl.find('.navbar-toggle').on('click', function() {
-              $element.toggleClass('sideout');
-            });
-          },
-          destroy: function($element, navEl) {
-            $element.removeClass('side');
-            if (this.onClickLeafHandler)
-              navEl.undelegate('.leaf', 'click', this.onClickLeafHandler);
-          }
-        });
-
-        themeConfigProvider.addTheme(workbenchConfig.themeType, 'theme-topright', {
-          navTmplUrl: 'template/navigation/vertical.html',
-          label: 'Right Side Menu',
-          skins: [{
-            name: 'white',
-            label: 'White',
-            color: '#FFFFFF'
-          }, {
-            name: 'block',
-            label: 'Block',
-            cls: 'skin-block',
-            color: '#222222'
-          }],
-          defaultSkin: 'block',
-          afterCompile: function($element, navEl) {
-            $element.addClass('side sideright');
-            this.onClickLeafHandler = function() {
-              navEl.find('.navbar-collapse').collapse('toggle');
-            }
-            navEl.delegate('.leaf', 'click', this.onClickLeafHandler);
-            navEl.find('.navbar-toggle').on('click', function() {
-              $element.toggleClass('sideout');
-            });
-          },
-          destroy: function($element, navEl) {
-            $element.removeClass('side sideright');
-            if (this.onClickLeafHandler)
-              navEl.undelegate('.leaf', 'click', this.onClickLeafHandler);
-          }
-        });
-        themeConfigProvider.addTheme(workbenchConfig.themeType, 'theme-wheel', {
-          navTmplUrl: 'template/navigation/wheel.html',
-          wheelCls: 'wheel',
-          label: 'Wheel Menu',
-          afterCompile: function($element) {
-            $element.addClass(this.wheelCls);
-          },
-          destroy: function($element) {
-            $element.removeClass(this.wheelCls);
-          }
-        });
-
-        var menuNodeTmpl = '<li role="presentation" class="<%=$active ? "active" : ""%> <%if(!$leaf){%>dropdown menu <%=$dropdown_root ? "":"subdropdown"%><%}%>"><a role="menuitem"<%if($leaf){%> href="<%=href%>" <%if(router){%>ui-sref="<%=router%>"<%}%><%}else{%> href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown"<%}%>><%=text%></a></li>';
-        themeConfigProvider.addTheme('dropdown', 'theme.menu', {
-          menuTmpl: '<ul class="dropdown-menu" role="menu"></ul>',
-          nodeTmpl: menuNodeTmpl,
-          rootTmpl: menuNodeTmpl,
-        });
-      }
-    ])
-    .directive('nguiWorkbench', ['$window', '$sce', '$timeout',
+    .directive('nguiWorkbench', ['$window', '$timeout',
       '$templateCache', '$compile', 'themeConfig', 'nguiWorkbenchConfig',
       'configService', 'menuService',
-      function($window, $timeout, $sce, $templateCache,
+      function($window, $timeout, $templateCache,
         $compile, themeConfig, workbenchConfig, configService, menuService) {
         return {
           restrict: 'EA',
@@ -335,20 +123,130 @@
             $scope.$watch('cfg.skin', toggleSkin);
 
             function applySkin(skin) {
-              if (skin.cls) {
-                $element.addClass(skin.cls);
+              if (skin.workbenchCls) {
+                $element.addClass(skin.workbenchCls);
               }
               $scope.currentSkin = skin;
             }
 
             function destorySkin(skin) {
-              if (skin.cls) {
-                $element.removeClass(skin.cls);
+              if (skin.workbenchCls) {
+                $element.removeClass(skin.workbenchCls);
               }
             }
             $scope.supportThemes = themeConfig.getThemes('workbench');
           }
         };
+      }
+    ])
+    .config(['themeConfigProvider', 'nguiWorkbenchConfig',
+      function(themeConfigProvider, workbenchConfig) {
+        themeConfigProvider.registerThemeConfig(workbenchConfig.themeType, null);
+
+        // navbar config
+        var zTreeNavCfg = {
+          skins: [{
+            name: 'white',
+            label: 'White',
+            color: '#FFFFFF'
+          }, {
+            name: 'block',
+            label: 'Block',
+            workbenchCls: 'skin-block',
+            color: '#222222'
+          }],
+          defaultSkin: 'block',
+          beforeCompile: function($element, navEl, $scope) {
+            var _self = this;
+            $scope.menuOptions = {
+              bindRouter: true,
+              singleExpand: true,
+              onClickOther: _self.onClickOther,
+              data: {
+                key: {
+                  url: 'href'
+                }
+              },
+              callback: {
+                onClick: function(event, id, node) {
+                  var zTree = $.fn.zTree.getZTreeObj(id);
+                  zTree.expandNode(node, !node.open, node.open, null, true);
+                  if ($scope.miniTheme && (!node.children || node.children.length === 0)) {
+                    navEl.find('.navbar-collapse').collapse('toggle');
+                  }
+                  if (!$scope.miniTheme && _self.dropdown && (!node.children || node.children.length === 0)) {
+                    zTree.expandAll(false);
+                  }
+                }
+              }
+            }
+          },
+          afterCompile: function($element, navEl) {
+            if (this.workbenchCls) {
+              $element.addClass(this.workbenchCls);
+            }
+          },
+          destroy: function($element, navEl, $scope) {
+            $scope.menuOptions = null;
+            if (this.workbenchCls) {
+              $element.removeClass(this.workbenchCls);
+            }
+          }
+        }
+
+        themeConfigProvider.addTheme(workbenchConfig.themeType,
+          'theme-navbar', angular.extend({
+            navTmplUrl: 'template/navigation/horizontal.html',
+            label: 'Horizontal',
+            dropdown: true,
+            onClickOther: function(zTree) {
+              zTree.expandAll(false);
+            }
+          }, zTreeNavCfg));
+
+        // side navbar config
+        var sideNavCfg = angular.extend({}, zTreeNavCfg);
+        var zTreeAfterCompile = zTreeNavCfg.afterCompile;
+        sideNavCfg.afterCompile = function($element, navEl) {
+          zTreeAfterCompile.apply(this, arguments);
+          this.toggleHandler = function() {
+            $element.toggleClass('sideout');
+          }
+          navEl.find('.navbar-toggle').on('click', this.toggleHandler);
+        }
+
+        var zTreeDestroy = zTreeNavCfg.destroy;
+        sideNavCfg.destroy = function($element, navEl) {
+          zTreeDestroy.apply(this, arguments);
+          if (this.toggleHandler) {
+            navEl.find('.navbar-toggle').unbind('click', this.toggleHandler);
+          }
+        }
+        themeConfigProvider.addTheme(workbenchConfig.themeType,
+          'theme-sidebar', angular.extend({
+            navTmplUrl: 'template/navigation/vertical.html',
+            label: 'Side Menu',
+            workbenchCls: 'side'
+          }, sideNavCfg));
+        themeConfigProvider.addTheme(workbenchConfig.themeType,
+          'theme-sidebar-right', angular.extend({
+            navTmplUrl: 'template/navigation/vertical.html',
+            label: 'Right Side Menu',
+            workbenchCls: 'side sideright'
+          }, sideNavCfg));
+
+        // wheel menu config
+        themeConfigProvider.addTheme(workbenchConfig.themeType, 'theme-wheel', {
+          navTmplUrl: 'template/navigation/wheel.html',
+          wheelCls: 'wheel',
+          label: 'Wheel Menu',
+          afterCompile: function($element) {
+            $element.addClass(this.wheelCls);
+          },
+          destroy: function($element) {
+            $element.removeClass(this.wheelCls);
+          }
+        });
       }
     ]);
 })();

@@ -1,5 +1,6 @@
 <div ng-controller="TreeCtrl">
-<ul ngui-ztree="tree2" theme="theme.default" root-display="true">
+  <ul ngui-dropdown="tree2" id="t" dropdown="dropdown" >
+<button type="button" ng-click="toggleDropdown()">Random Tree</button>
 </ul>
 <button type="button" ng-click="randomTree()">Random Tree</button>
 </li>

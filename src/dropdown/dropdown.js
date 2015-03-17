@@ -1,120 +1,70 @@
-angular.module('ngui.dropdown', ['ngui.tree', 'ngui.utils', 'ngui.theme'])
-  .config(['themeConfigProvider', function(themeConfigProvider) {
-    themeConfigProvider.registerThemeConfig('dropdown', function(opt) {
-      var theme = {};
-      theme.menuTmpl = _.template(opt.menuTmpl);
-      theme.nodeTmpl = _.template(opt.nodeTmpl);
-      theme.rootTmpl = _.template(opt.rootTmpl);
-      return theme;
-    });
-
-    var defMenuTmpl = '<ul class="dropdown-menu" role="menu"></ul>';
-    var defNodeTmpl = '<li role="presentation" class="<%=$active ? "active":""%> <%if(!$leaf){%>dropdown <%=$dropdown_root ? "":"subdropdown"%><%}%>" >' + '<a role="menuitem"' + '<%if($leaf){%> href="<%=href%>" <%if(router){%>ui-sref="<%=router%>"<%}%>' + '<%}else{%> href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown"<%}%>' + '><%=text%>' + '</a>' + '</li>';
-    var defRootTmpl = '<div><button role="menuitem" class="dropdown-toggle" data-toggle="dropdown"><%=text%></botton></div>';
-    themeConfigProvider.addTheme('dropdown', 'default', {
-      menuTmpl: defMenuTmpl,
-      nodeTmpl: defNodeTmpl,
-      rootTmpl: defRootTmpl,
-    });
-  }])
-  .directive('nguiDropdown', ['utils', '$compile', 'TreeNode', 'themeConfig', function(utils, $compile, TreeNode, themeConfig) {
-    function initNode(node) {
-      node.href = node.href || 'javascript:void(0);';
-      node.router = node.router || false;
-      node.text = node.text || '';
-      node.$el = null;
-      node.$dropdown_root = node.$dropdown_root || false;
-      node.$active = node.$active || false;
-    }
-
-    function parseDropdown(dropdownEl, node, theme, init) {
-      initNode(node);
-      var nodeEl = $(node.$dropdown_root ? theme.rootTmpl(node) : theme.nodeTmpl(node));
-      nodeEl.data('treeNode', node);
-      node.$el = nodeEl;
-      dropdownEl.append(nodeEl);
-      init(node);
-      if (!node.isLeaf()) {
-        var menuEl = $(theme.menuTmpl(node));
-        nodeEl.append(menuEl);
-        angular.forEach(node.$children, function(childNode) {
-          parseDropdown(menuEl, childNode, theme, init);
-        });
-      }
-    }
-    return {
-      restrict: 'EA',
-      template: '<div class="dropdown"></div>',
-      replace: true,
-      transclude: true,
-      compile: function() {
-        return {
-          post: function($scope, $elm, $attrs, uiGridCtrl) {
-            $scope.getTheme = function() {
-              if ($attrs.theme) {
-                return $scope.$eval($attrs.theme) || $attrs.theme;
-              }
-              return null;
-            }
-            $scope.isRootDisplay = function() {
-              if ($attrs.rootDisplay) {
-                return $scope.$eval($attrs.rootDisplay) || $attrs.rootDisplay;
-              }
-              return null;
-            }
-
-            $scope.getRoot = function() {
-              if ($attrs.nguiDropdown) {
-                return $scope.$eval($attrs.nguiDropdown);
-              }
-              return null;
-            }
-
-            function render() {
-              var root = $scope.getRoot();
-              if (root && root instanceof TreeNode) {
-                var menu = $scope.isRootDisplay() ? [root] : root.$children;
-                var theme = themeConfig.getTheme('dropdown', $scope.getTheme() || 'default');
-                angular.forEach(menu, function(node) {
-                  node.$dropdown_root = true;
-                  parseDropdown($elm, node, theme, function(node) {
-                    var actionEl = node.$el.first('[role=menuitem]');
-                    if (node.isLeaf()) {
-                      actionEl.on('click', function() {
-                        angular.forEach($elm.find('.active[role=presentation]'), function(el){
-                              el = $(el);
-                              el.removeClass('active');
-                              el.data('treeNode').$active = false;
-                            });
-                        utils.forEach(node.getHierarchy(), function(n) {
-                          if (n.$el) {
-                            n.$el.addClass('active');
-                          }
-                          n.$active = true;
-                        });
-                      });
-                    }
-                    if (node.handler) {
-                      actionEl.on('click', node.handler);
-                    }
-                  });
-                });
-                $('.subdropdown [data-toggle=dropdown]').on('click', function(event) {
-                  event.preventDefault();
-                  event.stopPropagation();
-                  $(this).parent().siblings().removeClass('open');
-                  $(this).parent().toggleClass('open');
-                });
-                $compile($elm.children())($scope);
-              }
-            }
-            $scope.$watch($scope.getRoot, function(val, nval) {
-              $elm.empty();
-              render();
-            });
-            render();
+angular.module('ngui.dropdown', ['ngui.tree', 'ngui.utils'])
+  .directive('nguiDropdown', ['utils', '$document', '$compile',
+    function(utils, $document, $compile) {
+      var __dropdownIdGen = 0;
+      return {
+        restrict: 'EA',
+        replace: true,
+        template: '<div class="dropdown" ngui-transclude></div>',
+        transclude: true,
+        link: function($scope, $element, $attrs) {
+          var optKey = '__dropdownOptions__',
+            i = 0,
+            zTreeEl,
+            setting;
+          var id = $element.attr('id');
+          if (!id) {
+            id = 'dropdown-' + (++__dropdownIdGen);
+            $element.attr('id', id);
           }
-        };
+          var ztreeId = id + '-ztree';
+          while ($scope[optKey]) {
+            optKey = optKey + (++i);
+          }
+          var toggleFunc = 'toggle' + utils.upperFirstChar($attrs.dropdown);
+          var isDropdownFunc = 'is' + utils.upperFirstChar($attrs.dropdown);
+          var __onClickOther = function(event) {
+            if ($(event.target).parents('#' + id).length === 0) {
+              $scope[toggleFunc](false);
+            }
+          };
+          $scope[toggleFunc] = function(dropdown) {
+            if (utils.isNull(dropdown)) {
+              dropdown = !$scope[isDropdownFunc]();
+            }
+            if (dropdown) {
+              $element.children('#' + ztreeId).show();
+              $document.bind('click', __onClickOther);
+            } else {
+              $element.children('#' + ztreeId).hide();
+              $document.unbind('click', __onClickOther);
+              var zTree = $.fn.zTree.getZTreeObj(ztreeId);
+              zTree.expandAll(false);
+            }
+          }
+          $scope[isDropdownFunc] = function() {
+            return $element.children('#' + ztreeId).css('display') === 'block';
+          }
+          setting = $scope.$eval($attrs.options) || {};
+          setting.singleExpand = true;
+          setting.onClickOther = null;
+
+          setting.callback = setting.callback || {};
+          setting.callback.onClick = utils.concatFunc(function(event, id, node) {
+            var zTree = $.fn.zTree.getZTreeObj(id);
+            zTree.expandNode(node, !node.open, node.open, null, true);
+            if (!node.children || node.children.length === 0) {
+              $scope[toggleFunc](false);
+              if (angular.isFunction(setting.onDropdown)) {
+                setting.onDropdown.apply(this, [zTree, node]);
+              }
+            }
+          }, setting.callback.onClick);
+
+          $scope[optKey] = setting;
+          $element.append('<ul id="' + ztreeId + '" ngui-ztree="' + $attrs.nguiDropdown + '" options="' + optKey + '"></ul>');
+          $compile($element.children('#' + ztreeId))($scope);
+        }
       }
-    };
-  }]);
+    }
+  ]);

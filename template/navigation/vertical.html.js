@@ -3,7 +3,7 @@ angular.module("template/navigation/vertical.html", []).run(["$templateCache", f
     "<div class=\"navbar navbar-static-top\" role=\"navigation\">\n" +
     "    <div class=\"container-fluid\">\n" +
     "        <div class=\"navbar-header\">\n" +
-    "          <button type=\"button\" class=\"navbar-toggle\" >\n" +
+    "            <button type=\"button\" class=\"navbar-toggle\">\n" +
     "                <span class=\"sr-only\">Toggle navigation</span>\n" +
     "                <span class=\"icon-bar\"></span>\n" +
     "                <span class=\"icon-bar\"></span>\n" +
@@ -15,7 +15,7 @@ angular.module("template/navigation/vertical.html", []).run(["$templateCache", f
     "        </ul>\n" +
     "    </div>\n" +
     "</div>\n" +
-    "<ul class=\"sidebar nav navbar-nav tree\"  ngui-tree=\"menu\" theme=\"theme.default\">\n" +
+    "<ul ngui-ztree=\"menu\" options=\"menuOptions\" class=\"sidebar nav navbar-nav\">\n" +
     "</ul>\n" +
     "");
 }]);

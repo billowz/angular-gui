@@ -71,7 +71,7 @@ angular.module('ngui.service', ['ngui.utils', 'ngui.tree', 'ngui.data'])
         toggleTask: function() {
           firstTask = queue[0];
         },
-        getCurrentTask: function(){
+        getCurrentTask: function() {
           return firstTask;
         },
         createProcessTask: function(defaultProcess) {
@@ -120,13 +120,22 @@ angular.module('ngui.service', ['ngui.utils', 'ngui.tree', 'ngui.data'])
   .provider('menuService', [function() {
     var _self = this;
     this.syncFunc = null;
-    this.$get = ['utils', 'TreeNode', 'GlobalDataProvider', function(utils, TreeNode, GlobalDataProvider) {
-      this.dataHandler = function(data) {
-        return data;
+    this.$get = ['utils', 'GlobalDataProvider',
+      function(utils, GlobalDataProvider) {
+        var state;
+        this.dataHandler = function(data) {
+          utils.eachTreeLeaf(data, 'children', function(item) {
+            if (item.router) {
+              item.href = '#' + item.router;
+              item.target = '_self';
+            }
+          });
+          return data;
+        }
+        return new GlobalDataProvider('menu', {
+          syncFunc: _self.syncFunc,
+          dataHandler: _self.dataHandler
+        });
       }
-      return new GlobalDataProvider('menu', {
-        syncFunc: _self.syncFunc,
-        dataHandler: _self.dataHandler
-      });
-    }]
+    ]
   }]);

@@ -20,6 +20,15 @@ angular.module('ngui.utils', ['ui.bootstrap.transition'])
     }
 
     var utils = {
+      concatFunc: function(func1, func2, scope) {
+        if (func1 && func2) {
+          return function() {
+            func1.apply(scope || this, arguments);
+            func2.apply(scope || this, arguments);
+          }
+        }
+        return func1 || func2;
+      },
       deferred: function(callback) {
         var deferred = $q.defer();
         callback(deferred);
@@ -77,6 +86,41 @@ angular.module('ngui.utils', ['ui.bootstrap.transition'])
           }
         }
         return obj;
+      },
+      eachTreeLeaf: function(tree, childrenKey, callback, isLeaf){
+        this.eachTree(tree, childrenKey, function(node){
+          var leaf = false;
+          if(isLeaf){
+            if(angular.isString(isIeaf)){
+              leaf = node[isLeaf];
+            }else if(angular.isFunction(isLeaf)){
+              leaf = isLeaf(node);
+            }
+          }else{
+            leaf = !tree[childrenKey] || tree[childrenKey].length === 0;
+          }
+          if(leaf){
+            callback(node);
+          }
+        });
+      },
+      eachTree: function(tree, childrenKey, callback){
+        var _self = this;
+        if (!angular.isFunction(callback)) {
+          return;
+        }
+        if (angular.isArray(tree)) {
+          angular.forEach(tree, function(item) {
+            _self.eachTree(item, childrenKey, callback);
+          });
+          return;
+        }
+        callback(tree);
+        if (tree[childrenKey]) {
+          angular.forEach(tree[childrenKey], function(item) {
+            _self.eachTree(item, childrenKey, callback);
+          });
+        }
       },
       defaultVal: function(obj, attr, defVal) {
         if (!obj.hasOwnProperty(attr)) {

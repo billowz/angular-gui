@@ -15,7 +15,7 @@
     overflow: hidden;
     background-color: #e5e5e5;
 }
-.tree>li>a{
+.tree>li>a {
     margin: 0;
     display: block;
     width: 100%;
@@ -105,13 +105,115 @@
 }*/
 /*navbar*/
 
-
-
-
 .ztree li>span.button.switch {
-  font-family: FontAwesome;
-  font-style: normal;
-  font-weight: normal;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+    font-family: FontAwesome;
+    font-style: normal;
+    font-weight: normal;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+.dropdown>.ztree, .dropdown>.ztree ul {
+    display: none;
+    position: absolute;
+    color: #777777;
+    background: #ffffff;
+    min-width: 160px;
+    padding: 5px 0;
+    font-size: 14px;
+    text-align: left;
+    list-style: none;
+    background-color: #fff;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    border: 1px solid #ccc;
+    border: 1px solid rgba(0, 0, 0, .15);
+    border-radius: 4px;
+    -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+    z-index: 1000;
+}
+.dropdown>.ztree li>ul {
+    left: 100%;
+    top: 0;
+    margin-left: -1px;
+}
+.dropdown>.ztree *, .dropdown>.ztree li span {
+    font-size: inherit;
+}
+.dropdown>.ztree li>span, .dropdown>.ztree li>a, .dropdown>.ztree li>a:hover, .dropdown>.ztree li>a:focus {
+    background: transparent;
+    text-decoration: none;
+    color: inherit;
+    font-size: inherit;
+}
+.dropdown>.ztree li {
+    position: relative;
+}
+.dropdown>.ztree li>a {
+    padding: 5px 20px;
+    display: block;
+    height: auto;
+}
+.dropdown>.ztree li>a.curSelectedNode {
+    border: none;
+    opacity: 1;
+    height: auto;
+    background: transparent;
+}
+.dropdown>.ztree li>span.button.switch {
+    top: 6px;
+    width: auto;
+    height: auto;
+    line-height: inherit;
+    position: absolute;
+    right: 10px;
+    z-index: 1;
+}
+.dropdown>.ztree li>span.button.switch.noline_docu {
+    display: none;
+}
+.dropdown>.ztree li>span.button.switch.noline_open {
+    background: transparent;
+}
+.dropdown>.ztree li>span.button.switch.noline_close {
+    background: transparent;
+}
+.dropdown>.ztree li>span.button.switch.noline_open:after {
+    content: "\f0d9";
+}
+.dropdown>.ztree li>span.button.switch.noline_close:after {
+    content: "\f0da";
+}
+.dropdown>.ztree li:hover {
+    color: #555555;
+}
+.dropdown>.ztree li>a:hover {
+    background: #F0F0F0;
+}
+.dropdown.right>.ztree {
+    right: 0;
+}
+.dropdown.right>.ztree li>ul {
+    right: 100%;
+    left: inherit;
+}
+.dropdown.right>.ztree li>a {
+    text-align: right;
+}
+.dropdown.right>.ztree li>span.button.switch {
+    left: 10px;
+    z-index: 1;
+}
+.dropdown.right>.ztree li>span.button.switch.noline_open:after {
+    content: "\f0da";
+}
+.dropdown.right> .ztree li>span.button.switch.noline_close:after {
+    content: "\f0d9";
+}
+.dropdown.up>.ztree, .dropdown.up>.ztree ul {
+    bottom: 0;
 }

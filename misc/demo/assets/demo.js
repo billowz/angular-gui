@@ -7,7 +7,6 @@ angular.module('ngui.demo', ['app', 'ngui', 'ui.bootstrap', 'ngAnimate'])
     $rootScope.$on("$stateChangeSuccess", function(event, toState, toStateParams, fromState, fromParams) {
       console.log(event, toState);
       toStateParams.$processTask.complete();
-
     });
 
     $rootScope.$on("$stateChangeError", function(event, toState, toStateParams, fromState, fromParams, error) {
