@@ -7,10 +7,25 @@
     right: 0;
 }
 .workbench .app-progress {
-    height: 10px;
+    height: 5px;
     border-radius: 0;
     margin: 0;
 }
+.app-progress>.progress-bar {
+  -webkit-transition: inherit;
+  -o-transition: inherit;
+  /* transition: inherit; */
+}
+.app-progress>.progress-bar.complete {
+  background: #3AC562;
+}
+.app-progress>.progress-bar.error {
+  background: #DC3D3D;
+}
+.app-progress>.progress-bar.abort {
+  background: #f0ad4e;
+}
+
 /**************************************** Layouts ****************************************/
 /************************* Wheel *************************/
 
@@ -129,7 +144,7 @@
 .navbar-nav li.active, .navbar-nav li:hover {
     color: #555555;
 }
-.navbar-nav li.active>a, .navbar-nav.ztree li.active>a.curSelectedNode, .navbar-nav li > a:hover {
+.navbar-nav li.active>a, .navbar-nav li.active>a.curSelectedNode, .navbar-nav li > a:hover,.navbar-nav li > a:focus {
     background: #e7e7e7;
 }
 /*** block skin ***/
@@ -152,7 +167,7 @@
 .skin-block .navbar-nav .active, .skin-block .navbar-nav li:hover {
     color: #ffffff;
 }
-.skin-block .navbar-nav .active > a, .skin-block .navbar-nav.ztree .active>a.curSelectedNode, .skin-block .navbar-nav li > a:hover {
+.skin-block .navbar-nav li.active > a, .skin-block .navbar-nav li.active>a.curSelectedNode, .skin-block .navbar-nav li > a:hover, .skin-block .navbar-nav li > a:focus {
     background: #080808;
 }
 @media(max-width:767px) {
@@ -163,13 +178,19 @@
         border-left: 3px solid #337ab7;
     }
 }
+.navbar-nav .dropdown-menu > .active > a, .navbar-nav .dropdown-menu > .active > a:hover, .navbar-nav .dropdown-menu > .active > a:focus{
+  background-color: #337ab7;
+}
+.navbar-nav .dropdown-menu > li > a:hover, .navbar-nav .dropdown-menu > li > a:focus{
+  background-color: #337ab7;
+}
 /*** dropdown menu ***/
 
 @media(min-width:768px) {
-    .navbar .navbar-nav.ztree {
+    .navbar .hmenu.navbar-nav.ztree {
         position: relative;
     }
-    .navbar .navbar-nav.ztree > li ul {
+    .navbar .hmenu.navbar-nav.ztree > li ul {
         position: absolute;
         background: #ffffff;
         min-width: 160px;
@@ -188,38 +209,38 @@
         box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
         z-index: 1000;
     }
-    .navbar .navbar-nav.ztree > li ul>li>a {
+    .navbar .hmenu.navbar-nav.ztree > li ul>li>a {
         padding: 5px 20px;
     }
-    .navbar .navbar-nav.ztree > li ul>li>span.button.switch {
+    .navbar .hmenu.navbar-nav.ztree > li ul>li>span.button.switch {
         top: 6px;
     }
-    .navbar .navbar-nav.ztree > li ul>li>span.button.switch.noline_open:after {
+    .navbar .hmenu.navbar-nav.ztree > li ul>li>span.button.switch.noline_open:after {
         content: "\f0d9";
     }
-    .navbar .navbar-nav.ztree > li ul>li>span.button.switch.noline_close:after {
+    .navbar .hmenu.navbar-nav.ztree > li ul>li>span.button.switch.noline_close:after {
         content: "\f0da";
     }
-    .navbar .navbar-nav.ztree > li>ul li>ul {
+    .navbar .hmenu.navbar-nav.ztree > li>ul li>ul {
         left: 100%;
         top: 0;
     }
-    .navbar .navbar-nav.ztree > li>ul li {
+    .navbar .hmenu.navbar-nav.ztree > li>ul li {
         color: #777777;
     }
-    .navbar .navbar-nav.ztree > li>ul li:hover {
+    .navbar .hmenu.navbar-nav.ztree > li>ul li:hover {
         color: #555555;
     }
-    .navbar .navbar-nav.ztree > li>ul li > a:hover, .navbar .navbar-nav.ztree > li>ul li > a:hover {
+    .navbar .hmenu.navbar-nav.ztree > li>ul li > a:hover, .navbar .navbar-nav.ztree > li>ul li > a:hover {
         background: #e7e7e7;
     }
-    .navbar .navbar-nav.ztree > li>ul .active {
+    .navbar .hmenu.navbar-nav.ztree > li>ul .active {
         color: #FFFFFF;
     }
-    .navbar .navbar-nav.ztree > li>ul .active:hover {
+    .navbar .hmenu.navbar-nav.ztree > li>ul .active:hover {
         color: #FFFFFF;
     }
-    .navbar .navbar-nav.ztree > li>ul .active > a, .navbar .navbar-nav.ztree > li>ul .active > a:hover {
+    .navbar .hmenu.navbar-nav.ztree > li>ul .active > a, .navbar .navbar-nav.ztree > li>ul .active > a:hover {
         background: #337ab7;
     }
 }
@@ -229,13 +250,13 @@
 }
 .side .sidebar {
     position: absolute;
-    top: 50px;
+    top: 0;
     right: 0;
     left: 0;
     bottom: 0;
-    overflow: auto;
+    overflow: visible;
     width: 250px;
-    padding: 15px 0;
+    padding: 0;
     transition-property: left;
     transition-duration: 1.5s;
     transition-timing: ease;
@@ -247,14 +268,23 @@
 .side .navbar-toggle {
     display: block;
     border: none;
-    float: left;
+    position: absolute;
+    z-index: 10001;
+    right: -50px;
+    top: 0;
+}
+.side .navbar-toggle>.icon-bar{
+    background: #262424;
+}
+.side .navbar-toggle:hover>.icon-bar{
+    background: #9C0303;
 }
 .side .navbar-toggle:hover, .side .navbar-toggle:focus {
     background: transparent;
 }
 .side .workspace {
     position: absolute;
-    top: 50px;
+    top: 0;
     right: 0;
     bottom: 0;
     overflow: hidden;
@@ -319,13 +349,17 @@
     transition-timing: ease;
     transition-delay: 0;
 }
-.sidebar.navbar-nav li {
+.sidebar .navbar-nav.ztree{
+  float: none;
+  width: 100%;
+}
+.sidebar .navbar-nav.ztree li {
     float: none;
 }
-.sidebar.navbar-nav .parent.active > a, .sidebar.navbar-nav.ztree .parent.active>a.curSelectedNode {
+.sidebar .navbar-nav.ztree .parent.active > a, .sidebar .navbar-nav.ztree .parent.active>a.curSelectedNode {
 }
 
-.sideright .sidebar.navbar-nav .parent.active > a, .sideright .sidebar.navbar-nav.ztree .parent.active>a.curSelectedNode {
+.sideright .sidebar .navbar-nav.ztree .parent.active > a, .sideright .sidebar .navbar-nav.ztree .parent.active>a.curSelectedNode {
 }
 /************************* Side Navbar Skin *************************/
 /*** white ***/

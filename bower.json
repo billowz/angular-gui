@@ -27,7 +27,8 @@
     "font-awesome": "~4.1.0",
     "Snap.svg": "~0.3.0",
     "me-pageloading": "0.3.4",
-    "bootstrap-modal": "2.2.5"
+    "bootstrap-modal": "2.2.5",
+    "animate.css": "~3.2.3"
   }
 }
 

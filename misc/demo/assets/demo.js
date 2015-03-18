@@ -1,6 +1,7 @@
 angular.module('ngui.demo', ['app', 'ngui', 'ui.bootstrap', 'ngAnimate'])
   .run(['$rootScope', 'processService', function($rootScope, processService) {
     $rootScope.$on("$stateChangeStart", function(event, toState, toStateParams, fromState, fromStateParams) {
+      processService.abortAll();
       toStateParams.$processTask = processService.createProcessTask();
       console.log(event, toState);
     });

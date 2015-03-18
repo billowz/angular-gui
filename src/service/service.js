@@ -15,6 +15,7 @@ angular.module('ngui.service', ['ngui.utils', 'ngui.tree', 'ngui.data'])
       running = 'running',
       error = 'error',
       complete = 'complete',
+      abort = 'abort',
       queue = [];
 
     function Task(process) {
@@ -64,6 +65,12 @@ angular.module('ngui.service', ['ngui.utils', 'ngui.tree', 'ngui.data'])
         this.fireEvent();
       }
     }
+    Task.prototype.abort = function(){
+      if (this.status === running) {
+        this.status = abort;
+        this.fireEvent();
+      }
+    }
     var listens = [];
     var firstTask;
     this.$get = ['utils', function(utils) {
@@ -73,6 +80,13 @@ angular.module('ngui.service', ['ngui.utils', 'ngui.tree', 'ngui.data'])
         },
         getCurrentTask: function() {
           return firstTask;
+        },
+        abortAll: function(filter){
+          var task = queue.shift();
+          while(task){
+            task.abort();
+            task = queue.shift();
+          }
         },
         createProcessTask: function(defaultProcess) {
           var _self = this;

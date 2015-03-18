@@ -4,6 +4,8 @@ angular.module("template/workbench/workbench.html", []).run(["$templateCache", f
     "    <div class=\"navigation\"></div>\n" +
     "    <div class=\"workspace\">\n" +
     "        <div ngui-process></div>\n" +
+    "        <ol class=\"breadcrumb\">\n" +
+    "        </ol>\n" +
     "        <div class=\"container-fluid\" ngui-transclude>\n" +
     "        </div>\n" +
     "    </div>\n" +
