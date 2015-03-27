@@ -1,0 +1,44 @@
+[{
+  "key": "start",
+  "label": "Getting started",
+  "router": "start"
+}, {
+  "key": "directives",
+  "label": "Directives",
+  "router": "directives"
+}, {
+  "key": "dependencies",
+  "label": "Dependencies",
+  "router": "dependencies"
+}, {
+  "key": "grid",
+  "label": "Grid",
+  "router": "grid"
+}, {
+  "key": "tree",
+  "label": "Tree",
+  "children": [{
+    "key": "node1",
+    "label": "Node1",
+    "children": [{
+      "key": "start",
+      "label": "Getting started1"
+    }, {
+      "key": "start2",
+      "label": "Getting started2"
+    }, {
+      "key": "start3",
+      "label": "Getting started3"
+    }]
+  }, {
+    "key": "node2",
+    "label": "Node2",
+    "children": [
+
+    ]
+  }, {
+    "key": "node3",
+    "label": "Node3",
+    "children": []
+  }]
+}]

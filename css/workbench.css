@@ -6,26 +6,30 @@
     bottom: 0;
     right: 0;
 }
+
 .workbench .app-progress {
     height: 5px;
     border-radius: 0;
     margin: 0;
 }
+
 .app-progress>.progress-bar {
-  -webkit-transition: inherit;
-  -o-transition: inherit;
-  /* transition: inherit; */
-}
-.app-progress>.progress-bar.complete {
-  background: #3AC562;
-}
-.app-progress>.progress-bar.error {
-  background: #DC3D3D;
-}
-.app-progress>.progress-bar.abort {
-  background: #f0ad4e;
+    -webkit-transition: inherit;
+    -o-transition: inherit;
+    /* transition: inherit; */
 }
 
+.app-progress>.progress-bar.complete {
+    background: #3AC562;
+}
+
+.app-progress>.progress-bar.error {
+    background: #DC3D3D;
+}
+
+.app-progress>.progress-bar.abort {
+    background: #f0ad4e;
+}
 /**************************************** Layouts ****************************************/
 /************************* Wheel *************************/
 
@@ -38,12 +42,14 @@
     border: none;
     margin-bottom: 0px;
 }
+
 @media(max-width:767px) {
     .navbar-collapse {
         padding-top: 5px;
         padding-bottom: 5px;
     }
 }
+
 .navbar-nav > li > a:focus {
     color: inherit;
     background: transparent;
@@ -53,25 +59,34 @@
 .navbar-nav.ztree {
     padding: 0;
 }
-.navbar-nav.ztree *, .navbar-nav.ztree li span {
+
+.navbar-nav.ztree *,
+.navbar-nav.ztree li span {
     font-size: inherit;
 }
+
 .navbar-nav.ztree ul {
     padding: 0;
 }
+
 .navbar-nav.ztree li {
     position: relative;
 }
-.navbar-nav.ztree li>span, .navbar-nav.ztree li>a, .navbar-nav.ztree li>a:focus {
+
+.navbar-nav.ztree li>span,
+.navbar-nav.ztree li>a,
+.navbar-nav.ztree li>a:focus {
     background: transparent;
     text-decoration: none;
     color: inherit;
     font-size: inherit;
 }
+
 .navbar-nav.ztree li>a {
     height: auto;
     display: block;
 }
+
 .navbar-nav.ztree li>a.curSelectedNode {
     border: none;
     opacity: 1;
@@ -94,18 +109,23 @@
     right: 10px;
     z-index: 1;
 }
+
 .navbar-nav.ztree li>span.button.switch.noline_docu {
     display: none;
 }
+
 .navbar-nav.ztree li>span.button.switch.noline_open {
     background: transparent;
 }
+
 .navbar-nav.ztree li>span.button.switch.noline_open:after {
     content: "\f0d8";
 }
+
 .navbar-nav.ztree li>span.button.switch.noline_close {
     background: transparent;
 }
+
 .navbar-nav.ztree li>span.button.switch.noline_close:after {
     content: "\f0d7";
 }
@@ -114,12 +134,15 @@
 .navbar-nav.ztree li.level1>a {
     padding-left: 20px;
 }
+
 .navbar-nav.ztree li.level2>a {
     padding-left: 30px;
 }
+
 .navbar-nav.ztree li.level3>a {
     padding-left: 40px;
 }
+
 .navbar-nav.ztree li.level4>a {
     padding-left: 50px;
 }
@@ -129,22 +152,32 @@
 .navbar {
     background: #F8F8F8;
 }
+
 .navbar-brand {
     color: #555555;
 }
+
 .navbar-toggle .icon-bar {
     background: #777777;
 }
+
 .navbar-nav.ztree {
     color: #555555;
 }
+
 .navbar-nav > li {
     color: #777777;
 }
-.navbar-nav li.active, .navbar-nav li:hover {
+
+.navbar-nav li.active,
+.navbar-nav li:hover {
     color: #555555;
 }
-.navbar-nav li.active>a, .navbar-nav li.active>a.curSelectedNode, .navbar-nav li > a:hover,.navbar-nav li > a:focus {
+
+.navbar-nav li.active>a,
+.navbar-nav li.active>a.curSelectedNode,
+.navbar-nav li > a:hover,
+.navbar-nav li > a:focus {
     background: #e7e7e7;
 }
 /*** block skin ***/
@@ -152,37 +185,54 @@
 .skin-block .navbar {
     background: #222;
 }
+
 .skin-block .navbar-brand {
     color: #9d9d9d;
 }
+
 .skin-block .navbar-toggle .icon-bar {
     background: #E8E8E8;
 }
+
 .skin-block .navbar-nav.ztree {
     color: #9d9d9d;
 }
+
 .skin-block .navbar-nav > li {
     color: #9d9d9d;
 }
-.skin-block .navbar-nav .active, .skin-block .navbar-nav li:hover {
+
+.skin-block .navbar-nav .active,
+.skin-block .navbar-nav li:hover {
     color: #ffffff;
 }
-.skin-block .navbar-nav li.active > a, .skin-block .navbar-nav li.active>a.curSelectedNode, .skin-block .navbar-nav li > a:hover, .skin-block .navbar-nav li > a:focus {
+
+.skin-block .navbar-nav li.active > a,
+.skin-block .navbar-nav li.active>a.curSelectedNode,
+.skin-block .navbar-nav li > a:hover,
+.skin-block .navbar-nav li > a:focus {
     background: #080808;
 }
+
 @media(max-width:767px) {
     .navbar-nav .parent.active > a, .navbar-nav.ztree .parent.active>a.curSelectedNode {
         border-left: 3px solid #337ab7;
     }
-    .skin-block .navbar-nav .parent.active > a, .skin-block .navbar-nav.ztree .parent.active>a.curSelectedNode {
+    .skin-block .navbar-nav .parent.active > a,
+    .skin-block .navbar-nav.ztree .parent.active>a.curSelectedNode {
         border-left: 3px solid #337ab7;
     }
 }
-.navbar-nav .dropdown-menu > .active > a, .navbar-nav .dropdown-menu > .active > a:hover, .navbar-nav .dropdown-menu > .active > a:focus{
-  background-color: #337ab7;
+
+.navbar-nav .dropdown-menu > .active > a,
+.navbar-nav .dropdown-menu > .active > a:hover,
+.navbar-nav .dropdown-menu > .active > a:focus {
+    background-color: #337ab7;
 }
-.navbar-nav .dropdown-menu > li > a:hover, .navbar-nav .dropdown-menu > li > a:focus{
-  background-color: #337ab7;
+
+.navbar-nav .dropdown-menu > li > a:hover,
+.navbar-nav .dropdown-menu > li > a:focus {
+    background-color: #337ab7;
 }
 /*** dropdown menu ***/
 
@@ -231,7 +281,8 @@
     .navbar .hmenu.navbar-nav.ztree > li>ul li:hover {
         color: #555555;
     }
-    .navbar .hmenu.navbar-nav.ztree > li>ul li > a:hover, .navbar .navbar-nav.ztree > li>ul li > a:hover {
+    .navbar .hmenu.navbar-nav.ztree > li>ul li > a:hover,
+    .navbar .navbar-nav.ztree > li>ul li > a:hover {
         background: #e7e7e7;
     }
     .navbar .hmenu.navbar-nav.ztree > li>ul .active {
@@ -240,14 +291,17 @@
     .navbar .hmenu.navbar-nav.ztree > li>ul .active:hover {
         color: #FFFFFF;
     }
-    .navbar .hmenu.navbar-nav.ztree > li>ul .active > a, .navbar .navbar-nav.ztree > li>ul .active > a:hover {
+    .navbar .hmenu.navbar-nav.ztree > li>ul .active > a,
+    .navbar .navbar-nav.ztree > li>ul .active > a:hover {
         background: #337ab7;
     }
 }
 /************************* Side Navbar *************************/
-.side.workbench{
-  overflow: hidden;
+
+.side.workbench {
+    overflow: hidden;
 }
+
 .side .sidebar {
     position: absolute;
     top: 0;
@@ -262,26 +316,61 @@
     transition-timing: ease;
     transition-delay: 0;
 }
+
 .side .navbar-header {
     width: 250px;
 }
+
 .side .navbar-toggle {
     display: block;
     border: none;
     position: absolute;
     z-index: 10001;
-    right: -50px;
+    right: -15px;
     top: 0;
+    transition-property: right;
+    transition-duration: 1.5s;
+    transition-timing: ease;
+    transition-delay: 0;
 }
-.side .navbar-toggle>.icon-bar{
+
+.side .navbar-toggle>.icon-bar {
     background: #262424;
 }
-.side .navbar-toggle:hover>.icon-bar{
+
+.side .navbar-toggle:hover>.icon-bar {
     background: #9C0303;
 }
-.side .navbar-toggle:hover, .side .navbar-toggle:focus {
+
+.side .navbar-toggle:hover,
+.side .navbar-toggle:focus {
     background: transparent;
 }
+
+.sideout .navbar-toggle {
+    right: -50px;
+    transition-property: right;
+    transition-duration: 1.5s;
+    transition-timing: ease;
+    transition-delay: 0;
+}
+
+.skin-block.side .navbar-toggle>.icon-bar {
+    background: #D6D6D6;
+}
+
+.skin-block.side .navbar-toggle:hover>.icon-bar {
+    background: #FFFFFF;
+}
+
+.skin-block.sideout .navbar-toggle>.icon-bar {
+    background: #262424;
+}
+
+.skin-block.sideout .navbar-toggle:hover>.icon-bar {
+    background: #9C0303;
+}
+
 .side .workspace {
     position: absolute;
     top: 0;
@@ -295,6 +384,7 @@
     transition-timing: ease;
     transition-delay: 0;
 }
+
 .side .workspace>.container-fluid {
     position: relative;
     top: 0;
@@ -304,6 +394,7 @@
     height: 100%;
     overflow: auto;
 }
+
 .sideout .sidebar {
     left: -250px;
     transition-property: left;
@@ -311,6 +402,7 @@
     transition-timing: ease;
     transition-delay: 0;
 }
+
 .sideout .workspace {
     left: 0;
     transition-property: left;
@@ -318,6 +410,7 @@
     transition-timing: ease;
     transition-delay: 0;
 }
+
 .sideright .sidebar {
     right: 0;
     left: inherit;
@@ -326,6 +419,7 @@
     transition-timing: ease;
     transition-delay: 0;
 }
+
 .sideright .workspace {
     right: 250px;
     left: 0;
@@ -342,6 +436,7 @@
     transition-timing: ease;
     transition-delay: 0;
 }
+
 .sideout.sideright .workspace {
     right: 0;
     transition-property: right;
@@ -349,28 +444,49 @@
     transition-timing: ease;
     transition-delay: 0;
 }
-.sidebar .navbar-nav.ztree{
-  float: none;
-  width: 100%;
+
+.sidebar .navbar-nav.ztree {
+    float: none;
+    width: 100%;
 }
+
 .sidebar .navbar-nav.ztree li {
     float: none;
 }
-.sidebar .navbar-nav.ztree .parent.active > a, .sidebar .navbar-nav.ztree .parent.active>a.curSelectedNode {
-}
 
-.sideright .sidebar .navbar-nav.ztree .parent.active > a, .sideright .sidebar .navbar-nav.ztree .parent.active>a.curSelectedNode {
-}
+.sidebar .navbar-nav.ztree .parent.active > a,
+.sidebar .navbar-nav.ztree .parent.active>a.curSelectedNode {}
+
+.sideright .sidebar .navbar-nav.ztree .parent.active > a,
+.sideright .sidebar .navbar-nav.ztree .parent.active>a.curSelectedNode {}
 /************************* Side Navbar Skin *************************/
 /*** white ***/
 
 .workbench.side .sidebar {
     background: #F8F8F8;
     border-top: 2px solid #ccc;
+    border-radius: 0;
 }
 /*** block ***/
 
 .workbench.side.skin-block .sidebar {
     background: #222;
     border-top-color: #000;
+}
+/* wheel */
+
+.ui-wheel {
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    pointer-events: none;
+    /* allow click-through for mouse events */
+
+    z-index: 2000;
+    position: absolute;
+}
+
+#ui-wheel-cow {
+    background-image: url(../images/wheel-background.png);
 }

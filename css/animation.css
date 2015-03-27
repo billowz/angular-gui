@@ -1,9 +1,4 @@
-.ng-animate {
-    -webkit-animation-duration: 0.5s;
-    animation-duration: 0.5s;
-    -webkit-animation-fill-mode: both;
-    animation-fill-mode: both;
-}
+
 @-webkit-keyframes nghinge {
     0% {
         -webkit-transform: rotateZ(0deg);
@@ -81,6 +76,12 @@
         -ms-transform-origin: 0% 0%;
         transform-origin: 0% 0%;
     }
+}
+.ng-animate.an {
+    -webkit-animation-duration: 0.5s;
+    animation-duration: 0.5s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
 }
 .an-fadeInUp-hinge.ng-leave {
     -webkit-animation-name: nghinge;

@@ -53,7 +53,7 @@ angular.module('ngui.process', ['ngui.service'])
             var step = task.process - currentProcess,
               count = 0;
             if (step > 3) {
-              count = Number.parseInt(step / 3);
+              count = parseInt(step / 3);
               step = step / count;
             }
             an(task.process, step, 0, count, 30/count, callback);

@@ -95,7 +95,6 @@ angular.module('ngui.fullscreen', ['ngui.utils'])
             fullscreen();
           } else {
             unfullscreen(resetScrolloverflows);
-
           }
         });
       }

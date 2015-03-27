@@ -18,7 +18,6 @@ angular.module('ngui.utils', ['ui.bootstrap.transition'])
       });
       return newTransition;
     }
-
     var utils = {
       concatFunc: function(func1, func2, scope) {
         if (func1 && func2) {
@@ -87,24 +86,24 @@ angular.module('ngui.utils', ['ui.bootstrap.transition'])
         }
         return obj;
       },
-      eachTreeLeaf: function(tree, childrenKey, callback, isLeaf){
-        this.eachTree(tree, childrenKey, function(node){
+      eachTreeLeaf: function(tree, childrenKey, callback, isLeaf) {
+        this.eachTree(tree, childrenKey, function(node) {
           var leaf = false;
-          if(isLeaf){
-            if(angular.isString(isIeaf)){
+          if (isLeaf) {
+            if (angular.isString(isIeaf)) {
               leaf = node[isLeaf];
-            }else if(angular.isFunction(isLeaf)){
+            } else if (angular.isFunction(isLeaf)) {
               leaf = isLeaf(node);
             }
-          }else{
+          } else {
             leaf = !tree[childrenKey] || tree[childrenKey].length === 0;
           }
-          if(leaf){
+          if (leaf) {
             callback(node);
           }
         });
       },
-      eachTree: function(tree, childrenKey, callback){
+      eachTree: function(tree, childrenKey, callback) {
         var _self = this;
         if (!angular.isFunction(callback)) {
           return;

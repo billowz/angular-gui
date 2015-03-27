@@ -7,11 +7,9 @@ module.exports = function(grunt) {
   grunt.util.linefeed = '\n';
   var pkg = grunt.file.readJSON('package.json');
   grunt.initConfig({
-    ngversion: '1.3.13',
-    bsversion: '3.3.2',
     modules: [], //to be filled in by build task
     pkg: pkg,
-    bower:grunt.file.readJSON('bower.json'),
+    bower: grunt.file.readJSON('bower.json'),
     dist: 'dist',
     filename: '<%=pkg.name%>',
     filenamecustom: '<%= filename %>-custom',
@@ -21,7 +19,7 @@ module.exports = function(grunt) {
       all: 'angular.module("<%=pkg.namespace%>", ["<%=pkg.namespace%>.tpls", <%= srcModules %>]);',
       banner: ['/*',
         ' * <%= pkg.name %>',
-        ' * <%= pkg.homepage %>\n',
+        ' * <%= pkg.homepage %>',
         ' * Version: <%= pkg.version %> - <%= grunt.template.today("yyyy-mm-dd") %>',
         ' * License: <%= pkg.license %>',
         ' */\n'
@@ -46,6 +44,13 @@ module.exports = function(grunt) {
         },
         src: [], //src filled in by build task
         dest: '<%= dist %>/<%= filename %>-tpls.js'
+      },
+      dist_docs: {
+        options: {
+          banner: '<%= meta.banner %>'
+        },
+        src: [],
+        dest: '<%= dist%>/assets/<%= filename %>-docs.js'
       }
     },
     copy: {
@@ -56,7 +61,7 @@ module.exports = function(grunt) {
         },
         files: [{
           expand: true,
-          src: ['**/*.html'],
+          src: ['**/*.html', 'assets/*.json'],
           cwd: 'misc/demo/',
           dest: 'dist/'
         }]
@@ -66,14 +71,14 @@ module.exports = function(grunt) {
         files: [{
           expand: true,
           //Don't re-copy html files, we process those
-          src: ['**/**/*', '!**/*.html'],
+          src: ['**/**/*', '!**/*.html', '!assets/*.json'],
           cwd: 'misc/demo',
           dest: 'dist/'
         }]
       },
       fonts: {
         src: 'fonts/*',
-        dest: 'dist/'
+        dest: 'dist/css/'
       }
     },
     uglify: {
@@ -102,7 +107,7 @@ module.exports = function(grunt) {
     css_import: {
       main: {
         files: {
-          '<%= dist %>/<%= filename %>.css': [
+          '<%= dist %>/css/<%= filename %>.css': [
             'css/main.css'
           ]
         }
@@ -116,8 +121,8 @@ module.exports = function(grunt) {
       },
       compress: {
         files: {
-          '<%= dist %>/<%= filename %>.min.css': [
-            '<%= dist %>/<%= filename %>.css'
+          '<%= dist %>/css/<%= filename %>.min.css': [
+            '<%= dist %>/css/<%= filename %>.css'
           ]
         }
       }
@@ -192,28 +197,7 @@ module.exports = function(grunt) {
         'git commit package.json -m "chore(release): Starting v%version%"'
       ]
     },
-    // ABC : not used.
-    ngdocs: {
-      options: {
-        dest: 'dist/docs',
-        scripts: [
-          'angular.js',
-          '<%= concat.dist_tpls.dest %>'
-        ],
-        styles: [
-          'docs/css/style.css'
-        ],
-        navTemplate: 'docs/nav.html',
-        title: 'ui-bootstrap',
-        html5Mode: false
-      },
-      api: {
-        src: ['src/**/*.js', 'src/**/*.ngdoc'],
-        title: 'API Documentation'
-      }
-    },
     delta: {
-      // ABC : used in the watch task
       docs: {
         files: ['misc/demo/index.html'],
         tasks: ['after-test']
@@ -254,7 +238,6 @@ module.exports = function(grunt) {
       },
       js: {
         files: ['src/**/*.js', 'src/**/docs/*.js', 'src/**/docs/*.html', 'src/**/docs/*.md'],
-        //we don't need to jshint here, it slows down everything else
         tasks: ['build', 'copy']
       },
       css: {
@@ -375,7 +358,7 @@ module.exports = function(grunt) {
     }
   });
 
-  grunt.registerTask('build', 'Create bootstrap build files', function() {
+  grunt.registerTask('build', 'Create build files', function() {
     var _ = grunt.util._;
 
     //If arguments define what modules to build, build those. Else, everything

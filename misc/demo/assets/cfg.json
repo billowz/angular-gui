@@ -1,0 +1,10 @@
+{
+  "title": "<%=pkg.fullname%>",
+  "name": "<%=pkg.fullname%>",
+  "version": "<%=pkg.version%>",
+  "author": "<%=pkg.author%>",
+  "github": "<%=pkg.github%>",
+  "homepage": "<%=pkg.homepage%>",
+  "dependencies": [],
+  "theme": "theme-sidebar"
+}
